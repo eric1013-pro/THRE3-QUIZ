@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>THRE3 QUIZ</title>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    
+    <style>
+        /* === 테마 변수 설정 === */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --text-main: #1a2a3a;
+            --text-sub: #0056b3;
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --btn-bg: rgba(0, 123, 255, 0.7);
+            --btn-hover: rgba(0, 123, 255, 0.9);
+            --btn-green: rgba(40, 167, 69, 0.8);
+            --btn-ox-default: rgba(150, 150, 150, 0.5);
+            --btn-o: rgba(0, 123, 255, 0.8);
+            --btn-x: rgba(220, 53, 69, 0.8);
+        }
+
+        body.dark-theme {
+            --bg-gradient: linear-gradient(135deg, #000000 0%, #0a192f 50%, #112240 100%);
+            --glass-bg: rgba(16, 25, 40, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --text-main: #e6f1ff;
+            --text-sub: #64ffda;
+            --input-bg: rgba(0, 0, 0, 0.3);
+            --btn-bg: rgba(2, 106, 224, 0.6);
+            --btn-hover: rgba(2, 106, 224, 0.9);
+            --btn-green: rgba(23, 162, 115, 0.7);
+        }
+
+        body { 
+            font-family: 'Malgun Gothic', sans-serif; 
+            background: var(--bg-gradient); 
+            color: var(--text-main);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh; margin: 0; padding: 20px; 
+            transition: background 0.5s ease;
+        }
+
+        /* === 인트로 화면 (검은 화면 멈춤 방지 적용) === */
+        #introScreen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; display: flex; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1s ease-in-out;
+        }
+        #introScreen h1 {
+            color: white; font-size: 50px; letter-spacing: 15px;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #007bff; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #64ffda, 0 0 40px #64ffda; }
+        }
+
+        /* === 글래스모피즘 디자인 === */
+        .glass {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            border-radius: 16px; transition: all 0.5s ease;
+        }
+
+        .container { padding: 40px 30px; width: 100%; max-width: 450px; position: relative; }
+        
+        #themeToggle {
+            position: absolute; top: 20px; right: 20px; background: transparent;
+            border: 1px solid var(--glass-border); color: var(--text-main); padding: 8px 12px;
+            border-radius: 20px; cursor: pointer; font-size: 12px; transition: 0.3s;
+        }
+        #themeToggle:hover { background: var(--glass-bg); }
+
+        h1, h2, h3 { text-align: center; margin-top: 0; font-weight: 600; }
+        .title { font-size: 32px; letter-spacing: 3px; color: var(--text-sub); }
+        .status { text-align: center; font-size: 14px; color: var(--text-sub); margin-bottom: 25px; font-weight: bold; }
+
+        .box { padding: 25px 20px; margin-top: 20px; text-align: center; }
+
+        input { 
+            width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; 
+            border-radius: 8px; background: var(--input-bg); border: 1px solid var(--glass-border);
+            color: var(--text-main); font-size: 15px; outline: none; transition: 0.3s;
+        }
+
+        button { 
+            width: 100%; padding: 12px; margin-top: 15px; border-radius: 8px; border: none;
+            background: var(--btn-bg); color: white; font-size: 16px; cursor: pointer; 
+            font-weight: bold; transition: 0.3s; backdrop-filter: blur(4px);
+        }
+        button:hover { background: var(--btn-hover); transform: translateY(-2px); }
+        .btn-green { background: var(--btn-green); }
+        
+        /* O/X 버튼 전용 디자인 */
+        .ox-container { display: flex; gap: 10px; margin-top: 10px; }
+        .ox-btn { 
+            font-size: 24px; padding: 15px; flex: 1; background: var(--btn-ox-default); 
+            border: 2px solid transparent; 
+        }
+        .ox-btn.selected-o { background: var(--btn-o); border-color: white; }
+        .ox-btn.selected-x { background: var(--btn-x); border-color: white; }
+        .btn-o:hover { background: var(--btn-o); }
+        .btn-x:hover { background: var(--btn-x); }
+
+        .hidden { display: none !important; }
+        
+        #scoreBoard { 
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 16px; font-weight: bold; padding: 15px; margin-bottom: 20px; 
+        }
+        .turn-badge { background: var(--text-sub); color: #000; padding: 5px 10px; border-radius: 12px; font-size: 12px; }
+    </style>
+</head>
+<body class="dark-theme">
+
+<div id="introScreen">
+    <h1>THRE3RIC</h1>
+</div>
+
+<div id="mainContent" class="container glass hidden">
+    <button id="themeToggle" onclick="toggleTheme()">🌓 라이트 모드</button>
+    
+    <h1 class="title">THRE3 QUIZ</h1>
+    <div id="connectionStatus" class="status">인터넷 연결 중...</div>
+
+    <div id="lobbyScreen" class="hidden">
+        <div class="box glass">
+            <h3>방장으로 시작하기</h3>
+            <button onclick="createRoom()" class="btn-green">새로운 방 만들기</button>
+        </div>
+        <div class="box glass">
+            <h3>참가자로 접속하기</h3>
+            <input type="text" id="roomInput" placeholder="전달받은 4자리 방 번호 입력">
+            <button onclick="joinRoom()">방 접속하기</button>
+        </div>
+    </div>
+
+    <div id="waitingScreen" class="hidden box glass">
+        <h3>방이 생성되었습니다!</h3>
+        <p style="font-size: 14px; opacity: 0.8;">상대방에게 아래 번호를 알려주세요.</p>
+        <h1 id="roomCodeDisplay" style="color: var(--text-sub); font-size: 45px; letter-spacing: 8px; margin: 20px 0;">----</h1>
+        <p>상대방 접속 대기 중...</p>
+    </div>
+
+    <div id="gameScreen" class="hidden">
+        <div id="scoreBoard" class="glass">
+            <span>내 점수: <span id="myScore" style="color: #64ffda;">0</span>점</span>
+            <span id="turnDisplay" class="turn-badge"></span>
+            <span>상대 점수: <span id="opponentScore" style="color: #ff6b6b;">0</span>점</span>
+        </div>
+
+        <div id="askSection" class="box glass hidden">
+            <h3>📝 <span id="myAskCountDisplay">1</span>번째 문제 출제</h3>
+            <input type="text" id="qInput" placeholder="O/X 문제를 입력하세요">
+            <p style="margin-bottom: 0;">정답을 선택하세요:</p>
+            <div class="ox-container">
+                <button class="ox-btn btn-o" id="selectO" onclick="selectSetAnswer('O')">O</button>
+                <button class="ox-btn btn-x" id="selectX" onclick="selectSetAnswer('X')">X</button>
+            </div>
+            <button onclick="sendQuiz()" class="btn-green">문제 전송</button>
+        </div>
+
+        <div id="answerSection" class="box glass hidden">
+            <h3>🤔 상대방의 문제</h3>
+            <h2 id="currentQDisplay" style="color: #ffb86c; word-break: keep-all; margin: 20px 0;"></h2>
+            <div class="ox-container">
+                <button class="ox-btn btn-o" onclick="submitAnswer('O')">O</button>
+                <button class="ox-btn btn-x" onclick="submitAnswer('X')">X</button>
+            </div>
+        </div>
+
+        <div id="waitingActionSection" class="box glass hidden">
+            <h3 id="waitingText" style="color: #ffb86c;">상대방을 기다리는 중...</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    // === 인트로 & 테마 전환 로직 ===
+    window.onload = () => {
+        // 인트로가 끝나고 검은 화면에 멈추는 현상 완벽 차단
+        setTimeout(() => {
+            const intro = document.getElementById('introScreen');
+            intro.style.opacity = '0'; // 서서히 투명해짐
+            
+            setTimeout(() => {
+                intro.classList.add('hidden'); // 완전히 구조에서 제거
+                document.getElementById('mainContent').classList.remove('hidden'); // 메인 화면 등장
+                document.getElementById('connectionStatus').innerText = "서버 준비 완료!";
+                document.getElementById('lobbyScreen').classList.remove('hidden');
+            }, 1000); // 투명해지는 시간 1초 대기
+        }, 2000); // THRE3RIC 글자 보여주는 시간 2초
+    };
+
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('themeToggle');
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme'); btn.innerText = '🌒 다크 모드';
+        } else {
+            body.classList.add('dark-theme'); btn.innerText = '🌓 라이트 모드';
+        }
+    }
+
+    // === 게임 로직 (턴제 및 O/X) ===
+    let peer, conn; 
+    let role = ''; 
+    let isMyTurnToAsk = false; 
+    let myAskCount = 0; 
+    let oppAskCount = 0; 
+    let myScore = 0; 
+    let opponentScore = 0;
+    
+    let answerToSet = ''; // 내가 낼 문제의 정답
+    let actualAnswer = ''; // 상대방이 낸 문제의 정답
+
+    function createRoom() {
+        const randomCode = Math.floor(1000 + Math.random() * 9000).toString(); 
+        peer = new Peer("thre3quiz-" + randomCode);
+
+        peer.on('open', (id) => {
+            role = 'host';
+            document.getElementById('lobbyScreen').classList.add('hidden');
+            document.getElementById('waitingScreen').classList.remove('hidden');
+            document.getElementById('roomCodeDisplay').innerText = randomCode;
+            document.getElementById('connectionStatus').innerText = "방장 (Host)";
+        });
+
+        peer.on('connection', (connection) => {
+            conn = connection;
+            isMyTurnToAsk = true; // 방장이 먼저 문제 출제
+            setupConnectionLogic();
+        });
+    }
+
+    function joinRoom() {
+        const inputCode = document.getElementById('roomInput').value.trim();
+        if(inputCode.length !== 4) return alert("4자리 방 번호를 입력해주세요.");
+
+        peer = new Peer();
+        peer.on('open', (id) => {
+            document.getElementById('connectionStatus').innerText = "방에 접속 중...";
+            conn = peer.connect("thre3quiz-" + inputCode);
+            
+            conn.on('open', () => {
+                role = 'guest';
+                isMyTurnToAsk = false; // 참가자는 대기부터 시작
+                setupConnectionLogic();
+            });
+        });
+    }
+
+    function setupConnectionLogic() {
+        document.getElementById('lobbyScreen').classList.add('hidden');
+        document.getElementById('waitingScreen').classList.add('hidden');
+        document.getElementById('gameScreen').classList.remove('hidden');
+        updateUI();
+
+        conn.on('data', (data) => {
+            if(data.type === 'quiz') {
+                // 상대가 문제를 냈을 때 (내 화면에 문제 띄우기)
+                document.getElementById('currentQDisplay').innerText = "Q. " + data.question;
+                actualAnswer = data.answer;
+                updateUI();
+            } 
+            else if(data.type === 'turn_end') {
+                // 상대가 문제를 다 풀고 턴을 넘겼을 때
+                opponentScore = data.newScore;
+                document.getElementById('opponentScore').innerText = opponentScore;
+                
+                myAskCount++; // 내가 낸 횟수 증가
+                
+                if (data.isCorrect) alert("앗! 상대방이 정답을 맞췄습니다.");
+                else alert("상대방이 오답을 선택했습니다!");
+
+                isMyTurnToAsk = false; // 내 출제 턴 종료 (상대 출제 턴으로 변경)
+                updateUI();
+            }
+        });
+    }
+
+    // 출제자가 정답 O, X 버튼 누를 때 색상 변경 로직
+    function selectSetAnswer(ans) {
+        answerToSet = ans;
+        document.getElementById('selectO').classList.remove('selected-o');
+        document.getElementById('selectX').classList.remove('selected-x');
+        if(ans === 'O') document.getElementById('selectO').classList.add('selected-o');
+        if(ans === 'X') document.getElementById('selectX').classList.add('selected-x');
+    }
+
+    function sendQuiz() {
+        const q = document.getElementById('qInput').value.trim();
+        if (!q || !answerToSet) return alert("문제 내용과 정답(O/X)을 모두 선택해주세요!");
+
+        // 상대에게 전송
+        conn.send({ type: 'quiz', question: q, answer: answerToSet });
+
+        // 전송 후 입력창 초기화 및 대기화면으로 전환
+        document.getElementById('qInput').value = '';
+        answerToSet = '';
+        document.getElementById('selectO').classList.remove('selected-o');
+        document.getElementById('selectX').classList.remove('selected-x');
+        
+        document.getElementById('askSection').classList.add('hidden');
+        document.getElementById('waitingActionSection').classList.remove('hidden');
+        document.getElementById('waitingText').innerText = "상대방이 고민 중입니다...";
+    }
+
+    function submitAnswer(myAnswer) {
+        let isCorrect = false;
+        if (myAnswer === actualAnswer) {
+            alert("🎉 정답입니다!");
+            myScore++;
+            document.getElementById('myScore').innerText = myScore;
+            isCorrect = true;
+        } else {
+            alert("땡! 아쉽네요. (정답은 " + actualAnswer + ")");
+        }
+
+        oppAskCount++; // 상대방이 낸 횟수 증가
+
+        // 결과를 상대에게 전송하고 내 출제 턴으로 전환
+        conn.send({ type: 'turn_end', newScore: myScore, isCorrect: isCorrect });
+        
+        isMyTurnToAsk = true; 
+        actualAnswer = '';
+        updateUI();
+    }
+
+    // 게임 상태에 따라 화면을 바꿔주는 핵심 로직
+    function updateUI() {
+        // 게임 종료 체크 (서로 3번씩 냈을 때)
+        if (myAskCount === 3 && oppAskCount === 3) {
+            document.getElementById('askSection').classList.add('hidden');
+            document.getElementById('answerSection').classList.add('hidden');
+            document.getElementById('waitingActionSection').classList.remove('hidden');
+            
+            let resultText = myScore > opponentScore ? "🏆 나의 승리!" : (myScore === opponentScore ? "🤝 무승부!" : "😭 나의 패배...");
+            document.getElementById('waitingText').innerHTML = `게임 종료!<br><br>${resultText}<br><br>내 점수: ${myScore} / 상대 점수: ${opponentScore}`;
+            document.getElementById('turnDisplay').innerText = "Game Over";
+            return;
+        }
+
+        if (isMyTurnToAsk) {
+            // 출제 턴
+            document.getElementById('askSection').classList.remove('hidden');
+            document.getElementById('answerSection').classList.add('hidden');
+            document.getElementById('waitingActionSection').classList.add('hidden');
+            document.getElementById('myAskCountDisplay').innerText = (myAskCount + 1);
+            document.getElementById('turnDisplay').innerText = "내 출제 턴 📝";
+        } else {
+            // 상대방 턴 (상대가 낸 문제가 도착했는지 확인)
+            document.getElementById('askSection').classList.add('hidden');
+            
+            if (actualAnswer) {
+                // 문제 도착 -> 푸는 화면
+                document.getElementById('answerSection').classList.remove('hidden');
+                document.getElementById('waitingActionSection').classList.add('hidden');
+                document.getElementById('turnDisplay').innerText = "문제 푸는 턴 🤔";
+            } else {
+                // 문제 대기 중
+                document.getElementById('answerSection').classList.add('hidden');
+                document.getElementById('waitingActionSection').classList.remove('hidden');
+                document.getElementById('waitingText').innerText = "상대방이 문제를 출제 중입니다...";
+                document.getElementById('turnDisplay').innerText = "상대 출제 턴 ⏳";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
