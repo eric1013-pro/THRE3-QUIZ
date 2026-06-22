@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>THRE3 QUIZ - Premium Edition</title>
+    <title>THRE3 QUIZ - Ultimate Edition</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <!-- 화려한 폭죽(Confetti) 애니메이션을 위한 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     
@@ -13,7 +12,6 @@
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; user-select: none; }
         input { user-select: auto; }
 
-        /* === 프리미엄 테마 변수 === */
         :root {
             --bg-color1: #f8ecec; --bg-color2: #e0f2fe; --bg-color3: #eef2ff;
             --glass-bg: rgba(255, 255, 255, 0.45);
@@ -53,7 +51,6 @@
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* 화면 흔들림 애니메이션 (오답 시 적용) */
         @keyframes shake {
             0%, 100% { transform: translate(0, 0) rotate(0); }
             20% { transform: translate(-10px, 5px) rotate(-1deg); }
@@ -63,13 +60,20 @@
         }
         body.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 
+        /* === 프리미엄 화면 전환 애니메이션 (Apple Style) === */
+        .smooth-enter { animation: appleEnter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+        @keyframes appleEnter {
+            0% { opacity: 0; transform: translateY(25px) scale(0.97); filter: blur(8px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
         .glass {
             background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--glass-border-bottom); border-top-color: var(--glass-border-top); border-left-color: var(--glass-border-top);
-            box-shadow: var(--glass-shadow); border-radius: 28px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: var(--glass-shadow); border-radius: 28px; transition: all 0.4s;
         }
 
-        .container { padding: 30px 20px; width: 100%; max-width: 450px; position: relative; }
+        .container { padding: 30px 20px; width: 100%; max-width: 500px; position: relative; }
         
         #settingsBtn {
             position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.05); border: none;
@@ -78,12 +82,11 @@
         .dark-theme #settingsBtn { background: rgba(255,255,255,0.1); }
         #settingsBtn:active { transform: scale(0.85) rotate(45deg); opacity: 0.7; }
 
-        h1.title { font-family: 'Montserrat', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--text-main); text-align: center; margin-top: 10px; margin-bottom: 5px; font-weight: 800;}
+        h1.title { font-family: 'Montserrat', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--text-main); text-align: center; margin-top: 10px; margin-bottom: 5px; font-weight: 900;}
         h2, h3 { text-align: center; margin-top: 0; font-weight: 700; word-break: keep-all; letter-spacing: -0.5px; }
         .status { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 20px; font-weight: 600; }
 
-        .box { background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px 20px; margin-top: 15px; text-align: center; animation: springUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--glass-border-bottom); }
-        @keyframes springUp { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .box { background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px 20px; margin-top: 15px; text-align: center; border: 1px solid var(--glass-border-bottom); }
 
         input, select { 
             width: 100%; padding: 16px; margin-top: 10px; box-sizing: border-box; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--glass-border-bottom);
@@ -92,17 +95,22 @@
         input:focus, select:focus { border-color: var(--text-sub); box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2); }
         .dark-theme input:focus { box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.2); }
 
+        .segment-control { display: flex; background: rgba(0,0,0,0.1); border-radius: 16px; padding: 4px; margin-top: 10px; }
+        .dark-theme .segment-control { background: rgba(255,255,255,0.1); }
+        .segment-btn { flex: 1; padding: 12px; font-weight: 700; font-size: 15px; color: var(--text-main); background: transparent; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; opacity: 0.6; }
+        .segment-btn.active { background: var(--glass-bg); opacity: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid var(--glass-border-top); }
+
         button.action-btn { 
-            width: 100%; padding: 18px; margin-top: 20px; border-radius: 18px; border: none; background: var(--btn-bg); color: white; font-size: 17px; cursor: pointer; font-weight: 700; letter-spacing: -0.5px; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%; padding: 18px; margin-top: 20px; border-radius: 18px; border: none; background: var(--btn-bg); color: white; font-size: 17px; cursor: pointer; font-weight: 700; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .btn-green { background: var(--btn-green) !important; }
-        button.action-btn:active { transform: scale(0.95); opacity: 0.9; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        button.action-btn:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button:disabled { opacity: 0.5; transform: none !important; cursor: not-allowed; }
 
         .ox-container { display: flex; gap: 12px; margin-top: 20px; }
         .ox-btn { 
             font-size: 32px; padding: 25px 0; flex: 1; background: var(--btn-ox-default); border-radius: 22px; color: var(--text-main); font-family: 'Montserrat', sans-serif;
-            border: 1px solid var(--glass-border-bottom); cursor: pointer; transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); font-weight: 800; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border-bottom); cursor: pointer; transition: 0.2s; font-weight: 900; backdrop-filter: blur(10px);
         }
         .ox-btn:active { transform: scale(0.92); }
         .ox-btn.selected-o { background: var(--btn-o); color: white; transform: scale(1.02); box-shadow: 0 10px 25px rgba(41, 151, 255, 0.4); border-color: rgba(255,255,255,0.5); }
@@ -110,121 +118,180 @@
 
         .hidden { display: none !important; }
 
-        #scoreBoard { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; margin-bottom: 20px; border-radius: 24px; background: rgba(0,0,0,0.03); transition: 0.4s; }
+        #scoreBoard { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 18px 10px; margin-bottom: 20px; border-radius: 24px; background: rgba(0,0,0,0.03); transition: 0.4s; }
         .dark-theme #scoreBoard { background: rgba(255,255,255,0.05); }
-        .player-info { text-align: center; flex: 1; }
-        .player-name { font-size: 12px; opacity: 0.7; margin-bottom: 5px; font-weight: 600; }
-        .player-score { font-size: 28px; font-weight: 800; font-family: 'Montserrat', sans-serif;}
-        .turn-badge { background: var(--text-sub); color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .player-info { text-align: center; flex: 1; max-width: 120px; transition: 0.3s; }
+        .player-info.active-turn { background: var(--text-sub); border-radius: 16px; padding: 5px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: scale(1.05); }
+        .player-info.active-turn .player-name, .player-info.active-turn .player-score { color: white !important; }
+        .player-name { font-size: 12px; opacity: 0.8; margin-bottom: 5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .player-score { font-size: 24px; font-weight: 800; font-family: 'Montserrat', sans-serif;}
 
         .timer-container { width: 100%; background: rgba(0,0,0,0.08); border-radius: 10px; height: 14px; margin: 20px 0; overflow: hidden; position: relative; }
         .dark-theme .timer-container { background: rgba(255,255,255,0.1); }
         #timerBar { height: 100%; background: var(--btn-green); width: 100%; transition: width 0.1s linear, background 0.3s; border-radius: 10px; }
         #timerText { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 800; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
-        /* === 강력한 정답/오답 전체화면 피드백 === */
-        #feedbackOverlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            pointer-events: none; transition: opacity 0.3s ease; opacity: 0;
-        }
+        #feedbackOverlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; transition: opacity 0.3s; opacity: 0; }
         #feedbackOverlay.show { opacity: 1; }
         #feedbackOverlay.correct { background: rgba(48, 209, 88, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
         #feedbackOverlay.incorrect { background: rgba(255, 59, 48, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        #feedbackOverlay.waiting { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } 
         
-        .fb-icon { font-size: 130px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4)); transform: scale(0); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .fb-text { font-size: 34px; font-weight: 900; color: white; margin-top: 15px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.1s; letter-spacing: -1px;}
-        .fb-score { font-size: 26px; font-weight: 800; margin-top: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.2s; font-family: 'Montserrat', sans-serif;}
-        
+        .fb-icon { font-size: 120px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4)); transform: scale(0); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .fb-text { font-size: 30px; font-weight: 900; color: white; margin-top: 15px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.1s; text-align: center; line-height: 1.4;}
+        .fb-score { font-size: 24px; font-weight: 800; margin-top: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.2s; font-family: 'Montserrat', sans-serif;}
         #feedbackOverlay.show .fb-icon { transform: scale(1); }
         #feedbackOverlay.show .fb-text, #feedbackOverlay.show .fb-score { transform: translateY(0); opacity: 1; }
 
-        /* === 3D 시상식 (Podium) UI === */
-        #endGameSection { text-align: center; padding-top: 10px; animation: fadeIn 1s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        #finalResultTitle { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900; margin-bottom: 40px; text-shadow: 0 10px 30px rgba(0,0,0,0.4); animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); letter-spacing: -1px; }
+        /* === 3D 시상식 === */
+        #endGameSection { text-align: center; padding-top: 10px; }
+        #finalResultTitle { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; margin-bottom: 40px; text-shadow: 0 10px 30px rgba(0,0,0,0.4); animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 
-        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; height: 260px; perspective: 1000px; margin-bottom: 20px;}
-        .podium-item { display: flex; flex-direction: column; align-items: center; width: 110px; transform-style: preserve-3d; opacity: 0; animation: riseUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 10px; height: 260px; perspective: 1000px; margin-bottom: 20px;}
+        .podium-item { display: flex; flex-direction: column; align-items: center; width: 30%; transform-style: preserve-3d; opacity: 0; animation: riseUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes riseUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .first-place { animation-delay: 0.2s; } .second-place { animation-delay: 0.5s; }
+        .first-place { animation-delay: 0.2s; z-index: 3;} .second-place { animation-delay: 0.5s; z-index: 2;} .third-place { animation-delay: 0.8s; z-index: 1;}
 
-        .podium-avatar { font-size: 45px; margin-bottom: 5px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); animation: floatCrown 2s ease-in-out infinite alternate; }
+        .podium-avatar { font-size: 40px; margin-bottom: 5px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); }
+        .first-place .podium-avatar { animation: floatCrown 2s ease-in-out infinite alternate; font-size: 50px; }
         @keyframes floatCrown { from { transform: translateY(0); } to { transform: translateY(-8px); } }
-        
-        .podium-name { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
-        .podium-score { font-size: 20px; font-weight: 900; color: var(--text-sub); margin-bottom: 12px; font-family: 'Montserrat', sans-serif;}
+        .podium-name { font-size: 13px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
+        .podium-score { font-size: 18px; font-weight: 900; color: var(--text-sub); margin-bottom: 8px; font-family: 'Montserrat', sans-serif;}
         
         .podium-block {
-            width: 100%; position: relative; display: flex; justify-content: center; align-items: center;
-            font-size: 35px; font-weight: 900; color: rgba(255,255,255,0.9);
+            width: 100%; position: relative; display: flex; justify-content: center; align-items: center; font-size: 30px; font-weight: 900; color: rgba(255,255,255,0.9);
             box-shadow: inset 0 -10px 30px rgba(0,0,0,0.2), inset 0 5px 15px rgba(255,255,255,0.5), 0 15px 25px rgba(0,0,0,0.4);
-            border-radius: 16px 16px 0 0; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 12px 12px 0 0; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
         }
-        /* 3D 윗면 효과 */
-        .podium-block::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 20px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.1));
-            border-radius: 16px 16px 0 0;
-        }
-        .rank-1 { height: 150px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.7), rgba(218, 165, 32, 0.9)); border: 1px solid rgba(255, 215, 0, 0.8); z-index: 2; }
-        .rank-2 { height: 100px; background: linear-gradient(135deg, rgba(200, 200, 200, 0.5), rgba(160, 160, 160, 0.8)); border: 1px solid rgba(220, 220, 220, 0.8); z-index: 1; }
+        .podium-block::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 15px; background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.1)); border-radius: 12px 12px 0 0; }
+        .rank-1 { height: 150px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.8), rgba(218, 165, 32, 1)); border: 1px solid rgba(255, 215, 0, 0.8); }
+        .rank-2 { height: 110px; background: linear-gradient(135deg, rgba(200, 200, 200, 0.6), rgba(160, 160, 160, 0.9)); border: 1px solid rgba(220, 220, 220, 0.8); }
+        .rank-3 { height: 70px; background: linear-gradient(135deg, rgba(205, 127, 50, 0.7), rgba(139, 69, 19, 0.9)); border: 1px solid rgba(205, 127, 50, 0.8); }
 
-        /* 하단 이모티콘 및 토스트 */
-        #emoteBar {
-            position: fixed; bottom: env(safe-area-inset-bottom, 20px); left: 50%; transform: translateX(-50%);
-            display: flex; gap: 18px; background: var(--glass-bg); padding: 12px 25px;
-            border-radius: 40px; border: 1px solid var(--glass-border-top); backdrop-filter: blur(25px) saturate(200%); z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.15); margin-bottom: 20px; transition: 0.4s;
+        /* === 새로운 접이식 이모티콘 바 (FAB) === */
+        #emoteWrapper {
+            position: fixed; bottom: env(safe-area-inset-bottom, 30px); right: 20px;
+            display: flex; flex-direction: row-reverse; align-items: center; gap: 15px; z-index: 1000;
         }
-        .emote-btn { background: none; border: none; font-size: 28px; cursor: pointer; padding: 0; outline: none; transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        #emoteToggleBtn {
+            width: 56px; height: 56px; border-radius: 28px;
+            background: var(--glass-bg); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid var(--glass-border-top); box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            font-size: 26px; cursor: pointer; display: flex; justify-content: center; align-items: center;
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); outline: none; position: relative; color: var(--text-main);
+        }
+        #emoteToggleBtn:active { transform: scale(0.85); }
+        #emoteToggleBtn span { position: absolute; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .icon-chat { opacity: 1; transform: scale(1) rotate(0deg); }
+        .icon-close { opacity: 0; transform: scale(0) rotate(-90deg); color: white; }
+        
+        #emoteList {
+            display: flex; gap: 10px; background: var(--glass-bg); padding: 10px 15px;
+            border-radius: 30px; border: 1px solid var(--glass-border-top); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            opacity: 0; pointer-events: none; transform: translateX(30px) scale(0.9); filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .emote-btn { background: none; border: none; font-size: 28px; cursor: pointer; padding: 0 5px; outline: none; transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .emote-btn:active { transform: scale(0.6); opacity: 0.5; }
         
-        .floating-emote { position: fixed; font-size: 45px; z-index: 9999; pointer-events: none; animation: floatUp 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; bottom: 100px; }
+        /* 이모티콘 펼쳐졌을 때 상태 */
+        #emoteWrapper.expanded #emoteList { opacity: 1; pointer-events: auto; transform: translateX(0) scale(1); filter: blur(0); }
+        #emoteWrapper.expanded #emoteToggleBtn { background: var(--btn-bg); box-shadow: 0 10px 25px rgba(0, 113, 227, 0.4); }
+        #emoteWrapper.expanded .icon-chat { opacity: 0; transform: scale(0) rotate(90deg); }
+        #emoteWrapper.expanded .icon-close { opacity: 1; transform: scale(1) rotate(0deg); }
+
+        .floating-emote { position: fixed; font-size: 45px; z-index: 9999; pointer-events: none; animation: floatUp 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; bottom: 80px; }
         @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 10% { transform: translateY(-20px) scale(1.2); opacity: 1; } 100% { transform: translateY(-250px) scale(1.5); opacity: 0; } }
 
+        /* 토스트 및 모달 */
         #customToast {
             position: fixed; top: env(safe-area-inset-top, 20px); left: 50%; transform: translate(-50%, -30px) scale(0.9);
             background: rgba(20, 20, 20, 0.85); color: #fff; padding: 14px 28px; border-radius: 40px; font-weight: 700; font-size: 14px; z-index: 10000; opacity: 0; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.2); backdrop-filter: blur(10px); margin-top: 15px; border: 1px solid rgba(255,255,255,0.1);
         }
         .dark-theme #customToast { background: rgba(255, 255, 255, 0.9); color: #000; border: 1px solid rgba(0,0,0,0.1); }
         #customToast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        
+        #settingsModal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center; z-index: 5000; opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        #settingsModal.show { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: var(--modal-bg); border: 1px solid var(--glass-border-top); padding: 30px 25px; border-radius: 28px; width: 85%; max-width: 360px;
+            color: var(--text-main); box-shadow: 0 30px 60px rgba(0,0,0,0.3); box-sizing: border-box; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        #settingsModal.show .modal-content { transform: scale(1); }
+        .modal-content h2 { color: var(--text-main); margin-bottom: 20px; font-size: 22px; font-weight: 800; }
+        .rules-text { font-size: 14px; line-height: 1.6; background: rgba(128,128,128,0.1); padding: 18px; border-radius: 16px; margin-bottom: 20px; text-align: left; }
+
+        #introScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 1.5s; }
+        .luxury-text { font-family: 'Cinzel', serif; font-size: 55px; letter-spacing: 15px; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; color: transparent; opacity: 0; animation: cinematicFade 3.5s forwards; text-align: center; margin-right: -15px; }
+        @keyframes cinematicFade { 0% { opacity: 0; transform: scale(0.9); filter: blur(5px); } 40% { opacity: 1; transform: scale(1); filter: blur(0); } 80% { opacity: 1; transform: scale(1.02); filter: blur(0); } 100% { opacity: 0; transform: scale(1.05); filter: blur(10px); } }
 
     </style>
 </head>
 <body>
 
-<!-- 게임 피드백 오버레이 -->
 <div id="feedbackOverlay">
     <div class="fb-icon" id="fbIcon">⭕</div>
     <div class="fb-text" id="fbText">정답입니다!</div>
     <div class="fb-score" id="fbScore">+150점</div>
 </div>
 
+<div id="introScreen"><h1 class="luxury-text">THRE3RIC</h1></div>
 <div id="customToast">알림 메시지</div>
 
-<div id="emoteBar" class="hidden">
-    <button class="emote-btn" onclick="sendEmote('👍')">👍</button>
-    <button class="emote-btn" onclick="sendEmote('👎')">👎</button>
-    <button class="emote-btn" onclick="sendEmote('⏰')">⏰</button>
-    <button class="emote-btn" onclick="sendEmote('🤣')">🤣</button>
-    <button class="emote-btn" onclick="sendEmote('🤬')">🤬</button>
+<div id="settingsModal">
+    <div class="modal-content">
+        <h2>설정 및 규칙 ⚙️</h2>
+        <div class="rules-text">
+            <b>[게임 진행]</b><br>
+            1. 2~3인이 모여 한 번씩 출제<br>
+            2. 정답 시 <b>기본 100점</b> 획득<br>
+            3. 남은 시간에 비례해 <b>스피드 점수</b> 부여<br>
+            4. 우측 하단 이모티콘으로 감정표현!
+        </div>
+        <button class="action-btn" onclick="toggleTheme()" id="themeBtn" style="margin-top:0; background: var(--text-main); color: var(--bg-color1);">다크 모드로 켜기</button>
+        <button class="action-btn btn-green" onclick="closeSettings()">닫기</button>
+    </div>
 </div>
 
-<div id="mainContent" class="container glass">
+<!-- === 고급스러운 펼침 이모티콘 FAB === -->
+<div id="emoteWrapper" class="hidden">
+    <button id="emoteToggleBtn" onclick="toggleEmoteBar()">
+        <span class="icon-chat">💬</span>
+        <span class="icon-close">✖</span>
+    </button>
+    <div id="emoteList">
+        <button class="emote-btn" onclick="sendEmote('👍')">👍</button>
+        <button class="emote-btn" onclick="sendEmote('👎')">👎</button>
+        <button class="emote-btn" onclick="sendEmote('⏰')">⏰</button>
+        <button class="emote-btn" onclick="sendEmote('🤣')">🤣</button>
+        <button class="emote-btn" onclick="sendEmote('🤬')">🤬</button>
+    </div>
+</div>
+
+<div id="mainContent" class="container glass smooth-enter">
+    <button id="settingsBtn" onclick="openSettings()">⚙️</button>
+    
     <h1 class="title" id="mainTitle">THRE3 QUIZ</h1>
     <div id="connectionStatus" class="status">네트워크 준비 완료</div>
 
-    <div id="authScreen" class="box">
+    <div id="authScreen" class="box smooth-enter">
         <h3 style="color: var(--text-main);">플레이어 이름</h3>
         <input type="text" id="nicknameInput" placeholder="닉네임 (최대 8자)" maxlength="8" style="text-align: center;">
         <button class="action-btn btn-green" onclick="setNickname()">시작하기</button>
     </div>
 
-    <div id="lobbyScreen" class="hidden">
+    <div id="lobbyScreen" class="hidden smooth-enter">
         <div class="box">
             <h3 style="color: var(--text-main);">방 만들기 (방장)</h3>
+            <div class="segment-control">
+                <button class="segment-btn active" id="btn2P" onclick="setPlayerCount(2)">2인 모드</button>
+                <button class="segment-btn" id="btn3P" onclick="setPlayerCount(3)">3인 모드</button>
+            </div>
             <select id="timerSetting">
                 <option value="5">🔥 5초 (스피드)</option>
                 <option value="10" selected>⏱️ 10초 (기본 모드)</option>
@@ -239,31 +306,27 @@
         </div>
     </div>
 
-    <div id="waitingScreen" class="hidden box">
+    <div id="waitingScreen" class="hidden box smooth-enter">
         <h3>방이 생성되었습니다</h3>
         <h1 id="roomCodeDisplay" style="color: var(--text-sub); font-size: 55px; letter-spacing: 12px; margin: 20px 0; font-family: 'Montserrat', sans-serif;">----</h1>
-        <div class="status" style="margin:0;">초대 코드를 공유해주세요</div>
+        <div class="status" id="waitingCountText" style="margin:0;">참가자 대기 중... (1/2)</div>
     </div>
 
     <div id="gameScreen" class="hidden">
-        <div id="scoreBoard">
-            <div class="player-info"><div class="player-name" id="myNameDisplay">나</div><div class="player-score" id="myScore" style="color: var(--text-main);">0</div></div>
-            <div id="turnDisplay" class="turn-badge"></div>
-            <div class="player-info"><div class="player-name" id="oppNameDisplay">상대방</div><div class="player-score" id="opponentScore" style="color: #ff3b30;">0</div></div>
-        </div>
+        <div id="scoreBoard" class="smooth-enter"></div>
 
-        <div id="askSection" class="box hidden">
-            <h3><span id="myAskCountDisplay" style="color: var(--text-sub);">1</span>번째 문제 출제</h3>
+        <div id="askSection" class="box hidden smooth-enter">
+            <h3 style="color: var(--text-main);"><span style="color: var(--text-sub);">내 출제 턴</span> (문제 내기)</h3>
             <input type="text" id="qInput" placeholder="O/X 문제를 입력하세요">
             <div class="ox-container">
                 <button class="ox-btn" id="selectO" onclick="selectSetAnswer('O')">O</button>
                 <button class="ox-btn" id="selectX" onclick="selectSetAnswer('X')">X</button>
             </div>
-            <button class="action-btn btn-green" onclick="sendQuiz()">출제 완료</button>
+            <button class="action-btn btn-green" onclick="sendQuiz()">문제 전송</button>
         </div>
 
-        <div id="answerSection" class="box hidden">
-            <h3 style="color: var(--text-sub);">상대방의 문제</h3>
+        <div id="answerSection" class="box hidden smooth-enter">
+            <h3 style="color: var(--text-sub);" id="askerNameDisplay">출제자의 문제</h3>
             <div class="timer-container"><div id="timerBar"></div><span id="timerText">10초</span></div>
             <h2 id="currentQDisplay" style="margin: 20px 0; line-height: 1.5; font-size: 22px;"></h2>
             <div class="ox-container">
@@ -272,199 +335,237 @@
             </div>
         </div>
 
-        <div id="waitingActionSection" class="box hidden">
-            <h3 id="waitingText" style="line-height: 1.6; margin: 30px 0; color: var(--text-main);">상대방을 기다리는 중...</h3>
+        <div id="waitingActionSection" class="box hidden smooth-enter">
+            <h3 id="waitingText" style="line-height: 1.6; margin: 30px 0; color: var(--text-main);">대기 중...</h3>
         </div>
         
-        <!-- === 시상식 화면 === -->
-        <div id="endGameSection" class="hidden">
+        <div id="endGameSection" class="hidden smooth-enter">
             <h1 id="finalResultTitle"></h1>
-            <div class="podium-container">
-                <!-- 2등 (은메달) -->
-                <div class="podium-item second-place" id="podiumSecond">
-                    <div class="podium-avatar" id="secondAvatar">🥈</div>
-                    <div class="podium-name" id="secondName">Name</div>
-                    <div class="podium-score" id="secondScore">0</div>
-                    <div class="podium-block rank-2">2</div>
-                </div>
-                <!-- 1등 (금메달) -->
-                <div class="podium-item first-place" id="podiumFirst">
-                    <div class="podium-avatar" id="firstAvatar">👑</div>
-                    <div class="podium-name" id="firstName">Name</div>
-                    <div class="podium-score" id="firstScore" style="color: #ff9f0a;">0</div>
-                    <div class="podium-block rank-1">1</div>
-                </div>
-            </div>
-            <button id="rematchBtn" class="action-btn btn-green" onclick="requestRematch()" style="margin-top: 40px; animation: springUp 1s ease 1s both;">다시 한판 (REMATCH)</button>
+            <div class="podium-container" id="podiumArea"></div>
+            <button id="rematchBtn" class="action-btn btn-green" onclick="requestRematch()" style="margin-top: 30px; animation: appleEnter 1s ease 1s both;">다시 한판 (REMATCH)</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 기기 설정 기반으로 다크/라이트 모드 자동 설정
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark-theme');
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { 
+        document.body.classList.add('dark-theme'); 
+        setTimeout(() => { document.getElementById('themeBtn').innerHTML = '라이트 모드로 켜기'; }, 100);
     }
 
-    function showToast(message) {
-        const toast = document.getElementById('customToast');
-        toast.innerText = message; toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+    function openSettings() { document.getElementById('settingsModal').classList.add('show'); }
+    function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+
+    function toggleTheme() {
+        const body = document.body; const btn = document.getElementById('themeBtn');
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme'); btn.innerHTML = '다크 모드로 켜기';
+        } else {
+            body.classList.add('dark-theme'); btn.innerHTML = '라이트 모드로 켜기';
+        }
     }
 
-    let peer, conn, role = '';
-    let myName = "", oppName = "";
-    let isMyTurnToAsk = false; 
-    let myAskCount = 0, oppAskCount = 0; 
-    let myScore = 0, opponentScore = 0;
-    let answerToSet = '', actualAnswer = ''; 
-    let gameTimerDuration = 10, timeLeft = 10, timerInterval;
-    let myRematchReady = false, oppRematchReady = false;
+    function showToast(msg) { 
+        const toast = document.getElementById('customToast'); toast.innerText = msg; toast.classList.add('show'); 
+        setTimeout(() => toast.classList.remove('show'), 2000); 
+    }
+
+    // === 이모티콘 FAB 로직 ===
+    function toggleEmoteBar() { document.getElementById('emoteWrapper').classList.toggle('expanded'); }
+    
+    // 이모티콘 밖을 터치하면 닫히게 하는 기능
+    document.addEventListener('click', (e) => {
+        const wrapper = document.getElementById('emoteWrapper');
+        if (wrapper && wrapper.classList.contains('expanded')) {
+            if (!wrapper.contains(e.target)) wrapper.classList.remove('expanded');
+        }
+    });
+
+    window.onload = () => {
+        setTimeout(() => {
+            const intro = document.getElementById('introScreen'); intro.style.opacity = '0';
+            setTimeout(() => { intro.classList.add('hidden'); }, 1500);
+        }, 2000); 
+    };
+
+    let peer, myId = '', myName = '', role = '';
+    let maxPlayers = 2, hostConnections = {}, guestConn = null; 
+    let players = [], turnIndex = 0, roundCount = 0; const MAX_ROUNDS = 3; 
+    let currentQuiz = null, answerSubmissions = {}; 
+    let gameTimerDuration = 10, timeLeft = 10, timerInterval, hostTurnTimeout;
+
+    function setPlayerCount(num) {
+        maxPlayers = num;
+        document.getElementById('btn2P').classList.remove('active'); document.getElementById('btn3P').classList.remove('active');
+        document.getElementById(`btn${num}P`).classList.add('active');
+    }
+
+    // 화면 전환 시 클래스 재부팅으로 애니메이션 재활성화 함수
+    function showSectionSmoothly(sectionId) {
+        const el = document.getElementById(sectionId);
+        el.classList.remove('hidden');
+        el.classList.remove('smooth-enter');
+        void el.offsetWidth; // DOM 리플로우 강제 (애니메이션 재시작의 핵심)
+        el.classList.add('smooth-enter');
+    }
 
     function setNickname() {
         const input = document.getElementById('nicknameInput').value.trim();
         if(!input) return showToast("닉네임을 입력해주세요.");
-        myName = input;
-        document.getElementById('myNameDisplay').innerText = myName;
+        myName = input; myId = 'player_' + Math.random().toString(36).substr(2, 9); 
         document.getElementById('authScreen').classList.add('hidden');
-        document.getElementById('lobbyScreen').classList.remove('hidden');
+        showSectionSmoothly('lobbyScreen');
     }
 
     function createRoom() {
-        gameTimerDuration = parseInt(document.getElementById('timerSetting').value);
+        role = 'host'; gameTimerDuration = parseInt(document.getElementById('timerSetting').value);
         const randomCode = Math.floor(1000 + Math.random() * 9000).toString(); 
+        
         peer = new Peer("thre3quiz-" + randomCode);
         peer.on('open', () => {
-            role = 'host';
+            myId = peer.id; players.push({ id: myId, name: myName, score: 0, readyForRematch: false });
             document.getElementById('lobbyScreen').classList.add('hidden');
-            document.getElementById('waitingScreen').classList.remove('hidden');
             document.getElementById('roomCodeDisplay').innerText = randomCode;
+            showSectionSmoothly('waitingScreen');
+            updateWaitingText();
         });
-        peer.on('connection', (connection) => { conn = connection; isMyTurnToAsk = true; setupConnectionLogic(); });
-    }
 
-    function joinRoom() {
-        const inputCode = document.getElementById('roomInput').value.trim();
-        if(inputCode.length !== 4) return showToast("4자리 코드를 확인해주세요.");
-        peer = new Peer();
-        peer.on('open', () => {
-            document.getElementById('connectionStatus').innerText = "연결 중...";
-            conn = peer.connect("thre3quiz-" + inputCode);
-            conn.on('open', () => {
-                role = 'guest'; isMyTurnToAsk = false; setupConnectionLogic();
-                conn.send({ type: 'handshake', nickname: myName });
+        peer.on('connection', (conn) => {
+            conn.on('data', (data) => {
+                if (data.type === 'join') {
+                    if (players.length >= maxPlayers) { conn.send({ type: 'error', msg: '방이 꽉 찼습니다.' }); return; }
+                    hostConnections[conn.peer] = conn; players.push({ id: conn.peer, name: data.name, score: 0, readyForRematch: false });
+                    updateWaitingText();
+                    if (players.length === maxPlayers) {
+                        setTimeout(() => {
+                            hostBroadcast({ type: 'game_start', players: players, timer: gameTimerDuration, turnIndex: 0 });
+                            startGameUI(players, 0);
+                        }, 500);
+                    }
+                }
+                else if (data.type === 'send_quiz') {
+                    currentQuiz = { q: data.q, a: data.a }; answerSubmissions = {};
+                    hostBroadcast({ type: 'quiz_broadcast', q: data.q }); receiveQuiz(data.q); 
+                    clearTimeout(hostTurnTimeout); hostTurnTimeout = setTimeout(() => { hostEvaluateTurn(); }, (gameTimerDuration + 2) * 1000);
+                }
+                else if (data.type === 'submit_answer') {
+                    answerSubmissions[conn.peer] = { answer: data.answer, timeLeft: data.timeLeft }; checkAllAnswersReceived();
+                }
+                else if (data.type === 'emote') {
+                    hostBroadcast({ type: 'emote_broadcast', emote: data.emote, senderId: conn.peer });
+                    if(conn.peer !== myId) showFloatingEmote(data.emote, false);
+                }
+                else if (data.type === 'rematch') {
+                    let p = players.find(x => x.id === conn.peer); if(p) p.readyForRematch = true; checkRematchReady();
+                }
             });
         });
     }
 
-    function setupConnectionLogic() {
-        conn.on('data', (data) => {
-            if(data.type === 'handshake') {
-                oppName = data.nickname; document.getElementById('oppNameDisplay').innerText = oppName;
-                conn.send({ type: 'handshake_reply', nickname: myName, timer: gameTimerDuration });
-                startGameUI();
-            }
-            else if(data.type === 'handshake_reply') {
-                oppName = data.nickname; gameTimerDuration = data.timer;
-                document.getElementById('oppNameDisplay').innerText = oppName; startGameUI();
-            }
-            else if(data.type === 'quiz') {
-                document.getElementById('currentQDisplay').innerText = "Q. " + data.question; actualAnswer = data.answer;
-                updateUI(); startTimer(); 
-            } 
-            else if(data.type === 'turn_end') {
-                opponentScore = data.newTotalScore; document.getElementById('opponentScore').innerText = opponentScore;
-                myAskCount++; isMyTurnToAsk = false; 
-                
-                // 상대방이 풀었을 때 전체화면 피드백
-                showGameFeedback(false, data.isCorrect, data.earnedScore, '');
-            }
-            else if(data.type === 'emote') showFloatingEmote(data.emote, false);
-            else if(data.type === 'rematch') {
-                oppRematchReady = true; showToast(`${oppName}님이 리매치를 원합니다!`); checkRematch();
-            }
+    function hostBroadcast(data) { Object.values(hostConnections).forEach(c => c.send(data)); }
+    function updateWaitingText() { document.getElementById('waitingCountText').innerText = `참가자 대기 중... (${players.length}/${maxPlayers})`; }
+
+    function joinRoom() {
+        role = 'guest'; const inputCode = document.getElementById('roomInput').value.trim();
+        if(inputCode.length !== 4) return showToast("4자리 코드를 확인해주세요.");
+        
+        peer = new Peer();
+        peer.on('open', (id) => {
+            myId = id; document.getElementById('connectionStatus').innerText = "방에 접속 중...";
+            guestConn = peer.connect("thre3quiz-" + inputCode);
+            guestConn.on('open', () => { guestConn.send({ type: 'join', name: myName }); });
+
+            guestConn.on('data', (data) => {
+                if(data.type === 'error') { showToast(data.msg); }
+                else if(data.type === 'game_start') { players = data.players; gameTimerDuration = data.timer; turnIndex = data.turnIndex; startGameUI(); }
+                else if(data.type === 'quiz_broadcast') { receiveQuiz(data.q); }
+                else if(data.type === 'turn_result') { processTurnResult(data); }
+                else if(data.type === 'emote_broadcast') { if(data.senderId !== myId) showFloatingEmote(data.emote, false); }
+                else if(data.type === 'game_over') { showGameOver(data.players); }
+                else if(data.type === 'rematch_start') { 
+                    players = data.players; turnIndex = 0; roundCount = 0;
+                    document.getElementById('endGameSection').classList.add('hidden');
+                    document.getElementById('scoreBoard').classList.remove('hidden');
+                    startGameUI(); showToast("🔥 리매치 시작!");
+                }
+            });
         });
+    }
+
+    function clientSend(data) {
+        if(role === 'host') {
+            if(data.type === 'send_quiz') {
+                currentQuiz = { q: data.q, a: data.a }; answerSubmissions = {};
+                hostBroadcast({ type: 'quiz_broadcast', q: data.q }); receiveQuiz(data.q);
+                clearTimeout(hostTurnTimeout); hostTurnTimeout = setTimeout(() => { hostEvaluateTurn(); }, (gameTimerDuration + 2) * 1000);
+            }
+            else if(data.type === 'submit_answer') { answerSubmissions[myId] = { answer: data.answer, timeLeft: data.timeLeft }; checkAllAnswersReceived(); }
+            else if(data.type === 'emote') { hostBroadcast({ type: 'emote_broadcast', emote: data.emote, senderId: myId }); }
+            else if(data.type === 'rematch') { players.find(x => x.id === myId).readyForRematch = true; checkRematchReady(); }
+        } else { guestConn.send(data); }
     }
 
     function startGameUI() {
         document.getElementById('lobbyScreen').classList.add('hidden'); document.getElementById('waitingScreen').classList.add('hidden');
-        document.getElementById('gameScreen').classList.remove('hidden'); document.getElementById('emoteBar').classList.remove('hidden'); 
-        document.getElementById('connectionStatus').innerText = "온라인 연결됨"; updateUI();
+        showSectionSmoothly('gameScreen'); document.getElementById('emoteWrapper').classList.remove('hidden');
+        document.getElementById('connectionStatus').innerText = "온라인 연결됨"; renderScoreBoard(); updateTurnUI();
     }
 
-    function sendEmote(emoji) {
-        if (!conn || !conn.open) return;
-        conn.send({ type: 'emote', emote: emoji }); showFloatingEmote(emoji, true);
-    }
-    function showFloatingEmote(emoji, isMine) {
-        const el = document.createElement('div'); el.innerText = emoji; el.className = 'floating-emote';
-        const offset = Math.floor(Math.random() * 60) - 30; 
-        if (isMine) el.style.right = `calc(20% + ${offset}px)`; else el.style.left = `calc(20% + ${offset}px)`;
-        document.body.appendChild(el); setTimeout(() => el.remove(), 2500);
+    function renderScoreBoard() {
+        const board = document.getElementById('scoreBoard'); board.innerHTML = '';
+        players.forEach((p, idx) => {
+            let color = p.id === myId ? '#30d158' : (idx===1 ? '#ff3b30' : '#0071e3');
+            let isTurn = (idx === turnIndex);
+            board.innerHTML += `
+                <div class="player-info ${isTurn ? 'active-turn' : ''}">
+                    <div class="player-name">${p.name} ${p.id === myId ? '(나)' : ''}</div>
+                    <div class="player-score" style="color: ${isTurn ? '#fff' : color};">${p.score}</div>
+                </div>
+            `;
+        });
     }
 
-    // === 강력한 피드백 애니메이션 함수 ===
-    function showGameFeedback(isMine, isCorrect, earnedScore, correctAnsText = '') {
-        const overlay = document.getElementById('feedbackOverlay');
-        const icon = document.getElementById('fbIcon');
-        const text = document.getElementById('fbText');
-        const scoreDisplay = document.getElementById('fbScore');
+    function updateTurnUI() {
+        renderScoreBoard(); const asker = players[turnIndex]; const isMyTurn = (asker.id === myId);
+        document.getElementById('askSection').classList.add('hidden'); document.getElementById('answerSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.add('hidden');
 
-        overlay.className = ''; // 초기화
-        
-        if (isCorrect) {
-            overlay.classList.add('correct');
-            icon.innerText = '⭕';
-            text.innerText = isMine ? '정답입니다! 🎉' : `${oppName} 정답! 💦`;
-            scoreDisplay.innerText = `+${earnedScore}점`;
-            scoreDisplay.style.color = '#30d158';
-            
-            if (isMine) confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 }, zIndex: 10001 });
-        } else {
-            overlay.classList.add('incorrect');
-            icon.innerText = '❌';
-            text.innerText = isMine ? '오답입니다! 😭' : `${oppName} 오답! 😆`;
-            scoreDisplay.innerText = isMine ? `정답: ${correctAnsText}` : `나이스 방어!`;
-            scoreDisplay.style.color = '#ff453a';
-            
-            if (isMine) {
-                document.body.classList.add('shake');
-                setTimeout(() => document.body.classList.remove('shake'), 400);
-            }
+        if (isMyTurn) { showSectionSmoothly('askSection'); } 
+        else {
+            showSectionSmoothly('waitingActionSection');
+            document.getElementById('waitingText').innerText = `${asker.name}님이 출제 중입니다... ✍️`;
         }
-        
-        setTimeout(() => overlay.classList.add('show'), 50); // 트랜지션 작동을 위해 딜레이
-        
-        // 2초 뒤에 오버레이 숨기고 UI 업데이트
-        setTimeout(() => {
-            overlay.classList.remove('show');
-            setTimeout(() => updateUI(), 400);
-        }, 2200);
     }
 
     function selectSetAnswer(ans) {
         answerToSet = ans;
         document.getElementById('selectO').classList.remove('selected-o'); document.getElementById('selectX').classList.remove('selected-x');
-        if(ans === 'O') document.getElementById('selectO').classList.add('selected-o');
-        if(ans === 'X') document.getElementById('selectX').classList.add('selected-x');
+        if(ans === 'O') document.getElementById('selectO').classList.add('selected-o'); if(ans === 'X') document.getElementById('selectX').classList.add('selected-x');
     }
 
     function sendQuiz() {
         const q = document.getElementById('qInput').value.trim();
         if (!q || !answerToSet) return showToast("문제와 정답을 선택하세요.");
-        conn.send({ type: 'quiz', question: q, answer: answerToSet });
+        clientSend({ type: 'send_quiz', q: q, a: answerToSet });
         document.getElementById('qInput').value = ''; answerToSet = '';
         document.getElementById('selectO').classList.remove('selected-o'); document.getElementById('selectX').classList.remove('selected-x');
+    }
+
+    function receiveQuiz(q) {
+        const asker = players[turnIndex]; const isMyTurn = (asker.id === myId);
+        document.getElementById('askSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.add('hidden');
         
-        document.getElementById('askSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.remove('hidden');
-        document.getElementById('waitingText').innerText = `${oppName}님이 풀고 있습니다...`;
+        if (isMyTurn) {
+            showSectionSmoothly('waitingActionSection'); document.getElementById('waitingText').innerText = "다른 플레이어들이 풀고 있습니다... 🤔";
+        } else {
+            showSectionSmoothly('answerSection'); document.getElementById('askerNameDisplay').innerText = `Q. ${asker.name}님의 문제`; document.getElementById('currentQDisplay').innerText = q;
+            startTimer(); showToast("문제가 도착했습니다!");
+        }
     }
 
     function startTimer() {
         timeLeft = gameTimerDuration; const bar = document.getElementById('timerBar');
         bar.style.transition = 'none'; bar.style.width = '100%'; bar.style.background = 'var(--btn-green)';
         setTimeout(() => { bar.style.transition = 'width 0.1s linear, background 0.3s'; }, 50);
-
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
             timeLeft -= 0.1; let pct = (timeLeft / gameTimerDuration) * 100;
@@ -474,121 +575,129 @@
         }, 100);
     }
 
-    function submitAnswer(myAnswer) {
-        clearInterval(timerInterval); 
-        let isCorrect = false; let earnedScore = 0;
-
-        if (myAnswer === actualAnswer) {
-            earnedScore = 100 + Math.floor(timeLeft * 10);
-            myScore += earnedScore; document.getElementById('myScore').innerText = myScore; isCorrect = true;
-        }
-
-        let tempActual = actualAnswer;
-        oppAskCount++; 
-        conn.send({ type: 'turn_end', newTotalScore: myScore, earnedScore: earnedScore, isCorrect: isCorrect });
-        
-        isMyTurnToAsk = true; actualAnswer = '';
-        
-        // 제출 시 전체화면 피드백 호출
-        showGameFeedback(true, isCorrect, earnedScore, tempActual);
+    function submitAnswer(myAns) {
+        clearInterval(timerInterval); showWaitingOverlay("다른 사람의 답을 기다리는 중...");
+        clientSend({ type: 'submit_answer', answer: myAns, timeLeft: timeLeft });
     }
 
-    // === 시상식 렌더링 함수 ===
-    function renderPodium() {
-        const title = document.getElementById('finalResultTitle');
-        const firstBlock = document.querySelector('#podiumFirst .podium-block');
-        const secondBlock = document.querySelector('#podiumSecond .podium-block');
-        
-        document.getElementById('scoreBoard').classList.add('hidden');
-        document.getElementById('emoteBar').classList.add('hidden');
-        document.getElementById('mainTitle').classList.add('hidden');
-        
-        if (myScore === opponentScore) {
-            title.innerHTML = "🤝 평화로운 무승부 🤝";
-            title.style.color = "var(--text-main)";
-            firstBlock.className = "podium-block rank-1"; secondBlock.className = "podium-block rank-1";
-            
-            document.getElementById('firstName').innerText = myName; document.getElementById('firstScore').innerText = myScore;
-            document.getElementById('firstAvatar').innerText = "👑";
-            document.getElementById('secondName').innerText = oppName; document.getElementById('secondScore').innerText = opponentScore;
-            document.getElementById('secondAvatar').innerText = "👑";
-
-            confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
-        } else {
-            let isWin = myScore > opponentScore;
-            title.innerHTML = isWin ? "🏆 완벽한 승리! 🏆" : "😭 아쉬운 패배 😭";
-            title.style.color = isWin ? "#30d158" : "#ff453a";
-            
-            firstBlock.className = "podium-block rank-1"; secondBlock.className = "podium-block rank-2";
-            
-            document.getElementById('firstName').innerText = isWin ? myName : oppName;
-            document.getElementById('firstScore').innerText = isWin ? myScore : opponentScore;
-            document.getElementById('firstAvatar').innerText = "👑";
-            
-            document.getElementById('secondName').innerText = isWin ? oppName : myName;
-            document.getElementById('secondScore').innerText = isWin ? opponentScore : myScore;
-            document.getElementById('secondAvatar').innerText = "🥈";
-
-            if (isWin) {
-                // 승리 시 3초간 지속되는 웅장한 폭죽
-                let end = Date.now() + 3000;
-                (function frame() {
-                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD700', '#FFA500', '#ffffff'] });
-                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FFD700', '#FFA500', '#ffffff'] });
-                    if (Date.now() < end) requestAnimationFrame(frame);
-                }());
-            }
-        }
+    function showWaitingOverlay(text) {
+        const overlay = document.getElementById('feedbackOverlay'); overlay.className = 'waiting show';
+        document.getElementById('fbIcon').innerText = '⏳'; document.getElementById('fbText').innerText = text; document.getElementById('fbScore').innerText = '';
     }
 
-    function updateUI() {
-        if (myAskCount === 3 && oppAskCount === 3) {
-            document.getElementById('askSection').classList.add('hidden');
-            document.getElementById('answerSection').classList.add('hidden');
-            document.getElementById('waitingActionSection').classList.add('hidden');
-            
-            document.getElementById('endGameSection').classList.remove('hidden');
-            document.getElementById('rematchBtn').innerText = "다시 한판 (REMATCH)";
-            document.getElementById('rematchBtn').disabled = false;
-            
-            renderPodium();
-            document.getElementById('connectionStatus').innerText = "게임 종료 🏁";
-            return;
-        }
+    function checkAllAnswersReceived() {
+        if(role !== 'host') return;
+        if (Object.keys(answerSubmissions).length === players.length - 1) { clearTimeout(hostTurnTimeout); hostEvaluateTurn(); }
+    }
 
-        if (isMyTurnToAsk) {
-            document.getElementById('askSection').classList.remove('hidden'); document.getElementById('answerSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.add('hidden');
-            document.getElementById('myAskCountDisplay').innerText = (myAskCount + 1); document.getElementById('turnDisplay').innerText = "내 출제 턴";
+    function hostEvaluateTurn() {
+        let feedbackData = {}; let actual = currentQuiz.a;
+        players.forEach(p => {
+            if (p.id === players[turnIndex].id) return; 
+            let sub = answerSubmissions[p.id];
+            if (sub && sub.answer === actual) {
+                let earned = 100 + Math.floor(sub.timeLeft * 10);
+                p.score += earned; feedbackData[p.id] = { isCorrect: true, earnedScore: earned, actual: actual };
+            } else { feedbackData[p.id] = { isCorrect: false, earnedScore: 0, actual: actual }; }
+        });
+
+        turnIndex++; if (turnIndex >= players.length) { turnIndex = 0; roundCount++; }
+        let isGameOver = (roundCount >= MAX_ROUNDS);
+        let resultMsg = { type: 'turn_result', players: players, feedbackData: feedbackData, nextTurnIndex: turnIndex };
+        hostBroadcast(resultMsg); processTurnResult(resultMsg); 
+        if (isGameOver) { setTimeout(() => { hostBroadcast({ type: 'game_over', players: players }); showGameOver(players); }, 3000); }
+    }
+
+    function processTurnResult(data) {
+        players = data.players; turnIndex = data.nextTurnIndex;
+        const overlay = document.getElementById('feedbackOverlay');
+        const icon = document.getElementById('fbIcon'); const text = document.getElementById('fbText'); const scoreDisplay = document.getElementById('fbScore');
+        let myFb = data.feedbackData[myId]; let wasAsker = (myFb === undefined); 
+
+        overlay.className = '';
+        if (wasAsker) {
+            let correctCount = Object.values(data.feedbackData).filter(x => x.isCorrect).length;
+            overlay.classList.add('correct'); icon.innerText = '📊'; text.innerText = `${correctCount}명이 맞췄습니다!`; scoreDisplay.innerText = '';
         } else {
-            document.getElementById('askSection').classList.add('hidden');
-            if (actualAnswer) {
-                document.getElementById('answerSection').classList.remove('hidden'); document.getElementById('waitingActionSection').classList.add('hidden'); document.getElementById('turnDisplay').innerText = "문제 푸는 턴";
+            if (myFb.isCorrect) {
+                overlay.classList.add('correct'); icon.innerText = '⭕'; text.innerText = '정답입니다! 🎉';
+                scoreDisplay.innerText = `+${myFb.earnedScore}점`; scoreDisplay.style.color = '#30d158';
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 }, zIndex: 10001 });
             } else {
-                document.getElementById('answerSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.remove('hidden'); document.getElementById('waitingText').innerText = `${oppName}님이 문제를 고민 중...`; document.getElementById('turnDisplay').innerText = "상대 출제 턴";
+                overlay.classList.add('incorrect'); icon.innerText = '❌'; text.innerText = '오답입니다! 😭';
+                scoreDisplay.innerText = `정답은 ${myFb.actual}`; scoreDisplay.style.color = '#ff453a';
+                document.body.classList.add('shake'); setTimeout(() => document.body.classList.remove('shake'), 400);
             }
         }
+        
+        setTimeout(() => overlay.classList.add('show'), 50);
+        setTimeout(() => { overlay.classList.remove('show'); renderScoreBoard(); updateTurnUI(); }, 2500);
+    }
+
+    function showGameOver(finalPlayers) {
+        document.getElementById('askSection').classList.add('hidden'); document.getElementById('answerSection').classList.add('hidden');
+        document.getElementById('waitingActionSection').classList.add('hidden'); document.getElementById('scoreBoard').classList.add('hidden');
+        document.getElementById('mainTitle').classList.add('hidden'); 
+        showSectionSmoothly('endGameSection');
+        
+        let sorted = [...finalPlayers].sort((a, b) => b.score - a.score);
+        document.getElementById('finalResultTitle').innerText = "🎉 최종 결과 🎉";
+        
+        const podiumArea = document.getElementById('podiumArea'); podiumArea.innerHTML = '';
+        let renderOrder = maxPlayers === 3 ? [1, 0, 2] : [0, 1]; 
+        
+        renderOrder.forEach(idx => {
+            if(!sorted[idx]) return;
+            let p = sorted[idx]; let rankNum = idx + 1;
+            let rankClass = idx === 0 ? 'first-place' : (idx === 1 ? 'second-place' : 'third-place');
+            let crown = idx === 0 ? '👑' : (idx === 1 ? '🥈' : '🥉');
+            let color = idx === 0 ? '#ff9f0a' : (idx === 1 ? 'var(--text-main)' : '#cd7f32');
+            
+            podiumArea.innerHTML += `
+                <div class="podium-item ${rankClass}">
+                    <div class="podium-avatar">${crown}</div>
+                    <div class="podium-name">${p.name} ${p.id===myId ? '(나)' : ''}</div>
+                    <div class="podium-score" style="color: ${color};">${p.score}</div>
+                    <div class="podium-block rank-${rankNum}">${rankNum}</div>
+                </div>
+            `;
+        });
+
+        if (sorted[0].id === myId) {
+            let end = Date.now() + 3000;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD700', '#FFA500', '#ffffff'], zIndex: 10001 });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FFD700', '#FFA500', '#ffffff'], zIndex: 10001 });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+    }
+
+    function sendEmote(emoji) { 
+        clientSend({ type: 'emote', emote: emoji }); showFloatingEmote(emoji, true); 
+        document.getElementById('emoteWrapper').classList.remove('expanded'); // 보내고 나서 자동 닫힘
+    }
+
+    function showFloatingEmote(emoji, isMine) {
+        const el = document.createElement('div'); el.innerText = emoji; el.className = 'floating-emote';
+        const offset = Math.floor(Math.random() * 40) - 20; 
+        if (isMine) el.style.right = `calc(30px + ${offset}px)`; else el.style.left = `calc(30px + ${offset}px)`;
+        document.body.appendChild(el); setTimeout(() => el.remove(), 2500);
     }
 
     function requestRematch() {
-        myRematchReady = true; document.getElementById('rematchBtn').innerText = "수락 대기 중..."; document.getElementById('rematchBtn').disabled = true;
-        conn.send({ type: 'rematch' }); checkRematch();
+        document.getElementById('rematchBtn').innerText = "수락 대기 중..."; document.getElementById('rematchBtn').disabled = true;
+        clientSend({ type: 'rematch' });
     }
 
-    function checkRematch() {
-        if (myRematchReady && oppRematchReady) {
-            myAskCount = 0; oppAskCount = 0; myScore = 0; opponentScore = 0; actualAnswer = ''; answerToSet = '';
-            myRematchReady = false; oppRematchReady = false;
+    function checkRematchReady() {
+        if(role !== 'host') return;
+        if(players.every(p => p.readyForRematch)) {
+            players.forEach(p => { p.score = 0; p.readyForRematch = false; });
+            turnIndex = 0; roundCount = 0; hostBroadcast({ type: 'rematch_start', players: players });
             
-            document.getElementById('myScore').innerText = '0'; document.getElementById('opponentScore').innerText = '0';
-            
-            isMyTurnToAsk = (role !== 'host'); role = (role === 'host') ? 'guest' : 'host'; 
-
             document.getElementById('endGameSection').classList.add('hidden');
-            document.getElementById('scoreBoard').classList.remove('hidden');
-            document.getElementById('emoteBar').classList.remove('hidden');
-            document.getElementById('mainTitle').classList.remove('hidden');
-            showToast("🔥 2라운드 시작! 🔥");
-            updateUI();
+            showSectionSmoothly('scoreBoard'); startGameUI(); showToast("🔥 리매치 시작!");
         }
     }
 </script>
