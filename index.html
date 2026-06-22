@@ -2,63 +2,43 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 모바일 환경 최적화: 탭 하이라이트 제거, 확대 방지, 노치(Safe Area) 대응 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>THRE3 QUIZ - Premium Edition</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- 화려한 폭죽(Confetti) 애니메이션을 위한 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* === 애플 스타일 시스템 폰트 & 모바일 초기화 === */
-        * {
-            -webkit-tap-highlight-color: transparent; /* 모바일 터치 시 파란색 깜빡임 제거 */
-            box-sizing: border-box;
-            user-select: none; /* 텍스트 드래그 방지 */
-        }
-        input { user-select: auto; } /* 입력창은 텍스트 선택 허용 */
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; user-select: none; }
+        input { user-select: auto; }
 
-        /* === 프리미엄 테마 변수 (Apple VisionOS & iOS 스타일) === */
+        /* === 프리미엄 테마 변수 === */
         :root {
-            /* 라이트 모드: 화사한 오로라 파스텔 배경 */
             --bg-color1: #f8ecec; --bg-color2: #e0f2fe; --bg-color3: #eef2ff;
-            /* 리얼 글래스모피즘 세팅 */
             --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border-top: rgba(255, 255, 255, 0.8); /* 빛을 받는 윗부분 */
-            --glass-border-bottom: rgba(255, 255, 255, 0.2); /* 그림자 지는 아랫부분 */
+            --glass-border-top: rgba(255, 255, 255, 0.8); 
+            --glass-border-bottom: rgba(255, 255, 255, 0.2); 
             --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            
-            --text-main: #1d1d1f; /* 애플 특유의 진회색 블랙 */
-            --text-sub: #0071e3; /* 애플 블루 */
-            
+            --text-main: #1d1d1f; --text-sub: #0071e3;
             --input-bg: rgba(255, 255, 255, 0.6);
-            --btn-bg: #0071e3;
-            --btn-green: #34c759;
-            --btn-o: #0071e3;
-            --btn-x: #ff3b30;
+            --btn-bg: #0071e3; --btn-green: #34c759;
+            --btn-o: #0071e3; --btn-x: #ff3b30;
             --btn-ox-default: rgba(255, 255, 255, 0.5);
-            
             --modal-bg: rgba(255, 255, 255, 0.85);
         }
 
         body.dark-theme {
-            /* 다크 모드: 완전한 리얼 블랙 바탕에 은은한 심해 네온 */
             --bg-color1: #000000; --bg-color2: #050b14; --bg-color3: #000000;
-            
             --glass-bg: rgba(30, 30, 30, 0.4);
             --glass-border-top: rgba(255, 255, 255, 0.15); 
             --glass-border-bottom: rgba(255, 255, 255, 0.02);
             --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            
-            --text-main: #f5f5f7;
-            --text-sub: #2997ff; /* 애플 라이트 블루 */
-            
+            --text-main: #f5f5f7; --text-sub: #2997ff; 
             --input-bg: rgba(255, 255, 255, 0.08);
-            --btn-bg: #2997ff;
-            --btn-green: #30d158;
-            --btn-o: #2997ff;
-            --btn-x: #ff453a;
+            --btn-bg: #2997ff; --btn-green: #30d158;
+            --btn-o: #2997ff; --btn-x: #ff453a;
             --btn-ox-default: rgba(255, 255, 255, 0.08);
-            
             --modal-bg: rgba(20, 20, 20, 0.85);
         }
 
@@ -67,167 +47,146 @@
             background: linear-gradient(-45deg, var(--bg-color1), var(--bg-color2), var(--bg-color3));
             background-size: 300% 300%; animation: gradientBG 15s ease infinite;
             color: var(--text-main); display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; min-height: -webkit-fill-available; /* 모바일 사파리 하단바 대응 */
-            margin: 0; padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom); 
+            min-height: 100vh; min-height: -webkit-fill-available; margin: 0; 
+            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom); 
             transition: background 0.6s cubic-bezier(0.25, 1, 0.5, 1); overflow-x: hidden;
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* === 럭셔리 인트로 === */
-        #introScreen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; display: flex; justify-content: center; align-items: center;
-            z-index: 9999; transition: opacity 1.5s ease-in-out;
+        /* 화면 흔들림 애니메이션 (오답 시 적용) */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0); }
+            20% { transform: translate(-10px, 5px) rotate(-1deg); }
+            40% { transform: translate(10px, -5px) rotate(1deg); }
+            60% { transform: translate(-10px, -5px) rotate(-1deg); }
+            80% { transform: translate(10px, 5px) rotate(1deg); }
         }
-        .luxury-text {
-            font-family: 'Cinzel', serif; font-size: 55px; letter-spacing: 15px;
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            -webkit-background-clip: text; color: transparent;
-            opacity: 0; animation: cinematicFade 3.5s ease-in-out forwards; text-align: center; margin-right: -15px;
-        }
-        @keyframes cinematicFade { 0% { opacity: 0; transform: scale(0.9); filter: blur(5px); } 40% { opacity: 1; transform: scale(1); filter: blur(0); } 80% { opacity: 1; transform: scale(1.02); filter: blur(0); } 100% { opacity: 0; transform: scale(1.05); filter: blur(10px); } }
+        body.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 
-        /* === 리얼 글래스모피즘 공통 클래스 === */
         .glass {
-            background: var(--glass-bg);
-            /* 핵심: blur 수치를 높이고 saturate로 뒤에 비치는 색을 선명하게 만듦 */
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid var(--glass-border-bottom);
-            border-top-color: var(--glass-border-top);
-            border-left-color: var(--glass-border-top);
-            box-shadow: var(--glass-shadow);
-            border-radius: 28px; /* 애플 스타일의 둥근 모서리 */
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid var(--glass-border-bottom); border-top-color: var(--glass-border-top); border-left-color: var(--glass-border-top);
+            box-shadow: var(--glass-shadow); border-radius: 28px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .container { padding: 30px 20px; width: 100%; max-width: 450px; position: relative; }
         
         #settingsBtn {
             position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.05); border: none;
-            width: 44px; height: 44px; border-radius: 50%; font-size: 20px; display: flex; 
-            justify-content: center; align-items: center; cursor: pointer; 
-            transition: 0.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 10;
+            width: 44px; height: 44px; border-radius: 50%; font-size: 20px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; z-index: 10;
         }
         .dark-theme #settingsBtn { background: rgba(255,255,255,0.1); }
-        /* 설정 버튼 터치 피드백 */
         #settingsBtn:active { transform: scale(0.85) rotate(45deg); opacity: 0.7; }
 
         h1.title { font-family: 'Montserrat', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--text-main); text-align: center; margin-top: 10px; margin-bottom: 5px; font-weight: 800;}
         h2, h3 { text-align: center; margin-top: 0; font-weight: 700; word-break: keep-all; letter-spacing: -0.5px; }
         .status { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 20px; font-weight: 600; }
 
-        /* 내부 콘텐츠 박스 (애플의 그룹화 스타일) */
-        .box { 
-            background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px 20px; margin-top: 15px; 
-            text-align: center; animation: springUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--glass-border-bottom);
-        }
+        .box { background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px 20px; margin-top: 15px; text-align: center; animation: springUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--glass-border-bottom); }
         @keyframes springUp { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* 모바일 폼 요소 (글자 크기 16px 이상이어야 아이폰에서 자동 확대 안 됨) */
         input, select { 
-            width: 100%; padding: 16px; margin-top: 10px; box-sizing: border-box; 
-            border-radius: 16px; background: var(--input-bg); border: 1px solid var(--glass-border-bottom);
-            color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s; font-weight: 600;
-            font-family: inherit;
+            width: 100%; padding: 16px; margin-top: 10px; box-sizing: border-box; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--glass-border-bottom);
+            color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s; font-weight: 600; font-family: inherit;
         }
         input:focus, select:focus { border-color: var(--text-sub); box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2); }
         .dark-theme input:focus { box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.2); }
 
-        /* === 쫀득한 터치감을 위한 프리미엄 버튼 === */
         button.action-btn { 
-            width: 100%; padding: 18px; margin-top: 20px; border-radius: 18px; border: none;
-            background: var(--btn-bg); color: white; font-size: 17px; cursor: pointer; 
-            font-weight: 700; letter-spacing: -0.5px;
-            /* 쫀득한 트랜지션 (스프링 효과) */
-            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%; padding: 18px; margin-top: 20px; border-radius: 18px; border: none; background: var(--btn-bg); color: white; font-size: 17px; cursor: pointer; font-weight: 700; letter-spacing: -0.5px; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .btn-green { background: var(--btn-green) !important; }
-        
-        /* 버튼을 누를 때 쑤욱 들어가는 (Squish) 효과 */
         button.action-btn:active { transform: scale(0.95); opacity: 0.9; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button:disabled { opacity: 0.5; transform: none !important; cursor: not-allowed; }
 
-        /* 프리미엄 O/X 버튼 */
         .ox-container { display: flex; gap: 12px; margin-top: 20px; }
         .ox-btn { 
-            font-size: 32px; padding: 25px 0; flex: 1; background: var(--btn-ox-default); 
-            border-radius: 22px; color: var(--text-main); font-family: 'Montserrat', sans-serif;
-            border: 1px solid var(--glass-border-bottom); cursor: pointer; 
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); font-weight: 800;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            font-size: 32px; padding: 25px 0; flex: 1; background: var(--btn-ox-default); border-radius: 22px; color: var(--text-main); font-family: 'Montserrat', sans-serif;
+            border: 1px solid var(--glass-border-bottom); cursor: pointer; transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); font-weight: 800; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        /* O/X 버튼 터치 반응 */
         .ox-btn:active { transform: scale(0.92); }
-        
-        /* 선택된 상태: 빛나는 네온 효과 추가 */
         .ox-btn.selected-o { background: var(--btn-o); color: white; transform: scale(1.02); box-shadow: 0 10px 25px rgba(41, 151, 255, 0.4); border-color: rgba(255,255,255,0.5); }
         .ox-btn.selected-x { background: var(--btn-x); color: white; transform: scale(1.02); box-shadow: 0 10px 25px rgba(255, 69, 58, 0.4); border-color: rgba(255,255,255,0.5); }
 
         .hidden { display: none !important; }
 
-        /* 점수판 (다이내믹 아일랜드 룩) */
-        #scoreBoard { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 18px 20px; margin-bottom: 20px; border-radius: 24px;
-            background: rgba(0,0,0,0.03); 
-        }
+        #scoreBoard { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; margin-bottom: 20px; border-radius: 24px; background: rgba(0,0,0,0.03); transition: 0.4s; }
         .dark-theme #scoreBoard { background: rgba(255,255,255,0.05); }
         .player-info { text-align: center; flex: 1; }
         .player-name { font-size: 12px; opacity: 0.7; margin-bottom: 5px; font-weight: 600; }
         .player-score { font-size: 28px; font-weight: 800; font-family: 'Montserrat', sans-serif;}
         .turn-badge { background: var(--text-sub); color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 
-        /* 타이머 바 */
         .timer-container { width: 100%; background: rgba(0,0,0,0.08); border-radius: 10px; height: 14px; margin: 20px 0; overflow: hidden; position: relative; }
         .dark-theme .timer-container { background: rgba(255,255,255,0.1); }
         #timerBar { height: 100%; background: var(--btn-green); width: 100%; transition: width 0.1s linear, background 0.3s; border-radius: 10px; }
         #timerText { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 800; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
-        /* 감정표현 (이모티콘) 바 - 화면 하단 플로팅 */
+        /* === 강력한 정답/오답 전체화면 피드백 === */
+        #feedbackOverlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            pointer-events: none; transition: opacity 0.3s ease; opacity: 0;
+        }
+        #feedbackOverlay.show { opacity: 1; }
+        #feedbackOverlay.correct { background: rgba(48, 209, 88, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        #feedbackOverlay.incorrect { background: rgba(255, 59, 48, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        
+        .fb-icon { font-size: 130px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4)); transform: scale(0); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .fb-text { font-size: 34px; font-weight: 900; color: white; margin-top: 15px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.1s; letter-spacing: -1px;}
+        .fb-score { font-size: 26px; font-weight: 800; margin-top: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0; transition: 0.4s 0.2s; font-family: 'Montserrat', sans-serif;}
+        
+        #feedbackOverlay.show .fb-icon { transform: scale(1); }
+        #feedbackOverlay.show .fb-text, #feedbackOverlay.show .fb-score { transform: translateY(0); opacity: 1; }
+
+        /* === 3D 시상식 (Podium) UI === */
+        #endGameSection { text-align: center; padding-top: 10px; animation: fadeIn 1s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        #finalResultTitle { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900; margin-bottom: 40px; text-shadow: 0 10px 30px rgba(0,0,0,0.4); animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); letter-spacing: -1px; }
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; height: 260px; perspective: 1000px; margin-bottom: 20px;}
+        .podium-item { display: flex; flex-direction: column; align-items: center; width: 110px; transform-style: preserve-3d; opacity: 0; animation: riseUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes riseUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .first-place { animation-delay: 0.2s; } .second-place { animation-delay: 0.5s; }
+
+        .podium-avatar { font-size: 45px; margin-bottom: 5px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); animation: floatCrown 2s ease-in-out infinite alternate; }
+        @keyframes floatCrown { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+        
+        .podium-name { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
+        .podium-score { font-size: 20px; font-weight: 900; color: var(--text-sub); margin-bottom: 12px; font-family: 'Montserrat', sans-serif;}
+        
+        .podium-block {
+            width: 100%; position: relative; display: flex; justify-content: center; align-items: center;
+            font-size: 35px; font-weight: 900; color: rgba(255,255,255,0.9);
+            box-shadow: inset 0 -10px 30px rgba(0,0,0,0.2), inset 0 5px 15px rgba(255,255,255,0.5), 0 15px 25px rgba(0,0,0,0.4);
+            border-radius: 16px 16px 0 0; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        }
+        /* 3D 윗면 효과 */
+        .podium-block::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 20px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.1));
+            border-radius: 16px 16px 0 0;
+        }
+        .rank-1 { height: 150px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.7), rgba(218, 165, 32, 0.9)); border: 1px solid rgba(255, 215, 0, 0.8); z-index: 2; }
+        .rank-2 { height: 100px; background: linear-gradient(135deg, rgba(200, 200, 200, 0.5), rgba(160, 160, 160, 0.8)); border: 1px solid rgba(220, 220, 220, 0.8); z-index: 1; }
+
+        /* 하단 이모티콘 및 토스트 */
         #emoteBar {
             position: fixed; bottom: env(safe-area-inset-bottom, 20px); left: 50%; transform: translateX(-50%);
             display: flex; gap: 18px; background: var(--glass-bg); padding: 12px 25px;
-            border-radius: 40px; border: 1px solid var(--glass-border-top); backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%); z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
+            border-radius: 40px; border: 1px solid var(--glass-border-top); backdrop-filter: blur(25px) saturate(200%); z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.15); margin-bottom: 20px; transition: 0.4s;
         }
         .emote-btn { background: none; border: none; font-size: 28px; cursor: pointer; padding: 0; outline: none; transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .emote-btn:active { transform: scale(0.6); opacity: 0.5; } /* 통통 튀는 터치 피드백 */
+        .emote-btn:active { transform: scale(0.6); opacity: 0.5; }
         
-        .floating-emote {
-            position: fixed; font-size: 45px; z-index: 9999; pointer-events: none;
-            animation: floatUp 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; bottom: 100px;
-        }
+        .floating-emote { position: fixed; font-size: 45px; z-index: 9999; pointer-events: none; animation: floatUp 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; bottom: 100px; }
         @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 10% { transform: translateY(-20px) scale(1.2); opacity: 1; } 100% { transform: translateY(-250px) scale(1.5); opacity: 0; } }
 
-        /* 설정 모달창 */
-        #settingsModal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center; z-index: 5000;
-            opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        #settingsModal.show { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: var(--modal-bg); border: 1px solid var(--glass-border-top);
-            padding: 30px 25px; border-radius: 28px; width: 85%; max-width: 360px;
-            color: var(--text-main); box-shadow: 0 30px 60px rgba(0,0,0,0.3); box-sizing: border-box;
-            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        #settingsModal.show .modal-content { transform: scale(1); }
-        .modal-content h2 { color: var(--text-main); margin-bottom: 20px; font-size: 22px; font-weight: 800; }
-        .rules-text { font-size: 14px; line-height: 1.6; background: rgba(128,128,128,0.1); padding: 18px; border-radius: 16px; margin-bottom: 20px; text-align: left; }
-
-        /* 토스트 알림 (다이내믹 아일랜드 느낌의 팝업) */
         #customToast {
             position: fixed; top: env(safe-area-inset-top, 20px); left: 50%; transform: translate(-50%, -30px) scale(0.9);
-            background: rgba(20, 20, 20, 0.85); color: #fff; padding: 14px 28px; border-radius: 40px;
-            font-weight: 700; font-size: 14px; z-index: 10000; opacity: 0; 
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); white-space: nowrap; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            margin-top: 15px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(20, 20, 20, 0.85); color: #fff; padding: 14px 28px; border-radius: 40px; font-weight: 700; font-size: 14px; z-index: 10000; opacity: 0; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.2); backdrop-filter: blur(10px); margin-top: 15px; border: 1px solid rgba(255,255,255,0.1);
         }
         .dark-theme #customToast { background: rgba(255, 255, 255, 0.9); color: #000; border: 1px solid rgba(0,0,0,0.1); }
         #customToast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
@@ -236,26 +195,14 @@
 </head>
 <body>
 
-<div id="introScreen">
-    <h1 class="luxury-text">THRE3RIC</h1>
+<!-- 게임 피드백 오버레이 -->
+<div id="feedbackOverlay">
+    <div class="fb-icon" id="fbIcon">⭕</div>
+    <div class="fb-text" id="fbText">정답입니다!</div>
+    <div class="fb-score" id="fbScore">+150점</div>
 </div>
 
 <div id="customToast">알림 메시지</div>
-
-<div id="settingsModal">
-    <div class="modal-content">
-        <h2>설정 및 규칙 ⚙️</h2>
-        <div class="rules-text">
-            <b>[게임 진행]</b><br>
-            1. 번갈아 가며 3문제씩 출제<br>
-            2. 정답 시 <b>기본 100점</b> 획득<br>
-            3. 남은 시간에 비례해 <b>스피드 점수</b> 부여<br>
-            4. 하단 이모티콘으로 감정표현!
-        </div>
-        <button class="action-btn" onclick="toggleTheme()" id="themeBtn" style="margin-top:0; background: var(--text-main); color: var(--bg-color1);">다크 모드로 켜기</button>
-        <button class="action-btn btn-green" onclick="closeSettings()">확인</button>
-    </div>
-</div>
 
 <div id="emoteBar" class="hidden">
     <button class="emote-btn" onclick="sendEmote('👍')">👍</button>
@@ -265,10 +212,8 @@
     <button class="emote-btn" onclick="sendEmote('🤬')">🤬</button>
 </div>
 
-<div id="mainContent" class="container glass hidden">
-    <button id="settingsBtn" onclick="openSettings()">⚙️</button>
-    
-    <h1 class="title">THRE3 QUIZ</h1>
+<div id="mainContent" class="container glass">
+    <h1 class="title" id="mainTitle">THRE3 QUIZ</h1>
     <div id="connectionStatus" class="status">네트워크 준비 완료</div>
 
     <div id="authScreen" class="box">
@@ -302,15 +247,9 @@
 
     <div id="gameScreen" class="hidden">
         <div id="scoreBoard">
-            <div class="player-info">
-                <div class="player-name" id="myNameDisplay">나</div>
-                <div class="player-score" id="myScore" style="color: var(--text-main);">0</div>
-            </div>
+            <div class="player-info"><div class="player-name" id="myNameDisplay">나</div><div class="player-score" id="myScore" style="color: var(--text-main);">0</div></div>
             <div id="turnDisplay" class="turn-badge"></div>
-            <div class="player-info">
-                <div class="player-name" id="oppNameDisplay">상대방</div>
-                <div class="player-score" id="opponentScore" style="color: #ff3b30;">0</div>
-            </div>
+            <div class="player-info"><div class="player-name" id="oppNameDisplay">상대방</div><div class="player-score" id="opponentScore" style="color: #ff3b30;">0</div></div>
         </div>
 
         <div id="askSection" class="box hidden">
@@ -337,54 +276,43 @@
             <h3 id="waitingText" style="line-height: 1.6; margin: 30px 0; color: var(--text-main);">상대방을 기다리는 중...</h3>
         </div>
         
-        <div id="endGameSection" class="box hidden">
-            <h2 id="finalResultText" style="margin-bottom: 10px; font-size: 26px;"></h2>
-            <p id="finalScoreText" style="font-weight: 800; font-size: 20px; margin-bottom: 25px;"></p>
-            <button id="rematchBtn" class="action-btn btn-green" onclick="requestRematch()">다시 한판 (REMATCH)</button>
+        <!-- === 시상식 화면 === -->
+        <div id="endGameSection" class="hidden">
+            <h1 id="finalResultTitle"></h1>
+            <div class="podium-container">
+                <!-- 2등 (은메달) -->
+                <div class="podium-item second-place" id="podiumSecond">
+                    <div class="podium-avatar" id="secondAvatar">🥈</div>
+                    <div class="podium-name" id="secondName">Name</div>
+                    <div class="podium-score" id="secondScore">0</div>
+                    <div class="podium-block rank-2">2</div>
+                </div>
+                <!-- 1등 (금메달) -->
+                <div class="podium-item first-place" id="podiumFirst">
+                    <div class="podium-avatar" id="firstAvatar">👑</div>
+                    <div class="podium-name" id="firstName">Name</div>
+                    <div class="podium-score" id="firstScore" style="color: #ff9f0a;">0</div>
+                    <div class="podium-block rank-1">1</div>
+                </div>
+            </div>
+            <button id="rematchBtn" class="action-btn btn-green" onclick="requestRematch()" style="margin-top: 40px; animation: springUp 1s ease 1s both;">다시 한판 (REMATCH)</button>
         </div>
     </div>
 </div>
 
 <script>
-    // === UI & 인트로 로직 ===
-    window.onload = () => {
-        setTimeout(() => {
-            const intro = document.getElementById('introScreen');
-            intro.style.opacity = '0';
-            setTimeout(() => {
-                intro.classList.add('hidden'); 
-                document.getElementById('mainContent').classList.remove('hidden'); 
-            }, 1500);
-        }, 2000); 
-    };
-
-    function openSettings() { document.getElementById('settingsModal').classList.add('show'); }
-    function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
-
-    function toggleTheme() {
-        const body = document.body;
-        const btn = document.getElementById('themeBtn');
-        if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme'); 
-            btn.innerHTML = '다크 모드로 켜기';
-            btn.style.background = 'var(--text-main)'; btn.style.color = 'var(--bg-color1)';
-        } else {
-            body.classList.add('dark-theme'); 
-            btn.innerHTML = '라이트 모드로 켜기';
-            btn.style.background = 'var(--text-main)'; btn.style.color = 'var(--bg-color1)';
-        }
+    // 기기 설정 기반으로 다크/라이트 모드 자동 설정
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-theme');
     }
 
     function showToast(message) {
         const toast = document.getElementById('customToast');
-        toast.innerText = message;
-        toast.classList.add('show');
+        toast.innerText = message; toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    // === 게임 코어 변수 ===
-    let peer, conn; 
-    let role = '';
+    let peer, conn, role = '';
     let myName = "", oppName = "";
     let isMyTurnToAsk = false; 
     let myAskCount = 0, oppAskCount = 0; 
@@ -393,7 +321,6 @@
     let gameTimerDuration = 10, timeLeft = 10, timerInterval;
     let myRematchReady = false, oppRematchReady = false;
 
-    // === 게임 흐름 로직 ===
     function setNickname() {
         const input = document.getElementById('nicknameInput').value.trim();
         if(!input) return showToast("닉네임을 입력해주세요.");
@@ -407,33 +334,24 @@
         gameTimerDuration = parseInt(document.getElementById('timerSetting').value);
         const randomCode = Math.floor(1000 + Math.random() * 9000).toString(); 
         peer = new Peer("thre3quiz-" + randomCode);
-
         peer.on('open', () => {
             role = 'host';
             document.getElementById('lobbyScreen').classList.add('hidden');
             document.getElementById('waitingScreen').classList.remove('hidden');
             document.getElementById('roomCodeDisplay').innerText = randomCode;
         });
-
-        peer.on('connection', (connection) => {
-            conn = connection;
-            isMyTurnToAsk = true; 
-            setupConnectionLogic();
-        });
+        peer.on('connection', (connection) => { conn = connection; isMyTurnToAsk = true; setupConnectionLogic(); });
     }
 
     function joinRoom() {
         const inputCode = document.getElementById('roomInput').value.trim();
         if(inputCode.length !== 4) return showToast("4자리 코드를 확인해주세요.");
-
         peer = new Peer();
         peer.on('open', () => {
             document.getElementById('connectionStatus').innerText = "연결 중...";
             conn = peer.connect("thre3quiz-" + inputCode);
             conn.on('open', () => {
-                role = 'guest';
-                isMyTurnToAsk = false; 
-                setupConnectionLogic();
+                role = 'guest'; isMyTurnToAsk = false; setupConnectionLogic();
                 conn.send({ type: 'handshake', nickname: myName });
             });
         });
@@ -442,105 +360,91 @@
     function setupConnectionLogic() {
         conn.on('data', (data) => {
             if(data.type === 'handshake') {
-                oppName = data.nickname;
-                document.getElementById('oppNameDisplay').innerText = oppName;
+                oppName = data.nickname; document.getElementById('oppNameDisplay').innerText = oppName;
                 conn.send({ type: 'handshake_reply', nickname: myName, timer: gameTimerDuration });
                 startGameUI();
             }
             else if(data.type === 'handshake_reply') {
-                oppName = data.nickname;
-                gameTimerDuration = data.timer;
-                document.getElementById('oppNameDisplay').innerText = oppName;
-                startGameUI();
+                oppName = data.nickname; gameTimerDuration = data.timer;
+                document.getElementById('oppNameDisplay').innerText = oppName; startGameUI();
             }
             else if(data.type === 'quiz') {
-                document.getElementById('currentQDisplay').innerText = "Q. " + data.question;
-                actualAnswer = data.answer;
-                updateUI();
-                showToast(`문제가 도착했습니다`);
-                startTimer(); 
+                document.getElementById('currentQDisplay').innerText = "Q. " + data.question; actualAnswer = data.answer;
+                updateUI(); startTimer(); 
             } 
             else if(data.type === 'turn_end') {
-                opponentScore = data.newTotalScore;
-                document.getElementById('opponentScore').innerText = opponentScore;
-                myAskCount++; 
+                opponentScore = data.newTotalScore; document.getElementById('opponentScore').innerText = opponentScore;
+                myAskCount++; isMyTurnToAsk = false; 
                 
-                if (data.isCorrect) showToast(`${oppName} 정답!`);
-                else showToast(`${oppName} 오답!`);
-
-                isMyTurnToAsk = false; 
-                setTimeout(updateUI, 1500);
+                // 상대방이 풀었을 때 전체화면 피드백
+                showGameFeedback(false, data.isCorrect, data.earnedScore, '');
             }
-            else if(data.type === 'emote') {
-                showFloatingEmote(data.emote, false);
-            }
+            else if(data.type === 'emote') showFloatingEmote(data.emote, false);
             else if(data.type === 'rematch') {
-                oppRematchReady = true;
-                showToast(`${oppName}님이 리매치를 원합니다`);
-                checkRematch();
+                oppRematchReady = true; showToast(`${oppName}님이 리매치를 원합니다!`); checkRematch();
             }
         });
     }
 
     function startGameUI() {
-        document.getElementById('lobbyScreen').classList.add('hidden');
-        document.getElementById('waitingScreen').classList.add('hidden');
-        document.getElementById('gameScreen').classList.remove('hidden');
-        document.getElementById('emoteBar').classList.remove('hidden'); 
-        document.getElementById('connectionStatus').innerText = "온라인 연결됨";
-        showToast("게임 시작!");
-        updateUI();
+        document.getElementById('lobbyScreen').classList.add('hidden'); document.getElementById('waitingScreen').classList.add('hidden');
+        document.getElementById('gameScreen').classList.remove('hidden'); document.getElementById('emoteBar').classList.remove('hidden'); 
+        document.getElementById('connectionStatus').innerText = "온라인 연결됨"; updateUI();
     }
 
     function sendEmote(emoji) {
         if (!conn || !conn.open) return;
-        conn.send({ type: 'emote', emote: emoji });
-        showFloatingEmote(emoji, true);
+        conn.send({ type: 'emote', emote: emoji }); showFloatingEmote(emoji, true);
     }
-
     function showFloatingEmote(emoji, isMine) {
-        const el = document.createElement('div');
-        el.innerText = emoji;
-        el.className = 'floating-emote';
-        const randomOffset = Math.floor(Math.random() * 60) - 30; 
-        if (isMine) el.style.right = `calc(20% + ${randomOffset}px)`;
-        else el.style.left = `calc(20% + ${randomOffset}px)`;
+        const el = document.createElement('div'); el.innerText = emoji; el.className = 'floating-emote';
+        const offset = Math.floor(Math.random() * 60) - 30; 
+        if (isMine) el.style.right = `calc(20% + ${offset}px)`; else el.style.left = `calc(20% + ${offset}px)`;
+        document.body.appendChild(el); setTimeout(() => el.remove(), 2500);
+    }
+
+    // === 강력한 피드백 애니메이션 함수 ===
+    function showGameFeedback(isMine, isCorrect, earnedScore, correctAnsText = '') {
+        const overlay = document.getElementById('feedbackOverlay');
+        const icon = document.getElementById('fbIcon');
+        const text = document.getElementById('fbText');
+        const scoreDisplay = document.getElementById('fbScore');
+
+        overlay.className = ''; // 초기화
         
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 2500);
-    }
-
-    function requestRematch() {
-        myRematchReady = true;
-        document.getElementById('rematchBtn').innerText = "대기 중...";
-        document.getElementById('rematchBtn').disabled = true;
-        conn.send({ type: 'rematch' });
-        checkRematch();
-    }
-
-    function checkRematch() {
-        if (myRematchReady && oppRematchReady) {
-            myAskCount = 0; oppAskCount = 0;
-            myScore = 0; opponentScore = 0;
-            actualAnswer = ''; answerToSet = '';
-            myRematchReady = false; oppRematchReady = false;
+        if (isCorrect) {
+            overlay.classList.add('correct');
+            icon.innerText = '⭕';
+            text.innerText = isMine ? '정답입니다! 🎉' : `${oppName} 정답! 💦`;
+            scoreDisplay.innerText = `+${earnedScore}점`;
+            scoreDisplay.style.color = '#30d158';
             
-            document.getElementById('myScore').innerText = '0';
-            document.getElementById('opponentScore').innerText = '0';
+            if (isMine) confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 }, zIndex: 10001 });
+        } else {
+            overlay.classList.add('incorrect');
+            icon.innerText = '❌';
+            text.innerText = isMine ? '오답입니다! 😭' : `${oppName} 오답! 😆`;
+            scoreDisplay.innerText = isMine ? `정답: ${correctAnsText}` : `나이스 방어!`;
+            scoreDisplay.style.color = '#ff453a';
             
-            isMyTurnToAsk = (role !== 'host'); 
-            role = (role === 'host') ? 'guest' : 'host'; 
-
-            showToast("2라운드 시작!");
-            document.getElementById('endGameSection').classList.add('hidden');
-            updateUI();
+            if (isMine) {
+                document.body.classList.add('shake');
+                setTimeout(() => document.body.classList.remove('shake'), 400);
+            }
         }
+        
+        setTimeout(() => overlay.classList.add('show'), 50); // 트랜지션 작동을 위해 딜레이
+        
+        // 2초 뒤에 오버레이 숨기고 UI 업데이트
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            setTimeout(() => updateUI(), 400);
+        }, 2200);
     }
 
     function selectSetAnswer(ans) {
         answerToSet = ans;
-        document.getElementById('selectO').classList.remove('selected-o');
-        document.getElementById('selectX').classList.remove('selected-x');
+        document.getElementById('selectO').classList.remove('selected-o'); document.getElementById('selectX').classList.remove('selected-x');
         if(ans === 'O') document.getElementById('selectO').classList.add('selected-o');
         if(ans === 'X') document.getElementById('selectX').classList.add('selected-x');
     }
@@ -548,63 +452,93 @@
     function sendQuiz() {
         const q = document.getElementById('qInput').value.trim();
         if (!q || !answerToSet) return showToast("문제와 정답을 선택하세요.");
-
         conn.send({ type: 'quiz', question: q, answer: answerToSet });
         document.getElementById('qInput').value = ''; answerToSet = '';
         document.getElementById('selectO').classList.remove('selected-o'); document.getElementById('selectX').classList.remove('selected-x');
         
-        document.getElementById('askSection').classList.add('hidden');
-        document.getElementById('waitingActionSection').classList.remove('hidden');
+        document.getElementById('askSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.remove('hidden');
         document.getElementById('waitingText').innerText = `${oppName}님이 풀고 있습니다...`;
     }
 
     function startTimer() {
-        timeLeft = gameTimerDuration;
-        const bar = document.getElementById('timerBar');
+        timeLeft = gameTimerDuration; const bar = document.getElementById('timerBar');
         bar.style.transition = 'none'; bar.style.width = '100%'; bar.style.background = 'var(--btn-green)';
-        
         setTimeout(() => { bar.style.transition = 'width 0.1s linear, background 0.3s'; }, 50);
 
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            timeLeft -= 0.1;
-            let pct = (timeLeft / gameTimerDuration) * 100;
-            bar.style.width = Math.max(0, pct) + '%';
-            document.getElementById('timerText').innerText = Math.ceil(timeLeft) + '초';
-
+            timeLeft -= 0.1; let pct = (timeLeft / gameTimerDuration) * 100;
+            bar.style.width = Math.max(0, pct) + '%'; document.getElementById('timerText').innerText = Math.ceil(timeLeft) + '초';
             if(pct < 30) bar.style.background = 'var(--btn-x)';
-
-            if(timeLeft <= 0) {
-                clearInterval(timerInterval);
-                submitAnswer('TIMEOUT'); 
-            }
+            if(timeLeft <= 0) { clearInterval(timerInterval); submitAnswer('TIMEOUT'); }
         }, 100);
     }
 
     function submitAnswer(myAnswer) {
         clearInterval(timerInterval); 
-        let isCorrect = false;
+        let isCorrect = false; let earnedScore = 0;
 
-        if (myAnswer === 'TIMEOUT') {
-            showToast("시간 초과!");
-        } else if (myAnswer === actualAnswer) {
-            let speedBonus = Math.floor(timeLeft * 10);
-            let earnedScore = 100 + speedBonus;
-            myScore += earnedScore;
-            
-            document.getElementById('myScore').innerText = myScore;
-            showToast(`정답! (+${earnedScore}점)`);
-            isCorrect = true;
-        } else {
-            showToast(`오답! 정답은 ${actualAnswer}`);
+        if (myAnswer === actualAnswer) {
+            earnedScore = 100 + Math.floor(timeLeft * 10);
+            myScore += earnedScore; document.getElementById('myScore').innerText = myScore; isCorrect = true;
         }
 
+        let tempActual = actualAnswer;
         oppAskCount++; 
-        conn.send({ type: 'turn_end', newTotalScore: myScore, isCorrect: isCorrect });
+        conn.send({ type: 'turn_end', newTotalScore: myScore, earnedScore: earnedScore, isCorrect: isCorrect });
         
-        isMyTurnToAsk = true; 
-        actualAnswer = '';
-        setTimeout(updateUI, 2000);
+        isMyTurnToAsk = true; actualAnswer = '';
+        
+        // 제출 시 전체화면 피드백 호출
+        showGameFeedback(true, isCorrect, earnedScore, tempActual);
+    }
+
+    // === 시상식 렌더링 함수 ===
+    function renderPodium() {
+        const title = document.getElementById('finalResultTitle');
+        const firstBlock = document.querySelector('#podiumFirst .podium-block');
+        const secondBlock = document.querySelector('#podiumSecond .podium-block');
+        
+        document.getElementById('scoreBoard').classList.add('hidden');
+        document.getElementById('emoteBar').classList.add('hidden');
+        document.getElementById('mainTitle').classList.add('hidden');
+        
+        if (myScore === opponentScore) {
+            title.innerHTML = "🤝 평화로운 무승부 🤝";
+            title.style.color = "var(--text-main)";
+            firstBlock.className = "podium-block rank-1"; secondBlock.className = "podium-block rank-1";
+            
+            document.getElementById('firstName').innerText = myName; document.getElementById('firstScore').innerText = myScore;
+            document.getElementById('firstAvatar').innerText = "👑";
+            document.getElementById('secondName').innerText = oppName; document.getElementById('secondScore').innerText = opponentScore;
+            document.getElementById('secondAvatar').innerText = "👑";
+
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+        } else {
+            let isWin = myScore > opponentScore;
+            title.innerHTML = isWin ? "🏆 완벽한 승리! 🏆" : "😭 아쉬운 패배 😭";
+            title.style.color = isWin ? "#30d158" : "#ff453a";
+            
+            firstBlock.className = "podium-block rank-1"; secondBlock.className = "podium-block rank-2";
+            
+            document.getElementById('firstName').innerText = isWin ? myName : oppName;
+            document.getElementById('firstScore').innerText = isWin ? myScore : opponentScore;
+            document.getElementById('firstAvatar').innerText = "👑";
+            
+            document.getElementById('secondName').innerText = isWin ? oppName : myName;
+            document.getElementById('secondScore').innerText = isWin ? opponentScore : myScore;
+            document.getElementById('secondAvatar').innerText = "🥈";
+
+            if (isWin) {
+                // 승리 시 3초간 지속되는 웅장한 폭죽
+                let end = Date.now() + 3000;
+                (function frame() {
+                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD700', '#FFA500', '#ffffff'] });
+                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FFD700', '#FFA500', '#ffffff'] });
+                    if (Date.now() < end) requestAnimationFrame(frame);
+                }());
+            }
+        }
     }
 
     function updateUI() {
@@ -617,34 +551,44 @@
             document.getElementById('rematchBtn').innerText = "다시 한판 (REMATCH)";
             document.getElementById('rematchBtn').disabled = false;
             
-            let resultText = myScore > opponentScore ? "나의 승리!" : (myScore === opponentScore ? "무승부" : "나의 패배");
-            let resultColor = myScore > opponentScore ? "var(--btn-green)" : (myScore === opponentScore ? "var(--text-sub)" : "var(--btn-x)");
-            
-            document.getElementById('finalResultText').innerHTML = `<span style="color:${resultColor};">${resultText}</span>`;
-            document.getElementById('finalScoreText').innerHTML = `${myName} <span style="color:var(--text-sub)">${myScore}</span> : <span style="color:var(--btn-x)">${opponentScore}</span> ${oppName}`;
-            document.getElementById('turnDisplay').innerText = "게임 종료";
+            renderPodium();
+            document.getElementById('connectionStatus').innerText = "게임 종료 🏁";
             return;
         }
 
         if (isMyTurnToAsk) {
-            document.getElementById('askSection').classList.remove('hidden');
-            document.getElementById('answerSection').classList.add('hidden');
-            document.getElementById('waitingActionSection').classList.add('hidden');
-            document.getElementById('endGameSection').classList.add('hidden');
-            document.getElementById('myAskCountDisplay').innerText = (myAskCount + 1);
-            document.getElementById('turnDisplay').innerText = "내 출제 턴";
+            document.getElementById('askSection').classList.remove('hidden'); document.getElementById('answerSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.add('hidden');
+            document.getElementById('myAskCountDisplay').innerText = (myAskCount + 1); document.getElementById('turnDisplay').innerText = "내 출제 턴";
         } else {
             document.getElementById('askSection').classList.add('hidden');
             if (actualAnswer) {
-                document.getElementById('answerSection').classList.remove('hidden');
-                document.getElementById('waitingActionSection').classList.add('hidden');
-                document.getElementById('turnDisplay').innerText = "문제 푸는 턴";
+                document.getElementById('answerSection').classList.remove('hidden'); document.getElementById('waitingActionSection').classList.add('hidden'); document.getElementById('turnDisplay').innerText = "문제 푸는 턴";
             } else {
-                document.getElementById('answerSection').classList.add('hidden');
-                document.getElementById('waitingActionSection').classList.remove('hidden');
-                document.getElementById('waitingText').innerText = `${oppName}님이 문제를 만들고 있습니다`;
-                document.getElementById('turnDisplay').innerText = "상대 출제 턴";
+                document.getElementById('answerSection').classList.add('hidden'); document.getElementById('waitingActionSection').classList.remove('hidden'); document.getElementById('waitingText').innerText = `${oppName}님이 문제를 고민 중...`; document.getElementById('turnDisplay').innerText = "상대 출제 턴";
             }
+        }
+    }
+
+    function requestRematch() {
+        myRematchReady = true; document.getElementById('rematchBtn').innerText = "수락 대기 중..."; document.getElementById('rematchBtn').disabled = true;
+        conn.send({ type: 'rematch' }); checkRematch();
+    }
+
+    function checkRematch() {
+        if (myRematchReady && oppRematchReady) {
+            myAskCount = 0; oppAskCount = 0; myScore = 0; opponentScore = 0; actualAnswer = ''; answerToSet = '';
+            myRematchReady = false; oppRematchReady = false;
+            
+            document.getElementById('myScore').innerText = '0'; document.getElementById('opponentScore').innerText = '0';
+            
+            isMyTurnToAsk = (role !== 'host'); role = (role === 'host') ? 'guest' : 'host'; 
+
+            document.getElementById('endGameSection').classList.add('hidden');
+            document.getElementById('scoreBoard').classList.remove('hidden');
+            document.getElementById('emoteBar').classList.remove('hidden');
+            document.getElementById('mainTitle').classList.remove('hidden');
+            showToast("🔥 2라운드 시작! 🔥");
+            updateUI();
         }
     }
 </script>
