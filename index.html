@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THRE3 QUIZ</title>
+    <title>THRE3 QUIZ - Premium Edition</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 고급스러운 폰트 추가 (Cinzel은 인트로용) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@800;900&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* === 테마 변수 및 애니메이션 배경 === */
+        /* === 테마 변수 === */
         :root {
             --bg-color1: #f5f7fa; --bg-color2: #c3cfe2; --bg-color3: #e0c3fc;
             --glass-bg: rgba(255, 255, 255, 0.25);
             --glass-border: rgba(255, 255, 255, 0.4);
             --glass-shadow: 0 15px 35px rgba(31, 38, 135, 0.15);
             --text-main: #2c3e50; --text-sub: #0984e3;
-            --input-bg: rgba(255, 255, 255, 0.5);
+            --input-bg: rgba(255, 255, 255, 0.6);
             --btn-bg: linear-gradient(45deg, #0984e3, #74b9ff);
             --btn-hover: linear-gradient(45deg, #74b9ff, #0984e3);
             --btn-green: linear-gradient(45deg, #00b894, #55efc4);
@@ -23,6 +24,7 @@
             --btn-o: linear-gradient(45deg, #0984e3, #00cec9);
             --btn-x: linear-gradient(45deg, #d63031, #ff7675);
             --neon-shadow: 0 0 15px rgba(9, 132, 227, 0.4);
+            --modal-bg: rgba(255, 255, 255, 0.85);
         }
 
         body.dark-theme {
@@ -39,156 +41,207 @@
             --btn-o: linear-gradient(45deg, #1e90ff, #00d2d3);
             --btn-x: linear-gradient(45deg, #ff4757, #ff6b81);
             --neon-shadow: 0 0 20px rgba(0, 210, 211, 0.5);
+            --modal-bg: rgba(15, 23, 36, 0.95);
         }
 
         body { 
             font-family: 'Noto Sans KR', sans-serif; 
-            /* 살아 움직이는 배경 애니메이션 */
             background: linear-gradient(-45deg, var(--bg-color1), var(--bg-color2), var(--bg-color3));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
             color: var(--text-main); display: flex; justify-content: center; align-items: center;
             min-height: 100vh; margin: 0; padding: 20px; transition: 0.5s ease; overflow-x: hidden;
         }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* === 멋진 인트로 화면 === */
+        /* === 럭셔리 인트로 화면 === */
         #introScreen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; display: flex; justify-content: center; align-items: center;
-            z-index: 9999; transition: opacity 1s ease-in-out;
+            background: #030303; display: flex; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1.5s ease-in-out;
         }
-        #introScreen h1 {
-            font-family: 'Montserrat', sans-serif; font-weight: 900;
-            color: white; font-size: 60px; letter-spacing: 20px;
-            text-transform: uppercase;
-            animation: glitch 1.5s infinite;
+        .luxury-text {
+            font-family: 'Cinzel', serif; font-size: 70px; letter-spacing: 30px;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; color: transparent;
+            opacity: 0; animation: cinematicFade 3.5s ease-in-out forwards;
+            margin-right: -30px; /* letter-spacing 오차 보정 */
         }
-        @keyframes glitch {
-            0% { text-shadow: 0 0 10px #fff, 0 0 20px #00d2d3; transform: scale(1); }
-            50% { text-shadow: 0 0 30px #fff, 0 0 40px #ff4757; transform: scale(1.05); }
-            100% { text-shadow: 0 0 10px #fff, 0 0 20px #00d2d3; transform: scale(1); }
+        @keyframes cinematicFade {
+            0% { opacity: 0; transform: scale(0.9); filter: blur(5px); }
+            40% { opacity: 1; transform: scale(1); filter: blur(0); }
+            80% { opacity: 1; transform: scale(1.02); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); }
         }
 
-        /* === 글래스모피즘 디자인 고도화 === */
+        /* === 글래스모피즘 & 레이아웃 === */
         .glass {
             background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
             border-radius: 20px; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .glass:hover { box-shadow: var(--neon-shadow); }
-
-        .container { padding: 40px 30px; width: 100%; max-width: 480px; position: relative; }
+        .container { padding: 40px 30px; width: 100%; max-width: 500px; position: relative; }
         
-        #themeToggle {
-            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1);
-            border: 1px solid var(--glass-border); color: var(--text-main); padding: 8px 15px;
-            border-radius: 30px; cursor: pointer; font-size: 13px; font-weight: bold;
-            transition: 0.3s; backdrop-filter: blur(5px);
+        /* 설정 버튼 (우측 상단 톱니바퀴) */
+        #settingsBtn {
+            position: absolute; top: 20px; right: 20px; background: transparent; border: none;
+            font-size: 24px; cursor: pointer; transition: 0.3s; opacity: 0.7; z-index: 10;
         }
-        #themeToggle:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+        #settingsBtn:hover { transform: rotate(90deg) scale(1.1); opacity: 1; }
 
         h1.title { font-family: 'Montserrat', sans-serif; font-size: 38px; letter-spacing: 4px; color: var(--text-sub); text-align: center; margin-top: 10px; margin-bottom: 5px;}
         h2, h3 { text-align: center; margin-top: 0; font-weight: 700; }
-        .status { text-align: center; font-size: 14px; color: var(--text-main); opacity: 0.7; margin-bottom: 25px; font-weight: bold; }
+        .status { text-align: center; font-size: 14px; opacity: 0.8; margin-bottom: 25px; font-weight: bold; }
 
         .box { padding: 30px 20px; margin-top: 20px; text-align: center; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        input { 
+        input, select { 
             width: 100%; padding: 15px; margin-top: 10px; box-sizing: border-box; 
             border-radius: 12px; background: var(--input-bg); border: 2px solid transparent;
             color: var(--text-main); font-size: 16px; outline: none; transition: 0.3s; font-weight: 700;
         }
-        input:focus { border-color: var(--text-sub); background: rgba(255,255,255,0.1); }
+        input:focus, select:focus { border-color: var(--text-sub); background: rgba(255,255,255,0.1); }
+        select option { background: var(--bg-color1); color: var(--text-main); }
 
-        button { 
+        button.action-btn { 
             width: 100%; padding: 15px; margin-top: 20px; border-radius: 12px; border: none;
             background: var(--btn-bg); color: white; font-size: 18px; cursor: pointer; 
-            font-weight: bold; transition: 0.3s; letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        button:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-        .btn-green { background: var(--btn-green); }
-        
-        /* O/X 버튼 전용 디자인 */
+        button.action-btn:hover { background: var(--btn-hover); transform: translateY(-3px); }
+        .btn-green { background: var(--btn-green) !important; }
+
+        /* O/X 버튼 */
         .ox-container { display: flex; gap: 15px; margin-top: 15px; }
         .ox-btn { 
             font-size: 30px; padding: 20px; flex: 1; background: var(--btn-ox-default); 
             border-radius: 15px; color: rgba(255,255,255,0.7); font-family: 'Montserrat', sans-serif;
+            border: none; cursor: pointer; transition: 0.3s;
         }
         .ox-btn.selected-o { background: var(--btn-o); color: white; box-shadow: 0 0 20px rgba(0, 210, 211, 0.6); transform: scale(1.05); }
         .ox-btn.selected-x { background: var(--btn-x); color: white; box-shadow: 0 0 20px rgba(255, 71, 87, 0.6); transform: scale(1.05); }
 
         .hidden { display: none !important; }
-        
-        #scoreBoard { 
-            display: flex; justify-content: space-around; align-items: center;
-            font-size: 18px; font-weight: bold; padding: 20px; margin-bottom: 20px; 
-        }
-        .turn-badge { background: var(--text-sub); color: #fff; padding: 6px 15px; border-radius: 20px; font-size: 13px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
 
-        /* === 커스텀 토스트 알림 (기본 alert 대체) === */
+        /* 점수판 */
+        #scoreBoard { display: flex; justify-content: space-around; align-items: center; padding: 15px; margin-bottom: 20px; }
+        .player-info { text-align: center; flex: 1; }
+        .player-name { font-size: 12px; opacity: 0.8; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; margin: 0 auto; }
+        .player-score { font-size: 26px; font-weight: bold; }
+        .turn-badge { background: var(--text-sub); color: #fff; padding: 6px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; box-shadow: 0 0 10px rgba(0,0,0,0.2); white-space: nowrap; }
+
+        /* 타이머 바 */
+        .timer-container { width: 100%; background: rgba(0,0,0,0.2); border-radius: 10px; height: 15px; margin: 15px 0; overflow: hidden; position: relative; }
+        #timerBar { height: 100%; background: linear-gradient(90deg, #00b894, #00cec9); width: 100%; transition: width 0.1s linear, background 0.3s; }
+        #timerText { position: absolute; top: -2px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+        /* 설정 모달 */
+        #settingsModal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center; z-index: 5000;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        #settingsModal.show { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: var(--modal-bg); border: 1px solid var(--glass-border);
+            padding: 30px; border-radius: 20px; width: 90%; max-width: 400px;
+            color: var(--text-main); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .modal-content h2 { color: var(--text-sub); margin-bottom: 20px; }
+        .rules-text { font-size: 14px; line-height: 1.6; background: rgba(0,0,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left; }
+
+        /* 토스트 알림 */
         #customToast {
             position: fixed; top: 30px; left: 50%; transform: translate(-50%, -20px);
             background: var(--text-sub); color: #fff; padding: 15px 30px; border-radius: 30px;
-            font-weight: bold; font-size: 16px; z-index: 10000; opacity: 0; pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-weight: bold; font-size: 16px; z-index: 10000; opacity: 0; transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         #customToast.show { opacity: 1; transform: translate(-50%, 0); }
-
     </style>
 </head>
 <body class="dark-theme">
 
+<!-- 럭셔리 인트로 -->
 <div id="introScreen">
-    <h1>THRE3RIC</h1>
+    <h1 class="luxury-text">THRE3RIC</h1>
 </div>
 
+<!-- 알림창 -->
 <div id="customToast">알림 메시지</div>
 
+<!-- 설정 모달창 -->
+<div id="settingsModal">
+    <div class="modal-content">
+        <h2>⚙️ 게임 설정 및 규칙</h2>
+        <div class="rules-text">
+            <b>[게임 진행 방식]</b><br>
+            1. 서로 번갈아 가며 총 3문제씩 출제합니다.<br>
+            2. 정답을 맞히면 <b>기본 100점</b>을 얻습니다.<br>
+            3. 남은 타이머 시간에 비례해 <b>추가 속도 점수</b>를 얻습니다. (빨리 맞출수록 유리!)<br>
+            4. 타이머가 종료되면 오답으로 처리됩니다.
+        </div>
+        <button class="action-btn" onclick="toggleTheme()" id="themeBtn" style="margin-top:0;">💡 라이트 모드로 변경</button>
+        <button class="action-btn btn-green" onclick="closeSettings()">닫기</button>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 -->
 <div id="mainContent" class="container glass hidden">
-    <button id="themeToggle" onclick="toggleTheme()">🌓 라이트 모드</button>
+    <button id="settingsBtn" onclick="openSettings()">⚙️</button>
     
     <h1 class="title">THRE3 QUIZ</h1>
-    <div id="connectionStatus" class="status">인터넷 연결 중...</div>
+    <div id="connectionStatus" class="status">서버 준비 완료</div>
 
+    <!-- 0. 닉네임 입력 화면 -->
+    <div id="authScreen" class="box glass">
+        <h3 style="color: var(--text-sub);">당신의 이름을 알려주세요</h3>
+        <input type="text" id="nicknameInput" placeholder="닉네임 (최대 8자)" maxlength="8" style="text-align: center;">
+        <button class="action-btn btn-green" onclick="setNickname()">게임 시작하기 🚀</button>
+    </div>
+
+    <!-- 1. 로비 화면 -->
     <div id="lobbyScreen" class="hidden">
         <div class="box glass">
             <h3 style="color: var(--text-sub);">방장으로 시작하기</h3>
-            <button onclick="createRoom()" class="btn-green">새로운 방 만들기 🚀</button>
+            <p style="font-size:13px; margin:5px 0;">게임 타이머 설정 (푸는 시간)</p>
+            <select id="timerSetting">
+                <option value="5">🔥 5초 (스피드 퀴즈)</option>
+                <option value="10" selected>⏱️ 10초 (기본 모드)</option>
+                <option value="15">☕ 15초 (여유 모드)</option>
+            </select>
+            <button class="action-btn btn-green" onclick="createRoom()">새로운 방 만들기</button>
         </div>
         <div class="box glass">
             <h3 style="color: var(--text-sub);">참가자로 접속하기</h3>
             <input type="text" id="roomInput" placeholder="4자리 방 번호 입력" style="text-align: center; letter-spacing: 5px;">
-            <button onclick="joinRoom()">방 접속하기 ⚡</button>
+            <button class="action-btn" onclick="joinRoom()">방 접속하기 ⚡</button>
         </div>
     </div>
 
+    <!-- 2. 대기 화면 -->
     <div id="waitingScreen" class="hidden box glass">
         <h3>방이 생성되었습니다!</h3>
-        <p style="font-size: 15px; opacity: 0.8; margin-top:10px;">상대방에게 아래 번호를 알려주세요.</p>
+        <p style="font-size: 15px; margin-top:10px;">상대방에게 아래 번호를 알려주세요.</p>
         <h1 id="roomCodeDisplay" style="color: var(--text-sub); font-size: 55px; letter-spacing: 15px; margin: 25px 0; font-family: 'Montserrat', sans-serif;">----</h1>
         <div class="status" style="margin:0;">상대방 접속 대기 중... ⏳</div>
     </div>
 
+    <!-- 3. 메인 게임 화면 -->
     <div id="gameScreen" class="hidden">
         <div id="scoreBoard" class="glass">
-            <div style="text-align: center;">내 점수<br><span id="myScore" style="color: #00d2d3; font-size: 24px;">0</span></div>
+            <div class="player-info">
+                <div class="player-name" id="myNameDisplay">나</div>
+                <div class="player-score" id="myScore" style="color: #00d2d3;">0</div>
+            </div>
             <div id="turnDisplay" class="turn-badge"></div>
-            <div style="text-align: center;">상대 점수<br><span id="opponentScore" style="color: #ff4757; font-size: 24px;">0</span></div>
+            <div class="player-info">
+                <div class="player-name" id="oppNameDisplay">상대방</div>
+                <div class="player-score" id="opponentScore" style="color: #ff4757;">0</div>
+            </div>
         </div>
 
+        <!-- 3-A. 내가 문제를 내는 턴 -->
         <div id="askSection" class="box glass hidden">
             <h3>📝 <span id="myAskCountDisplay" style="color: var(--text-sub);">1</span>번째 문제 출제</h3>
             <input type="text" id="qInput" placeholder="O/X 문제를 입력하세요">
@@ -197,18 +250,22 @@
                 <button class="ox-btn" id="selectO" onclick="selectSetAnswer('O')">O</button>
                 <button class="ox-btn" id="selectX" onclick="selectSetAnswer('X')">X</button>
             </div>
-            <button onclick="sendQuiz()" class="btn-green" style="margin-top: 25px;">문제 전송 📤</button>
+            <button class="action-btn btn-green" onclick="sendQuiz()">문제 전송 📤</button>
         </div>
 
+        <!-- 3-B. 내가 문제를 푸는 턴 -->
         <div id="answerSection" class="box glass hidden">
             <h3 style="color: var(--text-sub);">🤔 상대방의 문제</h3>
-            <h2 id="currentQDisplay" style="word-break: keep-all; margin: 30px 0; line-height: 1.4;"></h2>
+            <!-- 타이머 바 추가 -->
+            <div class="timer-container"><div id="timerBar"></div><span id="timerText">10초</span></div>
+            <h2 id="currentQDisplay" style="word-break: keep-all; margin: 20px 0; line-height: 1.4;"></h2>
             <div class="ox-container">
                 <button class="ox-btn" onclick="submitAnswer('O')">O</button>
                 <button class="ox-btn" onclick="submitAnswer('X')">X</button>
             </div>
         </div>
 
+        <!-- 3-C. 대기 중 -->
         <div id="waitingActionSection" class="box glass hidden">
             <h3 id="waitingText" style="line-height: 1.6;">상대방을 기다리는 중... ⏳</h3>
         </div>
@@ -216,111 +273,147 @@
 </div>
 
 <script>
-    // === 화려한 알림창 (Toast) 함수 ===
-    function showToast(message, bgColor = 'var(--text-sub)') {
-        const toast = document.getElementById('customToast');
-        toast.innerText = message;
-        toast.style.background = bgColor;
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); }, 2500);
-    }
-
-    // === 인트로 & 테마 ===
+    // === 인트로 & 모달 & 테마 로직 ===
     window.onload = () => {
         setTimeout(() => {
             const intro = document.getElementById('introScreen');
-            intro.style.opacity = '0'; 
             setTimeout(() => {
                 intro.classList.add('hidden'); 
                 document.getElementById('mainContent').classList.remove('hidden'); 
-                document.getElementById('connectionStatus').innerText = "온라인 상태 🟢";
-                document.getElementById('lobbyScreen').classList.remove('hidden');
-            }, 1000); 
-        }, 2000); 
+            }, 1500); // CSS 애니메이션이 끝난 후 제거
+        }, 3000); 
     };
+
+    function openSettings() { document.getElementById('settingsModal').classList.add('show'); }
+    function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
 
     function toggleTheme() {
         const body = document.body;
-        const btn = document.getElementById('themeToggle');
+        const btn = document.getElementById('themeBtn');
         if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme'); btn.innerText = '🌒 다크 모드';
+            body.classList.remove('dark-theme'); btn.innerHTML = '🌙 다크 모드로 변경';
         } else {
-            body.classList.add('dark-theme'); btn.innerText = '🌓 라이트 모드';
+            body.classList.add('dark-theme'); btn.innerHTML = '💡 라이트 모드로 변경';
         }
     }
 
-    // === 게임 로직 ===
+    function showToast(message, bgColor = 'var(--text-sub)') {
+        const toast = document.getElementById('customToast');
+        toast.innerText = message; toast.style.background = bgColor;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // === 게임 코어 변수 ===
     let peer, conn; 
-    let role = ''; 
+    let myName = "", oppName = "";
     let isMyTurnToAsk = false; 
     let myAskCount = 0, oppAskCount = 0; 
     let myScore = 0, opponentScore = 0;
     let answerToSet = '', actualAnswer = ''; 
+    
+    // 타이머 관련 변수
+    let gameTimerDuration = 10; 
+    let timeLeft = 10;
+    let timerInterval;
 
+    // 0. 닉네임 설정
+    function setNickname() {
+        const input = document.getElementById('nicknameInput').value.trim();
+        if(!input) return showToast("닉네임을 입력해주세요!", "#ff4757");
+        myName = input;
+        document.getElementById('myNameDisplay').innerText = myName;
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('lobbyScreen').classList.remove('hidden');
+    }
+
+    // 1. 방 만들기 (방장)
     function createRoom() {
+        gameTimerDuration = parseInt(document.getElementById('timerSetting').value);
         const randomCode = Math.floor(1000 + Math.random() * 9000).toString(); 
         peer = new Peer("thre3quiz-" + randomCode);
 
-        peer.on('open', (id) => {
-            role = 'host';
+        peer.on('open', () => {
             document.getElementById('lobbyScreen').classList.add('hidden');
             document.getElementById('waitingScreen').classList.remove('hidden');
             document.getElementById('roomCodeDisplay').innerText = randomCode;
-            document.getElementById('connectionStatus').innerText = "방장 (Host)";
         });
 
         peer.on('connection', (connection) => {
             conn = connection;
             isMyTurnToAsk = true; 
-            setupConnectionLogic();
+            setupConnectionLogic('host');
         });
     }
 
+    // 2. 방 접속하기 (참가자)
     function joinRoom() {
         const inputCode = document.getElementById('roomInput').value.trim();
         if(inputCode.length !== 4) return showToast("4자리 방 번호를 입력해주세요!", "#ff4757");
 
         peer = new Peer();
-        peer.on('open', (id) => {
+        peer.on('open', () => {
             document.getElementById('connectionStatus').innerText = "접속 중... 🔄";
             conn = peer.connect("thre3quiz-" + inputCode);
-            
             conn.on('open', () => {
-                role = 'guest';
                 isMyTurnToAsk = false; 
-                setupConnectionLogic();
+                setupConnectionLogic('guest');
+                // 접속하자마자 방장에게 내 닉네임을 보냄
+                conn.send({ type: 'handshake', nickname: myName });
             });
         });
     }
 
-    function setupConnectionLogic() {
-        document.getElementById('lobbyScreen').classList.add('hidden');
-        document.getElementById('waitingScreen').classList.add('hidden');
-        document.getElementById('gameScreen').classList.remove('hidden');
-        showToast("게임이 시작되었습니다! 🎉", "#00b894");
-        updateUI();
-
+    // 3. 통신 로직 세팅
+    function setupConnectionLogic(role) {
         conn.on('data', (data) => {
-            if(data.type === 'quiz') {
+            // [핸드쉐이크 1] 방장이 참가자 닉네임을 받고, 설정된 타이머와 자기 닉네임을 반환
+            if(data.type === 'handshake') {
+                oppName = data.nickname;
+                document.getElementById('oppNameDisplay').innerText = oppName;
+                conn.send({ type: 'handshake_reply', nickname: myName, timer: gameTimerDuration });
+                startGameUI();
+            }
+            // [핸드쉐이크 2] 참가자가 방장의 정보와 타이머 설정을 받음
+            else if(data.type === 'handshake_reply') {
+                oppName = data.nickname;
+                gameTimerDuration = data.timer;
+                document.getElementById('oppNameDisplay').innerText = oppName;
+                startGameUI();
+            }
+            // 퀴즈 도착
+            else if(data.type === 'quiz') {
                 document.getElementById('currentQDisplay').innerText = "Q. " + data.question;
                 actualAnswer = data.answer;
                 updateUI();
-                showToast("상대방이 문제를 냈습니다!", "#0984e3");
+                showToast(`${oppName}님이 문제를 냈습니다!`, "#0984e3");
+                startTimer(); // 상대방 문제를 받으면 내 타이머 시작
             } 
+            // 턴 종료 (상대가 문제 품)
             else if(data.type === 'turn_end') {
-                opponentScore = data.newScore;
+                opponentScore = data.newTotalScore;
                 document.getElementById('opponentScore').innerText = opponentScore;
                 myAskCount++; 
                 
-                if (data.isCorrect) showToast("앗! 상대방이 정답을 맞췄습니다. 💦", "#ff4757");
-                else showToast("상대방이 틀렸습니다! 나이스! 😆", "#00b894");
+                if (data.isCorrect) showToast(`앗! ${oppName}님이 정답을 맞췄습니다.`, "#ff4757");
+                else showToast(`${oppName}님이 틀렸습니다! 나이스! 😆`, "#00b894");
 
                 isMyTurnToAsk = false; 
-                setTimeout(updateUI, 1500); // 토스트 창 볼 시간 확보 후 화면 전환
+                setTimeout(updateUI, 1500);
             }
         });
     }
 
+    function startGameUI() {
+        document.getElementById('lobbyScreen').classList.add('hidden');
+        document.getElementById('waitingScreen').classList.add('hidden');
+        document.getElementById('gameScreen').classList.remove('hidden');
+        document.getElementById('connectionStatus').innerText = "온라인 상태 🟢";
+        showToast("게임이 시작되었습니다! 🎉", "#00b894");
+        updateUI();
+    }
+
+    // 4. 출제 로직
     function selectSetAnswer(ans) {
         answerToSet = ans;
         document.getElementById('selectO').classList.remove('selected-o');
@@ -335,35 +428,67 @@
 
         conn.send({ type: 'quiz', question: q, answer: answerToSet });
 
-        document.getElementById('qInput').value = '';
-        answerToSet = '';
-        document.getElementById('selectO').classList.remove('selected-o');
-        document.getElementById('selectX').classList.remove('selected-x');
+        document.getElementById('qInput').value = ''; answerToSet = '';
+        document.getElementById('selectO').classList.remove('selected-o'); document.getElementById('selectX').classList.remove('selected-x');
         
         document.getElementById('askSection').classList.add('hidden');
         document.getElementById('waitingActionSection').classList.remove('hidden');
-        document.getElementById('waitingText').innerText = "상대방이 고민 중입니다... 🤔";
+        document.getElementById('waitingText').innerText = `${oppName}님이 풀고 있습니다... 🤔`;
     }
 
+    // 5. 타이머 로직
+    function startTimer() {
+        timeLeft = gameTimerDuration;
+        const bar = document.getElementById('timerBar');
+        bar.style.transition = 'none'; bar.style.width = '100%'; bar.style.background = 'linear-gradient(90deg, #00b894, #00cec9)';
+        
+        setTimeout(() => { bar.style.transition = 'width 0.1s linear, background 0.3s'; }, 50);
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeLeft -= 0.1;
+            let pct = (timeLeft / gameTimerDuration) * 100;
+            bar.style.width = Math.max(0, pct) + '%';
+            document.getElementById('timerText').innerText = Math.ceil(timeLeft) + '초';
+
+            if(pct < 30) bar.style.background = 'linear-gradient(90deg, #ff7675, #d63031)'; // 30% 미만 빨간색
+
+            if(timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitAnswer('TIMEOUT'); // 시간 초과 시 강제 오답 처리
+            }
+        }, 100);
+    }
+
+    // 6. 정답 확인 및 점수 계산 로직
     function submitAnswer(myAnswer) {
+        clearInterval(timerInterval); // 버튼 누르면 타이머 정지
         let isCorrect = false;
-        if (myAnswer === actualAnswer) {
-            showToast("🎉 정답입니다! +1점", "#00b894");
-            myScore++;
+
+        if (myAnswer === 'TIMEOUT') {
+            showToast("⏰ 시간 초과! 오답 처리됩니다.", "#ff4757");
+        } else if (myAnswer === actualAnswer) {
+            // 맞췄을 때: 기본점수 100점 + (남은 시간 * 10점) 보너스
+            let speedBonus = Math.floor(timeLeft * 10);
+            let earnedScore = 100 + speedBonus;
+            myScore += earnedScore;
+            
             document.getElementById('myScore').innerText = myScore;
+            showToast(`🎉 정답! (+${earnedScore}점 / 스피드 보너스 포함)`, "#00b894");
             isCorrect = true;
         } else {
-            showToast("땡! 오답입니다. (정답: " + actualAnswer + ")", "#ff4757");
+            showToast(`땡! 오답입니다. (정답: ${actualAnswer})`, "#ff4757");
         }
 
         oppAskCount++; 
-        conn.send({ type: 'turn_end', newScore: myScore, isCorrect: isCorrect });
+        conn.send({ type: 'turn_end', newTotalScore: myScore, isCorrect: isCorrect });
         
         isMyTurnToAsk = true; 
         actualAnswer = '';
-        setTimeout(updateUI, 1500); // 결과 확인 후 화면 전환
+        setTimeout(updateUI, 2000);
     }
 
+    // 7. 화면 갱신 로직
     function updateUI() {
         if (myAskCount === 3 && oppAskCount === 3) {
             document.getElementById('askSection').classList.add('hidden');
@@ -375,7 +500,7 @@
             
             document.getElementById('waitingText').innerHTML = `
                 <span style="font-size:24px; color:${resultColor};">${resultText}</span><br><br>
-                최종 스코어<br>나 <b style="font-size:20px;">${myScore}</b> : <b style="font-size:20px;">${opponentScore}</b> 상대
+                최종 스코어<br><b style="font-size:18px;">${myName} ${myScore}</b> : <b style="font-size:18px;">${opponentScore} ${oppName}</b>
             `;
             document.getElementById('turnDisplay').innerText = "게임 종료 🏁";
             return;
@@ -396,7 +521,7 @@
             } else {
                 document.getElementById('answerSection').classList.add('hidden');
                 document.getElementById('waitingActionSection').classList.remove('hidden');
-                document.getElementById('waitingText').innerText = "상대방이 문제를 만들고 있어요... ✍️";
+                document.getElementById('waitingText').innerText = `${oppName}님이 문제를 만들고 있어요... ✍️`;
                 document.getElementById('turnDisplay').innerText = "상대 출제 턴 ⏳";
             }
         }
