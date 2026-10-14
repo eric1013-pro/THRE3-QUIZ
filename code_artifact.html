@@ -1,0 +1,3685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>★경축★ 유지성님 탄신일 선물 뽑기</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+    }
+
+    .screen-fade-in {
+      animation: screenAppear 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes screenAppear {
+      from { opacity: 0; transform: scale(0.97) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* =====================================================
+       1. 인트로 화면: Y2K 병맛 중국산 VIP 앱 컨셉
+       ===================================================== */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      background: repeating-conic-gradient(
+        from 0deg,
+        #ff0000 0deg 15deg,
+        #ffff00 15deg 30deg,
+        #00ff00 30deg 45deg,
+        #00ffff 45deg 60deg,
+        #0000ff 60deg 75deg,
+        #ff00ff 75deg 90deg
+      );
+      animation: bgSpin 10s linear infinite;
+      font-family: 'Gulim', '궁서', 'Comic Sans MS', sans-serif;
+      overflow: hidden;
+    }
+
+    @keyframes bgSpin {
+      0% { filter: hue-rotate(0deg) contrast(150%); }
+      50% { filter: hue-rotate(180deg) contrast(200%); }
+      100% { filter: hue-rotate(360deg) contrast(150%); }
+    }
+
+    .y2k-marquee {
+      width: 100%;
+      background: #000;
+      border: 4px ridge #ffd700;
+      color: #00ff00;
+      font-weight: 900;
+      font-size: 14px;
+      padding: 5px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      box-shadow: 0 0 15px #ff00ff;
+      flex-shrink: 0;
+    }
+
+    .y2k-marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 9s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .y2k-card {
+      background: linear-gradient(180deg, #ff0000 0%, #8b0000 50%, #2a0000 100%);
+      border: 6px outset #ffd700;
+      border-radius: 18px;
+      padding: 20px 14px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px #ffff00, inset 0 0 20px #ff00ff;
+      position: relative;
+    }
+
+    .y2k-badge {
+      display: inline-block;
+      background: #ffff00;
+      color: #ff0000;
+      font-weight: 900;
+      padding: 4px 12px;
+      border: 3px double #000;
+      font-size: 13px;
+      transform: rotate(-3deg);
+      margin-bottom: 8px;
+      animation: blink 0.4s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 1; transform: scale(1) rotate(-3deg); }
+      to { opacity: 0.75; transform: scale(1.06) rotate(3deg); }
+    }
+
+    .y2k-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 3px 3px 0 #ff00de, -3px -3px 0 #00ffff, 0 0 20px #ffff00;
+      margin: 6px 0;
+      word-break: keep-all;
+    }
+
+    .y2k-date {
+      display: inline-block;
+      background: linear-gradient(90deg, #00ff00, #ffff00, #00ffff);
+      color: #000;
+      font-size: 21px;
+      font-weight: 900;
+      padding: 6px 16px;
+      border: 4px solid #ff0000;
+      border-radius: 8px;
+      margin: 8px 0;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .y2k-sub {
+      color: #ffd700;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 6px;
+      text-shadow: 1px 1px 0 #000;
+      line-height: 1.4;
+    }
+
+    .y2k-fu-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 12px 0 4px;
+    }
+
+    .y2k-fu {
+      width: 48px;
+      height: 48px;
+      background: #ffd700;
+      border: 3px solid #fff;
+      color: #d60000;
+      font-size: 26px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px #ff0;
+      animation: spinFu 3s ease-in-out infinite;
+    }
+
+    .y2k-fu span {
+      transform: rotate(135deg);
+    }
+
+    @keyframes spinFu {
+      0%, 100% { transform: rotate(45deg) scale(1); }
+      50% { transform: rotate(225deg) scale(1.12); }
+    }
+
+    .y2k-enter-btn {
+      width: 100%;
+      max-width: 390px;
+      padding: 19px 14px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #000;
+      background: linear-gradient(180deg, #ffff00 0%, #ff8800 50%, #ff0055 100%);
+      border: 6px outset #00ffff;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 25px #00ff00, inset 0 0 10px #fff;
+      text-shadow: 1px 1px 0 #fff;
+      animation: pulseBtn 0.6s infinite alternate;
+      font-family: inherit;
+    }
+
+    @keyframes pulseBtn {
+      from { transform: scale(0.97); }
+      to { transform: scale(1.03); filter: brightness(1.14); }
+    }
+
+    .floating-sticker {
+      position: absolute;
+      font-size: 26px;
+      pointer-events: none;
+      animation: floatAround 4s linear infinite;
+    }
+
+    @keyframes floatAround {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    /* =====================================================
+       2. 3D 선물 라인업 쇼케이스 화면 (자동 프리젠테이션 + 수동 스와이프)
+       ===================================================== */
+    #showcase-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: radial-gradient(circle at 50% 40%, #ffffff 0%, #f1f5f9 55%, #e2e8f0 100%);
+      color: #1e293b;
+      padding: 12px 14px 14px;
+    }
+
+    .showcase-top-bar {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 2px solid #cbd5e1;
+      border-radius: 22px;
+      padding: 10px 14px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .showcase-top-sub {
+      font-size: 10px;
+      font-weight: 900;
+      color: #f43f5e;
+      letter-spacing: 1.4px;
+    }
+
+    .showcase-top-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+
+    /* 자동 프리젠테이션 내레이션 배지 */
+    .showcase-narrator-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #fff1f2, #ffe4e6);
+      border: 1px solid #fecdd3;
+      color: #be123c;
+      font-size: 11.5px;
+      font-weight: 800;
+      transition: all 0.25s ease;
+    }
+
+    .tour-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #f43f5e;
+      animation: livePulse 0.8s infinite alternate;
+    }
+
+    @keyframes livePulse {
+      from { opacity: 0.35; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.25); }
+    }
+
+    #showcase-canvas-wrap {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      min-height: 210px;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .showcase-card-panel {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 15;
+      background: rgba(255, 255, 255, 0.96);
+      border: 2px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 12px 14px 14px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+
+    .showcase-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .nav-arrow-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+      border: 2px solid #cbd5e1;
+      color: #0f172a;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #94a3b8;
+      flex-shrink: 0;
+      transition: transform 0.1s;
+    }
+
+    .nav-arrow-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #94a3b8;
+    }
+
+    .showcase-item-info {
+      flex: 1;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .showcase-item-counter {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #6366f1;
+      letter-spacing: 1px;
+    }
+
+    .showcase-item-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      margin: 2px 0 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: transform 0.25s ease;
+    }
+
+    .showcase-item-story {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 4px;
+      word-break: keep-all;
+    }
+
+    .showcase-item-meta {
+      display: inline-block;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .showcase-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .showcase-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      transition: all 0.25s;
+    }
+
+    .showcase-dot.active {
+      width: 22px;
+      border-radius: 99px;
+      background: #f43f5e;
+    }
+
+    .showcase-next-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 2px solid #fda4af;
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #9f1239, 0 8px 18px rgba(225, 29, 72, 0.28);
+      transition: transform 0.1s;
+    }
+
+    .showcase-next-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #9f1239;
+    }
+
+    .showcase-skip-btn {
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    /* =====================================================
+       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
+       ===================================================== */
+    #select-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 170;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 16px 24px;
+      background: radial-gradient(circle at 50% 25%, #ffffff 0%, #f1f5f9 55%, #e2e8f0 100%);
+      color: #0f172a;
+    }
+
+    .select-header-card {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      border: 3px solid #e2e8f0;
+      border-radius: 26px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    }
+
+    .select-options-wrap {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mode-select-card {
+      width: 100%;
+      padding: 18px 18px;
+      border-radius: 24px;
+      border: 3px solid #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      transition: transform 0.12s;
+    }
+
+    .mode-select-card:active {
+      transform: translateY(4px);
+    }
+
+    .mode-select-card.card-claw {
+      background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+      color: #fff;
+      box-shadow: 0 7px 0 #9d174d, 0 12px 25px rgba(244, 63, 94, 0.32);
+    }
+
+    .mode-select-card.card-slot {
+      background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+      color: #fff;
+      box-shadow: 0 7px 0 #312e81, 0 12px 25px rgba(99, 102, 241, 0.35);
+    }
+
+    .mode-select-card.card-refuse {
+      background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
+      color: #cbd5e1;
+      padding: 14px 18px;
+      box-shadow: 0 5px 0 #0f172a;
+    }
+
+    .mode-card-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mode-card-icon {
+      font-size: 36px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+    }
+
+    .mode-card-title {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .mode-card-desc {
+      font-size: 12px;
+      opacity: 0.92;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* =====================================================
+       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
+       ===================================================== */
+    #sg-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: #000000;
+      color: #ffffff;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #sg-screen.show {
+      display: flex;
+    }
+
+    .sg-text {
+      font-size: 110px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      animation: sgPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes sgPop {
+      from { transform: scale(0.1) rotate(-20deg); opacity: 0; }
+      to { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* =====================================================
+       5. 화면 중앙을 가리지 않는 상단 플로팅 확률 +10% 상승 토스트
+       ===================================================== */
+    #boost-banner-overlay {
+      position: fixed;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 400;
+      pointer-events: none;
+      display: none;
+      width: calc(100% - 28px);
+      max-width: 360px;
+      justify-content: center;
+    }
+
+    #boost-banner-overlay.show {
+      display: flex;
+    }
+
+    .boost-popup-card {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(49, 46, 129, 0.94) 100%);
+      backdrop-filter: blur(10px);
+      border: 2px solid #fde047;
+      border-radius: 999px;
+      padding: 9px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #ffffff;
+      box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.38),
+        0 0 20px rgba(250, 204, 21, 0.45);
+      animation: topToastSlide 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes topToastSlide {
+      0% { opacity: 0; transform: translateY(-22px) scale(0.9); }
+      18% { opacity: 1; transform: translateY(0) scale(1.03); }
+      30% { transform: translateY(0) scale(1); }
+      78% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-16px) scale(0.95); }
+    }
+
+    .boost-popup-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .boost-popup-tag {
+      background: linear-gradient(90deg, #f43f5e, #f59e0b);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .boost-popup-main {
+      font-size: 14px;
+      font-weight: 900;
+      color: #fde047;
+      white-space: nowrap;
+    }
+
+    .boost-popup-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .luck-buff-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(90deg, #f43f5e, #6366f1);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.35);
+      animation: buffPulse 1s infinite alternate;
+    }
+
+    @keyframes buffPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); filter: brightness(1.08); }
+    }
+
+    /* =====================================================
+       6. 인형뽑기 화면: 노란끼를 뺀 모던 부티크 화이트·로즈·실버 스튜디오
+       ===================================================== */
+    #game-screen {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at 50% 28%, #ffffff 0%, #f1f5f9 55%, #e2e8f0 100%);
+      color: #0f172a;
+      z-index: 10;
+    }
+
+    .arcade-header {
+      position: relative;
+      z-index: 20;
+      margin: 10px 12px 0;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border: 2.5px solid #cbd5e1;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 5px 0 #94a3b8, 0 10px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .brand-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      font-weight: 800;
+      color: #f43f5e;
+      letter-spacing: 0.6px;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .top-btn-group {
+      display: flex;
+      gap: 7px;
+    }
+
+    .circle-ui-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      border: 2px solid #cbd5e1;
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #94a3b8, 0 6px 12px rgba(0,0,0,0.08);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .circle-ui-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #94a3b8;
+    }
+
+    .hud-overlay-top {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      pointer-events: none;
+    }
+
+    #status-pill {
+      pointer-events: auto;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px solid #cbd5e1;
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .cam-preset-bar {
+      pointer-events: auto;
+      display: flex;
+      gap: 6px;
+    }
+
+    .cam-chip {
+      padding: 5px 11px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid #cbd5e1;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: all 0.15s;
+    }
+
+    .cam-chip:active, .cam-chip.active {
+      background: #f43f5e;
+      color: #fff;
+      border-color: #be123c;
+    }
+
+    #canvas-container {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      z-index: 5;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .rotate-hint {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.72);
+      color: #f8fafc;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 99px;
+      pointer-events: none;
+      z-index: 15;
+      white-space: nowrap;
+    }
+
+    .arcade-deck {
+      position: relative;
+      z-index: 25;
+      margin: 0 10px 10px;
+      padding: 14px 20px 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 65%, #e2e8f0 100%);
+      border: 3.5px solid #cbd5e1;
+      border-radius: 30px;
+      box-shadow:
+        0 8px 0 #94a3b8,
+        0 14px 30px rgba(15, 23, 42, 0.18),
+        inset 0 3px 2px rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      min-height: 148px;
+    }
+
+    .joystick-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .joystick-base {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 45%, #475569 0%, #1e293b 70%, #0f172a 100%);
+      border: 5px solid #cbd5e1;
+      box-shadow:
+        0 6px 0 #64748b,
+        0 10px 18px rgba(0,0,0,0.25),
+        inset 0 4px 10px rgba(0,0,0,0.7);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+
+    .joystick-washer {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .joystick-shaft {
+      width: 14px;
+      height: 40px;
+      background: linear-gradient(90deg, #94a3b8, #f8fafc, #475569);
+      border-radius: 7px;
+      position: absolute;
+      transform-origin: center bottom;
+      pointer-events: none;
+      bottom: 50%;
+    }
+
+    .joystick-ball {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #fda4af 0%, #f43f5e 38%, #be123c 80%, #881337 100%);
+      box-shadow:
+        0 8px 16px rgba(0,0,0,0.4),
+        inset -3px -5px 10px rgba(0,0,0,0.35),
+        inset 4px 4px 10px rgba(255,255,255,0.7);
+      position: absolute;
+      cursor: pointer;
+      touch-action: none;
+      transition: transform 0.05s linear;
+    }
+
+    .dpad-zone {
+      display: none;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(2, 44px);
+      gap: 6px;
+    }
+
+    .arcade-dir-btn {
+      background: linear-gradient(180deg, #6366f1 0%, #4338ca 100%);
+      border: 2px solid #fff;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #312e81, 0 6px 10px rgba(0,0,0,0.2);
+      touch-action: none;
+    }
+
+    .arcade-dir-btn:active, .arcade-dir-btn.active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #312e81;
+      filter: brightness(1.1);
+    }
+
+    .control-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #334155;
+      letter-spacing: 0.5px;
+    }
+
+    .push-button-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arcade-push-housing {
+      width: 114px;
+      height: 114px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
+      padding: 10px;
+      box-shadow:
+        0 7px 0 #090d16,
+        0 12px 20px rgba(0,0,0,0.28),
+        inset 0 2px 3px rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .arcade-push-plunger {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid #ffe4e6;
+      background: radial-gradient(circle at 35% 30%, #fda4af 0%, #f43f5e 48%, #e11d48 85%, #9f1239 100%);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow:
+        0 8px 0 #881337,
+        0 10px 20px rgba(244, 63, 94, 0.45),
+        inset 0 4px 8px rgba(255, 255, 255, 0.65);
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      transform: translateY(-4px);
+    }
+
+    .arcade-push-plunger span {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffe4e6;
+      margin-top: 2px;
+    }
+
+    .arcade-push-plunger:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow:
+        0 1px 0 #881337,
+        0 3px 8px rgba(244, 63, 94, 0.35),
+        inset 0 3px 6px rgba(255, 255, 255, 0.5);
+    }
+
+    .arcade-push-plunger:disabled {
+      filter: grayscale(0.55) brightness(0.85);
+      cursor: not-allowed;
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #666;
+    }
+
+    /* =====================================================
+       7. VIP 배팅 머신 (슬롯머신) 화면
+       ===================================================== */
+    #slot-screen {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: radial-gradient(circle at 50% 35%, #581c87 0%, #311042 48%, #13071e 100%);
+      color: #fef3c7;
+      z-index: 15;
+      padding: 10px 12px 16px;
+    }
+
+    .casino-header {
+      width: 100%;
+      max-width: 420px;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, #4c1d95 0%, #2e1065 100%);
+      border: 3px solid #fbbf24;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 0 #92400e, 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    .slot-status-pill {
+      padding: 7px 16px;
+      border-radius: 99px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 2px solid #fbbf24;
+      color: #fde68a;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.45);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .slot-machine-stage {
+      position: relative;
+      width: 100%;
+      max-width: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slot-cabinet {
+      width: 100%;
+      background: linear-gradient(180deg, #fde047 0%, #f59e0b 25%, #b45309 75%, #78350f 100%);
+      border: 4px solid #fffbeb;
+      border-radius: 32px;
+      padding: 14px 12px 18px;
+      box-shadow:
+        0 12px 0 #451a03,
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        inset 0 3px 6px rgba(255, 255, 255, 0.85);
+      position: relative;
+    }
+
+    .slot-marquee-box {
+      background: linear-gradient(180deg, #1e1b4b 0%, #090d16 100%);
+      border: 3px solid #fde047;
+      border-radius: 20px;
+      padding: 8px 10px;
+      text-align: center;
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 18px rgba(236, 72, 153, 0.55), 0 4px 10px rgba(0,0,0,0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slot-bulbs-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 6px;
+      margin-bottom: 4px;
+    }
+
+    .slot-bulb {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fde047;
+      box-shadow: 0 0 8px #fde047, 0 0 14px #f59e0b;
+      animation: bulbChase 0.6s infinite alternate;
+    }
+
+    .slot-bulb:nth-child(even) {
+      animation-delay: 0.3s;
+      background: #f43f5e;
+      box-shadow: 0 0 8px #f43f5e, 0 0 14px #e11d48;
+    }
+
+    @keyframes bulbChase {
+      from { opacity: 0.35; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1.15); }
+    }
+
+    .slot-marquee-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 0 10px #f43f5e, 0 0 20px #f59e0b;
+    }
+
+    .slot-marquee-sub {
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-top: 2px;
+    }
+
+    .slot-window-frame {
+      position: relative;
+      background: #090d16;
+      border: 5px solid #451a03;
+      border-radius: 22px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      box-shadow:
+        inset 0 8px 18px rgba(0,0,0,0.9),
+        0 2px 0 rgba(255,255,255,0.6);
+    }
+
+    .payline-bar {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 108px;
+      border-top: 3px solid rgba(250, 204, 21, 0.9);
+      border-bottom: 3px solid rgba(250, 204, 21, 0.9);
+      background: linear-gradient(90deg, rgba(250,204,21,0.12), rgba(255,255,255,0.04), rgba(250,204,21,0.12));
+      pointer-events: none;
+      z-index: 12;
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.45);
+    }
+
+    .payline-badge-left, .payline-badge-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #dc2626;
+      border: 2px solid #fef08a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 3px 6px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+    .payline-badge-left { left: -10px; }
+    .payline-badge-right { right: -10px; }
+
+    .reel-drum {
+      position: relative;
+      height: 232px;
+      background: #fffdf9;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
+    }
+
+    .reel-drum.tension-glow {
+      box-shadow: 0 0 22px #f43f5e, inset 0 0 18px #f59e0b;
+      border: 2px solid #fde047;
+    }
+
+    .reel-drum::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 12, 22, 0.72) 0%,
+        rgba(10, 12, 22, 0.18) 22%,
+        rgba(255, 255, 255, 0.15) 46%,
+        rgba(255, 255, 255, 0) 54%,
+        rgba(10, 12, 22, 0.18) 78%,
+        rgba(10, 12, 22, 0.72) 100%
+      );
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    .reel-strip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      will-change: transform;
+    }
+
+    .reel-strip.spinning-blur {
+      filter: blur(1.4px);
+    }
+
+    .slot-cell {
+      height: 104px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1.5px dashed #e2e8f0;
+      padding: 4px;
+      background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .slot-cell-emoji {
+      font-size: 44px;
+      line-height: 1;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
+    }
+
+    .slot-cell-name {
+      font-size: 12px;
+      font-weight: 900;
+      color: #1e293b;
+      margin-top: 4px;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .slot-cell-prob {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 99px;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .slot-info-bar {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .slot-lcd-box {
+      background: #140726;
+      border: 2px solid #fbbf24;
+      border-radius: 12px;
+      padding: 6px 4px;
+      text-align: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    .slot-lcd-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: #a78bfa;
+      letter-spacing: 0.5px;
+    }
+
+    .slot-lcd-val {
+      font-size: 14px;
+      font-weight: 900;
+      color: #fde047;
+      margin-top: 1px;
+    }
+
+    .slot-control-deck {
+      width: 100%;
+      max-width: 410px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slot-spin-btn {
+      flex: 1;
+      padding: 18px 16px;
+      border-radius: 24px;
+      border: 3px solid #fef08a;
+      background: linear-gradient(180deg, #ff4d6d 0%, #e11d48 50%, #9f1239 100%);
+      color: #fff;
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow:
+        0 8px 0 #4c0519,
+        0 12px 30px rgba(225, 29, 72, 0.55),
+        inset 0 3px 6px rgba(255, 255, 255, 0.5);
+      transition: transform 0.08s, box-shadow 0.08s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slot-spin-btn span {
+      font-size: 11px;
+      color: #fde047;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .slot-spin-btn:active:not(:disabled) {
+      transform: translateY(5px);
+      box-shadow: 0 3px 0 #4c0519, 0 6px 15px rgba(225, 29, 72, 0.4);
+    }
+
+    .slot-spin-btn:disabled {
+      filter: grayscale(0.5) brightness(0.8);
+      cursor: not-allowed;
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #333;
+    }
+
+    .slot-lever-box {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
+      border: 3px solid #fbbf24;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 7px 0 #090d16, 0 10px 20px rgba(0,0,0,0.5);
+      position: relative;
+      transition: transform 0.15s;
+    }
+
+    .slot-lever-ball {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b 60%, #b45309 100%);
+      border: 2px solid #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .slot-lever-box.pulled .slot-lever-ball {
+      transform: translateY(18px) scale(0.9);
+    }
+
+    .slot-lever-label {
+      font-size: 10px;
+      font-weight: 900;
+      color: #fde68a;
+      margin-top: 5px;
+    }
+
+    /* =====================================================
+       8. 모달 공통 (확률표 ? / 설정 ⚙️ / 보상 확정 O X / 캡처 티켓)
+       ===================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(15, 23, 42, 0.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .warm-modal {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      border: 3px solid #cbd5e1;
+      border-radius: 28px;
+      padding: 22px 18px;
+      color: #0f172a;
+      box-shadow: 0 10px 0 #94a3b8, 0 20px 50px rgba(0,0,0,0.35);
+      max-height: 88dvh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .prob-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .prob-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+    }
+
+    .prob-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prob-emoji {
+      font-size: 24px;
+    }
+
+    .prob-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .prob-desc {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .prob-badge {
+      font-size: 13px;
+      font-weight: 900;
+      padding: 5px 10px;
+      border-radius: 99px;
+      background: #f43f5e;
+      color: #fff;
+      text-align: right;
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 12px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+
+    .setting-label {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .mode-toggle-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mode-btn {
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      background: #f43f5e;
+      color: #fff;
+      border-color: #be123c;
+    }
+
+    .reward-preview-box {
+      text-align: center;
+      padding: 20px 12px;
+      margin: 10px 0 16px;
+      border-radius: 22px;
+      background: radial-gradient(circle, #ffffff 0%, #f1f5f9 100%);
+      border: 2.5px solid #cbd5e1;
+      box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+
+    .reward-big-emoji {
+      font-size: 70px;
+      display: inline-block;
+      animation: bounceItem 1.4s ease-in-out infinite;
+    }
+
+    @keyframes bounceItem {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.06); }
+    }
+
+    .reward-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+      margin-top: 8px;
+    }
+
+    .reward-tier {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #be123c;
+      font-weight: 800;
+      background: #ffe4e6;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+
+    .confirm-question {
+      text-align: center;
+      font-size: 19px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+
+    .ox-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .ox-btn {
+      padding: 16px;
+      border-radius: 22px;
+      font-size: 32px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border: 3px solid #fff;
+      transition: transform 0.1s;
+    }
+
+    .ox-btn span {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .ox-btn.btn-o {
+      background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+      color: #fff;
+      box-shadow: 0 6px 0 #065f46, 0 10px 20px rgba(5, 150, 105, 0.3);
+    }
+
+    .ox-btn.btn-x {
+      background: linear-gradient(180deg, #fb7185 0%, #e11d48 100%);
+      color: #fff;
+      box-shadow: 0 6px 0 #9f1239, 0 10px 20px rgba(225, 29, 72, 0.3);
+    }
+
+    .ox-btn:active {
+      transform: translateY(4px);
+    }
+
+    .capture-ticket {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 3px dashed #f43f5e;
+      border-radius: 24px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .capture-notice {
+      margin-top: 14px;
+      padding: 16px 12px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.5;
+      word-break: keep-all;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+    }
+
+    .capture-notice strong {
+      color: #fef08a;
+      font-size: 16px;
+    }
+
+    .ticket-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1.5px dashed #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       1. 인트로 화면 (Y2K 병맛 대륙풍 생일 축하 화면)
+       ===================================================== -->
+  <div id="intro-screen">
+    <div class="floating-sticker" style="top:10%; left:6%;">🐉</div>
+    <div class="floating-sticker" style="top:16%; right:6%; animation-delay:1s;">🎂</div>
+    <div class="floating-sticker" style="bottom:20%; left:8%; animation-delay:0.5s;">💰</div>
+    <div class="floating-sticker" style="bottom:22%; right:8%; animation-delay:1.5s;">🎆</div>
+
+    <div class="y2k-marquee">
+      <span>★경축★ 2026년 10월 14일 우주대스타 유지성님 탄신일 기념 VIP 전산망 무료 개방!! 100% 당첨 보장 선물 뽑기 가동중 ★축하합니다★</span>
+    </div>
+
+    <div class="y2k-card">
+      <div class="y2k-badge">👑 VIP 생일 특별판 v99.9 👑</div>
+      <div class="y2k-title">유지성님<br>생일 축하드립니다!</div>
+      <div class="y2k-date">2026년 10월 14일</div>
+      <div class="y2k-sub">
+        ★ 대륙의 기운을 담은 초호화 생일 선물 ★<br>
+        생일자 본인이 직접 선물을 뽑으십시오!!
+      </div>
+      <div class="y2k-fu-grid">
+        <div class="y2k-fu"><span>福</span></div>
+        <div class="y2k-fu"><span>祝</span></div>
+        <div class="y2k-fu"><span>壽</span></div>
+      </div>
+    </div>
+
+    <button class="y2k-enter-btn" id="enter-showcase-btn">
+      🎁 뽑을 수 있는 선물 확인하기 🎁
+    </button>
+
+    <div class="y2k-marquee" style="border-color:#00ffff;">
+      <span>※주의※ 심장이 약하신 분은 복싱 글러브 당첨 시 기절할 수 있습니다 ★ 한성우 협찬 공식 인증 앱 ★</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       2. 3D 선물 라인업 쇼케이스 화면 (자동 프리젠테이션 가이드 + 스와이프)
+       ===================================================== -->
+  <div id="showcase-screen">
+    <div class="showcase-top-bar">
+      <div class="showcase-top-sub">JISUNG'S BIRTHDAY PRIZE LINEUP</div>
+      <div class="showcase-top-title">✨ 유지성님이 뽑을 수 있는 상품 ✨</div>
+      <div class="showcase-narrator-pill" id="sc-narrator-pill">
+        <span class="tour-live-dot" id="sc-live-dot"></span>
+        <span id="sc-narrator-text">자동으로 선물을 하나씩 소개해 드립니다!</span>
+      </div>
+    </div>
+
+    <div id="showcase-canvas-wrap"></div>
+
+    <div class="showcase-card-panel">
+      <div class="showcase-nav-row">
+        <button class="nav-arrow-btn" id="sc-prev-btn">◀</button>
+        <div class="showcase-item-info">
+          <div class="showcase-item-counter" id="sc-item-counter">PRIZE 1 / 8</div>
+          <div class="showcase-item-title" id="sc-item-title">🥊 복싱 글러브</div>
+          <div class="showcase-item-story" id="sc-item-story">전설의 1등 대박 선물! 타격감 100% 헤비급 글러브</div>
+          <div class="showcase-item-meta" id="sc-item-meta">극악 난이도 · 현재 확률 1.5%</div>
+        </div>
+        <button class="nav-arrow-btn" id="sc-next-btn">▶</button>
+      </div>
+
+      <div class="showcase-dots" id="sc-dots"></div>
+
+      <button class="showcase-next-btn" id="go-select-screen-btn">
+        게임 선택하러 가기 ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
+       ===================================================== -->
+  <div id="select-screen">
+    <div class="select-header-card">
+      <div style="font-size:11px; font-weight:900; color:#f43f5e; letter-spacing:1px;">2026. 10. 14 HAPPY BIRTHDAY</div>
+      <div style="font-size:24px; font-weight:900; margin-top:4px;">어떤 기계로 뽑으시겠어요?</div>
+      <div style="font-size:13px; color:#475569; font-weight:700; margin-top:6px;">
+        안 뽑힐 때마다 <strong style="color:#e11d48;">확률 +10% 상승 버프</strong>가 발동됩니다!
+      </div>
+    </div>
+
+    <div class="select-options-wrap">
+      <button class="mode-select-card card-claw" id="choose-claw-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon">🕹️</span>
+          <div>
+            <div class="mode-card-title">3D 인형뽑기</div>
+            <div class="mode-card-desc">투명 유리천장 360° 시점 조절 & 아케이드 조이스틱</div>
+          </div>
+        </div>
+        <span style="font-size:22px; font-weight:900;">➔</span>
+      </button>
+
+      <button class="mode-select-card card-slot" id="choose-slot-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon">🎰</span>
+          <div>
+            <div class="mode-card-title">VIP 배팅 머신</div>
+            <div class="mode-card-desc">띠링띠링~ 3릴 잭팟 슬롯! 레버를 당겨 한방 승부!</div>
+          </div>
+        </div>
+        <span style="font-size:22px; font-weight:900;">➔</span>
+      </button>
+
+      <button class="mode-select-card card-refuse" id="choose-refuse-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon" style="font-size:26px;">🚫</span>
+          <div>
+            <div class="mode-card-title" style="font-size:17px;">생일 선물 안받음</div>
+            <div class="mode-card-desc">선물 없이 쿨하게 앱 종료하기</div>
+          </div>
+        </div>
+        <span style="font-size:18px; font-weight:900;">✕</span>
+      </button>
+    </div>
+
+    <button class="showcase-skip-btn" id="back-to-showcase-btn" style="padding:10px 18px; font-size:13px;">
+      🎁 3D 선물 라인업 다시 보기
+    </button>
+  </div>
+
+  <!-- =====================================================
+       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
+       ===================================================== -->
+  <div id="sg-screen">
+    <div class="sg-text">ㅅㄱ~</div>
+  </div>
+
+  <!-- =====================================================
+       5. 화면 중앙을 가리지 않는 상단 플로팅 확률 +10% 상승 토스트
+       ===================================================== -->
+  <div id="boost-banner-overlay">
+    <div class="boost-popup-card" id="boost-popup-card">
+      <div class="boost-popup-left">
+        <span class="boost-popup-tag">FEVER UP</span>
+        <span class="boost-popup-main">⚡ 확률 +10% 상승!</span>
+      </div>
+      <div class="boost-popup-sub" id="boost-popup-sub">누적 +10% 적용</div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       6. 인형뽑기 게임 화면 (화이트·로즈·크롬 부티크 3D 아케이드)
+       ===================================================== -->
+  <div id="game-screen">
+    <header class="arcade-header">
+      <div class="brand-box">
+        <span class="brand-sub">HAPPY BIRTHDAY JISUNG · 2026.10.14</span>
+        <div class="brand-title">
+          <span>🎪 지성 기프트 아케이드</span>
+          <span class="luck-buff-pill" id="claw-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
+        </div>
+      </div>
+      <div class="top-btn-group">
+        <button class="circle-ui-btn" id="claw-home-btn" title="게임 선택 화면으로">🏠</button>
+        <button class="circle-ui-btn" id="settings-btn" title="조작 설정">⚙️</button>
+        <button class="circle-ui-btn" id="prob-btn-claw" title="확률 및 상품 안내">?</button>
+      </div>
+    </header>
+
+    <div class="hud-overlay-top">
+      <div id="status-pill">조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!</div>
+      <div class="cam-preset-bar">
+        <button class="cam-chip active" data-view="front">정면 뷰</button>
+        <button class="cam-chip" data-view="side">측면 뷰</button>
+        <button class="cam-chip" data-view="top">위에서 조준(유리천장)</button>
+        <button class="cam-chip" data-view="iso">대각선 뷰</button>
+      </div>
+    </div>
+
+    <div id="canvas-container">
+      <div class="rotate-hint">👆 화면을 드래그하면 기계를 360° 돌려볼 수 있어요</div>
+    </div>
+
+    <div class="arcade-deck">
+      <div class="joystick-zone" id="joystick-ui">
+        <div class="joystick-base" id="joystick-pad">
+          <div class="joystick-washer"></div>
+          <div class="joystick-shaft" id="joystick-shaft"></div>
+          <div class="joystick-ball" id="joystick-ball"></div>
+        </div>
+        <span class="control-label">🕹️ 조이스틱 이동</span>
+      </div>
+
+      <div class="joystick-zone" id="dpad-ui" style="display:none;">
+        <div class="dpad-zone" style="display:grid;">
+          <div></div>
+          <button class="arcade-dir-btn" data-dir="up">▲</button>
+          <div></div>
+          <button class="arcade-dir-btn" data-dir="left">◀</button>
+          <button class="arcade-dir-btn" data-dir="down">▼</button>
+          <button class="arcade-dir-btn" data-dir="right">▶</button>
+        </div>
+        <span class="control-label">➕ 버튼 이동</span>
+      </div>
+
+      <div class="push-button-zone">
+        <div class="arcade-push-housing">
+          <button class="arcade-push-plunger" id="drop-btn">
+            PUSH!
+            <span>선물 뽑기</span>
+          </button>
+        </div>
+        <span class="control-label">🔴 뽑기 확정 버튼</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       7. VIP 배팅 머신 (슬롯머신) 화면
+       ===================================================== -->
+  <div id="slot-screen">
+    <header class="casino-header">
+      <div class="brand-box">
+        <span class="brand-sub" style="color:#fbbf24;">VIP VEGAS BETTING MACHINE · 2026.10.14</span>
+        <div class="brand-title" style="color:#fffbeb;">
+          <span>🎰 지성 로얄 배팅 머신</span>
+          <span class="luck-buff-pill" id="slot-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
+        </div>
+      </div>
+      <div class="top-btn-group">
+        <button class="circle-ui-btn" id="slot-home-btn" title="게임 선택 화면으로">🏠</button>
+        <button class="circle-ui-btn" id="prob-btn-slot" title="확률 및 상품 안내">?</button>
+      </div>
+    </header>
+
+    <div class="slot-status-pill" id="slot-status">
+      3개의 릴이 똑같이 맞춰지면 해당 상품 당첨! (빗나가면 확률 +10% 상승!)
+    </div>
+
+    <div class="slot-machine-stage">
+      <div class="slot-cabinet">
+        <div class="slot-marquee-box">
+          <div class="slot-bulbs-row">
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+          </div>
+          <div class="slot-marquee-title">777 BIRTHDAY JACKPOT 777</div>
+          <div class="slot-marquee-sub">★ 중앙 라인에 같은 선물 3개가 모이면 즉시 당첨 ★</div>
+        </div>
+
+        <div class="slot-window-frame">
+          <div class="payline-bar">
+            <span class="payline-badge-left">PAY ▶</span>
+            <span class="payline-badge-right">◀ WIN</span>
+          </div>
+
+          <div class="reel-drum" id="reel-drum-0">
+            <div class="reel-strip" id="reel-strip-0"></div>
+          </div>
+          <div class="reel-drum" id="reel-drum-1">
+            <div class="reel-strip" id="reel-strip-1"></div>
+          </div>
+          <div class="reel-drum" id="reel-drum-2">
+            <div class="reel-strip" id="reel-strip-2"></div>
+          </div>
+        </div>
+
+        <div class="slot-info-bar">
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">BET CREDIT</div>
+            <div class="slot-lcd-val">FREE ∞</div>
+          </div>
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">LUCK BUFF</div>
+            <div class="slot-lcd-val" id="slot-lcd-buff">+0%</div>
+          </div>
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">WIN RATE</div>
+            <div class="slot-lcd-val" id="slot-lcd-winrate">45%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot-control-deck">
+      <button class="slot-spin-btn" id="slot-spin-btn">
+        🎰 BET & SPIN!
+        <span>배팅 머신 돌리기 (띠링띠링~)</span>
+      </button>
+      <div class="slot-lever-box" id="slot-lever-btn" title="레버 당기기">
+        <div class="slot-lever-ball"></div>
+        <div class="slot-lever-label">PULL!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       8. [⚙️] 설정 모달
+       ===================================================== -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="warm-modal">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ 아케이드 기계 설정</div>
+        <button class="circle-ui-btn" id="close-settings-btn" style="width:34px; height:34px; font-size:14px;">✕</button>
+      </div>
+
+      <div class="setting-row">
+        <span class="setting-label">🎮 조작 방식 선택</span>
+        <div class="mode-toggle-group">
+          <button class="mode-btn active" id="mode-joystick-btn">🕹️ 조이스틱</button>
+          <button class="mode-btn" id="mode-dpad-btn">➕ 버튼(방향키)</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <span class="setting-label">🔊 효과음 사운드</span>
+        <button class="mode-btn active" id="toggle-sound-btn">켜짐 (ON)</button>
+      </div>
+
+      <div class="setting-row">
+        <span class="setting-label">🔄 상품 위치 다시 섞기</span>
+        <button class="mode-btn" id="shuffle-prizes-btn">재배치</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       9. [?] 상품별 확률 안내 모달 (실시간 상승 확률 반영)
+       ===================================================== -->
+  <div class="modal-overlay" id="prob-modal">
+    <div class="warm-modal">
+      <div class="modal-header">
+        <div class="modal-title">📊 상품 크기 & 실시간 확률표</div>
+        <button class="circle-ui-btn" id="close-prob-btn" style="width:34px; height:34px; font-size:14px;">✕</button>
+      </div>
+      <p style="font-size:12px; color:#475569; line-height:1.5; font-weight:600;" id="prob-modal-desc">
+        안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!
+      </p>
+      <div class="prob-list" id="prob-list-container"></div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       10. 보상 확정 (O / X) 모달
+       ===================================================== -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="warm-modal">
+      <div class="modal-header" style="justify-content:center; margin-bottom:2px;">
+        <div class="modal-title">🎉 선물 당첨 성공!!</div>
+      </div>
+
+      <div class="reward-preview-box">
+        <div class="reward-big-emoji" id="picked-emoji">🎁</div>
+        <div class="reward-title" id="picked-name">상품명</div>
+        <div class="reward-tier" id="picked-tier">난이도 정보</div>
+      </div>
+
+      <div class="confirm-question">보상을 확정하시겠습니까?</div>
+
+      <div class="ox-buttons">
+        <button class="ox-btn btn-o" id="btn-confirm-o">
+          O
+          <span>이 선물로 확정!</span>
+        </button>
+        <button class="ox-btn btn-x" id="btn-confirm-x">
+          X
+          <span>다시 하기 (확률 +10% UP!)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       11. 최종 캡처 인증 화면 모달 (O 선택 시)
+       ===================================================== -->
+  <div class="modal-overlay" id="final-modal">
+    <div class="warm-modal">
+      <div class="capture-ticket">
+        <div style="font-size:11px; letter-spacing:1.5px; color:#e11d48; font-weight:900;">
+          HAPPY BIRTHDAY JISUNG · 2026.10.14
+        </div>
+        <div style="font-size:20px; font-weight:900; margin-top:4px; color:#0f172a;">
+          🎂 생일 선물 당첨 교환권 🎂
+        </div>
+
+        <div class="reward-preview-box" style="margin:14px 0;">
+          <div class="reward-big-emoji" id="final-emoji">🎁</div>
+          <div class="reward-title" id="final-name">상품명</div>
+          <div class="reward-tier" id="final-prob">확률 정보</div>
+        </div>
+
+        <div class="capture-notice">
+          📸 <strong>이 화면을 캡쳐해서 한성우(님)에게 보내면 선물이 배송됩니다.</strong>
+        </div>
+
+        <div class="ticket-meta">
+          <span>당첨자: 유지성 님</span>
+          <span>생일: 2026년 10월 14일</span>
+        </div>
+      </div>
+
+      <button class="mode-btn" id="replay-anyway-btn" style="width:100%; margin-top:12px; padding:12px; font-size:13px;">
+        🔄 게임 선택 화면으로 돌아가기
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================
+       1. 사운드 효과음 신디사이저 ('띠링띠링~' & 쇼케이스 안내 사운드 포함)
+       ===================================================== */
+    class ArcadeSound {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+        this.chimeIdx = 0;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      tone(freq, type = 'sine', duration = 0.12, vol = 0.1) {
+        if (!this.enabled) return;
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+      }
+      // 쇼케이스 자동 넘김 시 은은하고 고급스러운 '디리링~' 벨 사운드
+      stepBell(stepIdx = 0) {
+        const scale = [587.33, 659.25, 739.99, 783.99, 880.0, 987.77, 1108.73, 1174.66];
+        const f1 = scale[stepIdx % scale.length];
+        const f2 = f1 * 1.25;
+        this.tone(f1, 'triangle', 0.18, 0.09);
+        setTimeout(() => this.tone(f2, 'sine', 0.24, 0.08), 75);
+      }
+      slotDdiring() {
+        const bells = [1046.5, 1318.5, 1567.98, 2093.0];
+        const f = bells[this.chimeIdx % bells.length];
+        this.chimeIdx++;
+        this.tone(f, 'triangle', 0.075, 0.085);
+      }
+      reelLock(reelIndex) {
+        const lockFreqs = [523.25, 659.25, 783.99];
+        this.tone(160, 'square', 0.06, 0.12);
+        setTimeout(() => {
+          this.tone(lockFreqs[reelIndex] || 784, 'triangle', 0.22, 0.16);
+        }, 35);
+      }
+      fanfare() {
+        [523, 659, 784, 1046, 784, 1046].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'triangle', 0.2, 0.12), i * 105);
+        });
+      }
+      boostUp() {
+        [523, 659, 784, 1046].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'sine', 0.14, 0.11), i * 55);
+        });
+      }
+      click() {
+        this.tone(620, 'sine', 0.06, 0.06);
+      }
+      drop() {
+        this.tone(520, 'triangle', 0.18, 0.12);
+        setTimeout(() => this.tone(360, 'triangle', 0.25, 0.12), 120);
+      }
+      slip() {
+        this.tone(280, 'sawtooth', 0.18, 0.1);
+        setTimeout(() => this.tone(175, 'sawtooth', 0.3, 0.1), 150);
+      }
+      win() {
+        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'triangle', 0.26, 0.15), i * 95);
+        });
+      }
+      bye() {
+        this.tone(300, 'sawtooth', 0.15, 0.12);
+        setTimeout(() => this.tone(140, 'sawtooth', 0.4, 0.15), 120);
+      }
+    }
+    const sfx = new ArcadeSound();
+
+    /* =====================================================
+       2. 8종 상품 데이터 및 실시간 확률 +10% 상승(버프) 시스템
+       ===================================================== */
+    const PRIZE_LIST = [
+      {
+        id: 'glove',
+        name: '복싱 글러브',
+        shortLabel: '복싱 글러브',
+        emoji: '🥊',
+        radius: 0.52,
+        baseGrabChance: 0.03,
+        baseWeight: 1.5,
+        isRare: true,
+        badgeColor: '#dc2626',
+        tierDesc: '극악 난이도 · 특대형 헤비급',
+        storyDesc: '전설의 1등 대박 선물! 타격감 100% 프로 복싱 글러브'
+      },
+      {
+        id: 'food_voucher',
+        name: '10000원 미만 음식 선택권',
+        shortLabel: '1만원 식권',
+        emoji: '🎫',
+        radius: 0.46,
+        baseGrabChance: 0.07,
+        baseWeight: 4.5,
+        isRare: true,
+        badgeColor: '#f59e0b',
+        tierDesc: '최상 난이도 · 대형 황금 티켓',
+        storyDesc: '먹고 싶은 메뉴 자유 선택! 1만원 미만 황금 식사권'
+      },
+      {
+        id: 'vitamin',
+        name: '영양제',
+        shortLabel: '영양제',
+        emoji: '💊',
+        radius: 0.41,
+        baseGrabChance: 0.13,
+        baseWeight: 8.0,
+        isRare: true,
+        badgeColor: '#10b981',
+        tierDesc: '상급 난이도 · 묵직한 영양제 통',
+        storyDesc: '지성님의 지치지 않는 체력을 위한 고농축 활력 비타민'
+      },
+      {
+        id: 'bigmac',
+        name: '빅맥',
+        shortLabel: '빅맥',
+        emoji: '🍔',
+        radius: 0.38,
+        baseGrabChance: 0.20,
+        baseWeight: 12.0,
+        isRare: true,
+        badgeColor: '#ea580c',
+        tierDesc: '중상 난이도 · 더블 패티 버거',
+        storyDesc: '참깨빵 위에 순쇠고기 패티 두 장! 든든한 빅맥'
+      },
+      {
+        id: 'harmonica',
+        name: '하모니카',
+        shortLabel: '하모니카',
+        emoji: '🎶',
+        radius: 0.33,
+        baseGrabChance: 0.36,
+        baseWeight: 18.0,
+        isRare: false,
+        badgeColor: '#6366f1',
+        tierDesc: '보통 난이도 · 클래식 하모니카',
+        storyDesc: '감성 충만 로맨틱 악기! 맑은 음색의 클래식 하모니카'
+      },
+      {
+        id: 'choco',
+        name: '초코에몽',
+        shortLabel: '초코에몽',
+        emoji: '🧃',
+        radius: 0.32,
+        baseGrabChance: 0.39,
+        baseWeight: 18.5,
+        isRare: false,
+        badgeColor: '#78350f',
+        tierDesc: '보통 난이도 · 진한 초코 드링크',
+        storyDesc: '당 충전 200%! 꾸덕하고 진한 국민 초코 드링크'
+      },
+      {
+        id: 'banana',
+        name: '바나나우유',
+        shortLabel: '바나나우유',
+        emoji: '🍌',
+        radius: 0.32,
+        baseGrabChance: 0.39,
+        baseWeight: 18.5,
+        isRare: false,
+        badgeColor: '#ca8a04',
+        tierDesc: '보통 난이도 · 달콤 단지우유',
+        storyDesc: '통통한 단지에 담긴 부드럽고 달콤한 바나나우유'
+      },
+      {
+        id: 'mychew',
+        name: '마이쭈',
+        shortLabel: '마이쭈',
+        emoji: '🍬',
+        radius: 0.30,
+        baseGrabChance: 0.44,
+        baseWeight: 19.0,
+        isRare: false,
+        badgeColor: '#ec4899',
+        tierDesc: '쉬움 난이도 · 쫄깃 딸기 마이쭈',
+        storyDesc: '한 번 뜯으면 멈출 수 없는 상큼 쫄깃 딸기 마이쭈'
+      }
+    ];
+
+    let luckBoostStack = 0;
+
+    function getEffectiveGrabChance(item) {
+      return Math.min(0.95, item.baseGrabChance + luckBoostStack * 0.10);
+    }
+
+    function getEffectiveWeight(item) {
+      if (luckBoostStack === 0) return item.baseWeight;
+      if (item.isRare) {
+        return item.baseWeight * (1 + luckBoostStack * 0.38);
+      } else {
+        return Math.max(4, item.baseWeight * Math.pow(0.91, luckBoostStack));
+      }
+    }
+
+    function getEffectiveProbPercent(item) {
+      const totalW = PRIZE_LIST.reduce((acc, p) => acc + getEffectiveWeight(p), 0);
+      return ((getEffectiveWeight(item) / totalW) * 100).toFixed(1) + '%';
+    }
+
+    function getSlotHitChance() {
+      return Math.min(0.98, 0.45 + luckBoostStack * 0.15);
+    }
+
+    function updateSlotDashboard() {
+      const boostPct = luckBoostStack * 10;
+      document.getElementById('slot-lcd-buff').textContent = `+${boostPct}%`;
+      document.getElementById('slot-lcd-winrate').textContent = `${Math.round(getSlotHitChance() * 100)}%`;
+    }
+
+    function renderProbListModal() {
+      const probContainer = document.getElementById('prob-list-container');
+      probContainer.innerHTML = '';
+      const boostPct = luckBoostStack * 10;
+
+      document.getElementById('prob-modal-desc').innerHTML =
+        boostPct > 0
+          ? `🔥 <strong>현재 행운 버프 +${boostPct}% 적용 중!</strong><br>집게 그립력, 배팅 머신 당첨률(${Math.round(getSlotHitChance() * 100)}%), 상위 희귀 선물 출현율이 모두 크게 상승했습니다!`
+          : `안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!`;
+
+      PRIZE_LIST.forEach((p) => {
+        const curProb = getEffectiveProbPercent(p);
+        const grabPct = Math.round(getEffectiveGrabChance(p) * 100);
+        const row = document.createElement('div');
+        row.className = 'prob-item';
+        row.innerHTML = `
+          <div class="prob-left">
+            <div class="prob-emoji">${p.emoji}</div>
+            <div>
+              <div class="prob-name">${p.name}</div>
+              <div class="prob-desc">${p.tierDesc} · 인형뽑기 그립 ${grabPct}%</div>
+            </div>
+          </div>
+          <div class="prob-badge">${curProb}</div>
+        `;
+        probContainer.appendChild(row);
+      });
+    }
+    renderProbListModal();
+
+    // 화면 중앙을 가리지 않고 상단에서 깔끔하게 떴다 사라지는 확률 +10% 상승 토스트
+    let boostTimer = null;
+    function triggerProbabilityBoost(reasonText = '') {
+      luckBoostStack++;
+      const totalBoost = luckBoostStack * 10;
+      sfx.boostUp();
+
+      const clawBadge = document.getElementById('claw-buff-badge');
+      const slotBadge = document.getElementById('slot-buff-badge');
+      clawBadge.style.display = 'inline-flex';
+      slotBadge.style.display = 'inline-flex';
+      clawBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
+      slotBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
+
+      const overlay = document.getElementById('boost-banner-overlay');
+      const card = document.getElementById('boost-popup-card');
+      const sub = document.getElementById('boost-popup-sub');
+
+      sub.textContent = reasonText ? `${reasonText} (누적 +${totalBoost}%)` : `누적 확률 +${totalBoost}% UP!`;
+
+      overlay.classList.remove('show');
+      void card.offsetWidth;
+      overlay.classList.add('show');
+
+      if (boostTimer) clearTimeout(boostTimer);
+      boostTimer = setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 1150);
+
+      updateSlotDashboard();
+      renderProbListModal();
+    }
+
+    /* =====================================================
+       3. 공통 3D 입체 상품 모델 생성기 (쇼케이스 & 인형뽑기 겸용)
+       ===================================================== */
+    function makeLabelCanvas(title, sub, bgHex, textHex = '#ffffff') {
+      const cvs = document.createElement('canvas');
+      cvs.width = 256;
+      cvs.height = 128;
+      const ctx = cvs.getContext('2d');
+      ctx.fillStyle = bgHex;
+      ctx.fillRect(0, 0, 256, 128);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(6, 6, 244, 116);
+      ctx.fillStyle = textHex;
+      ctx.font = 'bold 34px Pretendard, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(title, 128, 52);
+      ctx.font = 'bold 20px Pretendard, sans-serif';
+      ctx.fillText(sub, 128, 92);
+      return new THREE.CanvasTexture(cvs);
+    }
+
+    function createCustom3DPrize(item, includeShell = true) {
+      const root = new THREE.Group();
+
+      if (includeShell) {
+        const shell = new THREE.Mesh(
+          new THREE.SphereGeometry(item.radius, 24, 20),
+          new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.22,
+            roughness: 0.08
+          })
+        );
+        root.add(shell);
+      }
+
+      const model = new THREE.Group();
+
+      if (item.id === 'glove') {
+        const redMat = new THREE.MeshStandardMaterial({ color: 0xe11d48, roughness: 0.32, metalness: 0.08 });
+        const cuffMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 });
+        const goldLabelTex = makeLabelCanvas('CHAMP', 'PRO GLOVE', '#f59e0b', '#ffffff');
+        const goldMat = new THREE.MeshStandardMaterial({ map: goldLabelTex, metalness: 0.3, roughness: 0.25 });
+
+        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 20), redMat);
+        fist.scale.set(1.0, 1.12, 0.86);
+        fist.position.y = 0.08;
+        model.add(fist);
+
+        const thumb = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 14), redMat);
+        thumb.scale.set(0.85, 1.22, 0.85);
+        thumb.position.set(0.22, 0.05, 0.09);
+        thumb.rotation.z = -0.38;
+        model.add(thumb);
+
+        const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.20, 20), cuffMat);
+        cuff.position.y = -0.19;
+        model.add(cuff);
+
+        const strap = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.09, 20), goldMat);
+        strap.position.y = -0.17;
+        model.add(strap);
+
+      } else if (item.id === 'food_voucher') {
+        const tex = makeLabelCanvas('₩10,000', '음식 선택권 VIP', '#f59e0b', '#fffbeb');
+        const cardMat = new THREE.MeshStandardMaterial({ color: 0xfde047, metalness: 0.45, roughness: 0.25 });
+        const faceMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.2 });
+
+        const ticket = new THREE.Mesh(
+          new THREE.BoxGeometry(0.60, 0.36, 0.11),
+          [cardMat, cardMat, cardMat, cardMat, faceMat, faceMat]
+        );
+        ticket.rotation.x = -0.22;
+        model.add(ticket);
+
+      } else if (item.id === 'vitamin') {
+        const tex = makeLabelCanvas('VITA+', '고농축 영양제', '#10b981', '#ffffff');
+        const body = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.20, 0.20, 0.42, 22),
+          new THREE.MeshStandardMaterial({ map: tex, roughness: 0.25 })
+        );
+        model.add(body);
+
+        const cap = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.17, 0.17, 0.11, 20),
+          new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 })
+        );
+        cap.position.y = 0.25;
+        model.add(cap);
+
+      } else if (item.id === 'bigmac') {
+        const bunMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.55 });
+        const pattyMat = new THREE.MeshStandardMaterial({ color: 0x5c2c16, roughness: 0.8 });
+        const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.3 });
+        const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x65a30d, roughness: 0.5 });
+
+        const bBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.22, 0.08, 20), bunMat);
+        bBun.position.y = -0.17;
+        model.add(bBun);
+
+        const patty1 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
+        patty1.position.y = -0.10;
+        model.add(patty1);
+
+        const cheese = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.02, 0.40), cheeseMat);
+        cheese.position.y = -0.06;
+        cheese.rotation.y = 0.4;
+        model.add(cheese);
+
+        const midBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.06, 20), bunMat);
+        midBun.position.y = -0.01;
+        model.add(midBun);
+
+        const lettuce = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.04, 14), lettuceMat);
+        lettuce.position.y = 0.04;
+        model.add(lettuce);
+
+        const patty2 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
+        patty2.position.y = 0.09;
+        model.add(patty2);
+
+        const topBun = new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), bunMat);
+        topBun.position.y = 0.12;
+        model.add(topBun);
+
+      } else if (item.id === 'harmonica') {
+        const chrome = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.8, roughness: 0.2 });
+        const wood = new THREE.MeshStandardMaterial({ color: 0x9a3412, roughness: 0.5 });
+
+        const core = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.1, 0.18), wood);
+        model.add(core);
+
+        const topPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
+        topPlate.position.y = 0.07;
+        model.add(topPlate);
+
+        const botPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
+        botPlate.position.y = -0.07;
+        model.add(botPlate);
+
+      } else if (item.id === 'choco') {
+        const tex = makeLabelCanvas('초코에몽', 'CHOCO DRINK', '#5c2c16', '#7dd3fc');
+        const sideMat = new THREE.MeshStandardMaterial({ color: 0x5c2c16, roughness: 0.4 });
+        const frontMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.3 });
+
+        const pack = new THREE.Mesh(
+          new THREE.BoxGeometry(0.26, 0.40, 0.18),
+          [sideMat, sideMat, sideMat, sideMat, frontMat, frontMat]
+        );
+        model.add(pack);
+
+        const straw = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.015, 0.015, 0.16, 8),
+          new THREE.MeshStandardMaterial({ color: 0x38bdf8 })
+        );
+        straw.position.set(0.06, 0.24, 0);
+        straw.rotation.z = -0.25;
+        model.add(straw);
+
+      } else if (item.id === 'banana') {
+        const yellowMat = new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.25 });
+        const greenMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.3 });
+
+        const lowerJar = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.16, 0.21, 20), yellowMat);
+        lowerJar.position.y = -0.09;
+        model.add(lowerJar);
+
+        const upperJar = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.21, 0.17, 20), yellowMat);
+        upperJar.position.y = 0.09;
+        model.add(upperJar);
+
+        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.05, 20), greenMat);
+        cap.position.y = 0.20;
+        model.add(cap);
+
+      } else if (item.id === 'mychew') {
+        const tex = makeLabelCanvas('마이쭈', 'STRAWBERRY', '#ec4899', '#ffffff');
+        const pinkMat = new THREE.MeshStandardMaterial({ color: 0xf472b6 });
+        const faceMat = new THREE.MeshStandardMaterial({ map: tex });
+
+        const stick = new THREE.Mesh(
+          new THREE.BoxGeometry(0.42, 0.18, 0.16),
+          [pinkMat, pinkMat, faceMat, faceMat, faceMat, faceMat]
+        );
+        stick.rotation.z = 0.25;
+        model.add(stick);
+      }
+
+      root.add(model);
+      return root;
+    }
+
+    /* =====================================================
+       4. 3D 선물 쇼케이스 캐러셀 구현 (자동 프리젠테이션 가이드 투어)
+       ===================================================== */
+    const scWrap = document.getElementById('showcase-canvas-wrap');
+    const scScene = new THREE.Scene();
+
+    const scCamera = new THREE.PerspectiveCamera(36, 1, 0.1, 50);
+    scCamera.position.set(0, 0.72, 5.05);
+    scCamera.lookAt(0, -0.04, 0);
+
+    const scRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    scRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    scRenderer.outputEncoding = THREE.sRGBEncoding;
+    scWrap.appendChild(scRenderer.domElement);
+
+    // 깨끗한 스튜디오 화이트 조명
+    scScene.add(new THREE.HemisphereLight(0xffffff, 0xe2e8f0, 0.95));
+    const scDirLight = new THREE.DirectionalLight(0xffffff, 0.88);
+    scDirLight.position.set(4, 7, 5);
+    scScene.add(scDirLight);
+
+    const carouselGroup = new THREE.Group();
+    carouselGroup.position.y = 0.04;
+    scScene.add(carouselGroup);
+
+    const CAROUSEL_RADIUS = 1.95;
+    const scItemNodes = [];
+    let scCurrentIndex = 0;
+    let scTargetAngle = 0;
+    let scCurrentAngle = 0;
+    let scAutoTourInterval = null;
+    let isAutoTourActive = false;
+
+    const scDotsEl = document.getElementById('sc-dots');
+    PRIZE_LIST.forEach((item, idx) => {
+      const angle = (idx / PRIZE_LIST.length) * Math.PI * 2;
+      const holder = new THREE.Group();
+      holder.position.set(Math.sin(angle) * CAROUSEL_RADIUS, 0, Math.cos(angle) * CAROUSEL_RADIUS);
+
+      // 모던 화이트 & 로즈실버 전시 받침대
+      const ped = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.42, 0.48, 0.08, 28),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.15, roughness: 0.25 })
+      );
+      ped.position.y = -0.38;
+      holder.add(ped);
+
+      const pedRim = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.45, 0.45, 0.03, 28),
+        new THREE.MeshStandardMaterial({ color: 0xf43f5e, metalness: 0.35, roughness: 0.25 })
+      );
+      pedRim.position.y = -0.33;
+      holder.add(pedRim);
+
+      const prize3D = createCustom3DPrize(item, false);
+      holder.add(prize3D);
+
+      carouselGroup.add(holder);
+      scItemNodes.push({ holder, prize3D, item, baseAngle: angle });
+
+      const dot = document.createElement('div');
+      dot.className = 'showcase-dot' + (idx === 0 ? ' active' : '');
+      scDotsEl.appendChild(dot);
+    });
+
+    function updateShowcaseUI(index, fromAutoTour = false) {
+      const item = PRIZE_LIST[index];
+      document.getElementById('sc-item-counter').textContent = `PRIZE ${index + 1} / ${PRIZE_LIST.length}`;
+
+      const titleEl = document.getElementById('sc-item-title');
+      titleEl.textContent = `${item.emoji} ${item.name}`;
+      titleEl.style.transform = 'scale(1.06)';
+      setTimeout(() => { titleEl.style.transform = 'scale(1)'; }, 180);
+
+      document.getElementById('sc-item-story').textContent = item.storyDesc;
+      document.getElementById('sc-item-meta').textContent =
+        `${item.tierDesc} · 현재 확률 ${getEffectiveProbPercent(item)}`;
+
+      const narratorText = document.getElementById('sc-narrator-text');
+      const liveDot = document.getElementById('sc-live-dot');
+
+      if (fromAutoTour) {
+        liveDot.style.display = 'inline-block';
+        if (index === 0) {
+          narratorText.textContent = `유지성님이 뽑을 수 있는 첫 번째 선물은 [${item.name}]!`;
+        } else if (index < PRIZE_LIST.length - 1) {
+          narratorText.textContent = `다음 선물은 [${item.name}] 입니다! (${index + 1}/${PRIZE_LIST.length})`;
+        } else {
+          narratorText.textContent = `마지막 선물은 [${item.name}]! 이제 자유롭게 둘러보세요!`;
+        }
+      }
+
+      Array.from(scDotsEl.children).forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+      });
+    }
+
+    function stopShowcaseAutoTour(manualMsg = '👆 좌우로 넘기면서 3D 선물을 자유롭게 확인해보세요') {
+      if (scAutoTourInterval) {
+        clearInterval(scAutoTourInterval);
+        scAutoTourInterval = null;
+      }
+      isAutoTourActive = false;
+      document.getElementById('sc-live-dot').style.display = 'none';
+      document.getElementById('sc-narrator-text').textContent = manualMsg;
+    }
+
+    function moveShowcaseTo(newIndex, fromAutoTour = false) {
+      if (!fromAutoTour && isAutoTourActive) {
+        stopShowcaseAutoTour();
+      }
+      const count = PRIZE_LIST.length;
+      scCurrentIndex = (newIndex + count) % count;
+      const stepAngle = (Math.PI * 2) / count;
+      const desiredAngle = -scCurrentIndex * stepAngle;
+
+      let diff = (desiredAngle - scTargetAngle) % (Math.PI * 2);
+      if (diff > Math.PI) diff -= Math.PI * 2;
+      if (diff < -Math.PI) diff += Math.PI * 2;
+      scTargetAngle += diff;
+
+      if (fromAutoTour) {
+        sfx.stepBell(scCurrentIndex);
+      } else {
+        sfx.click();
+      }
+      updateShowcaseUI(scCurrentIndex, fromAutoTour);
+    }
+
+    // 쇼케이스 입장 시 자동으로 1번 상품부터 8번 상품까지 디리링~ 설명하며 천천히 넘겨주는 프리젠테이션 시작
+    function startShowcaseAutoTour() {
+      stopShowcaseAutoTour();
+      isAutoTourActive = true;
+      scCurrentIndex = 0;
+      scTargetAngle = 0;
+      scCurrentAngle = -0.35; // 살짝 우아하게 미끄러져 들어오는 각도
+      sfx.stepBell(0);
+      updateShowcaseUI(0, true);
+
+      let stepCount = 0;
+      scAutoTourInterval = setInterval(() => {
+        stepCount++;
+        if (stepCount < PRIZE_LIST.length) {
+          moveShowcaseTo(stepCount, true);
+        } else {
+          // 8종 소개 완료 후 1등 상품(복싱 글러브)으로 우아하게 복귀 후 멈춤
+          moveShowcaseTo(0, true);
+          stopShowcaseAutoTour('✨ 8가지 선물 소개 완료! 좌우로 넘기거나 게임을 선택하세요');
+        }
+      }, 1350);
+    }
+
+    document.getElementById('sc-prev-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex - 1, false));
+    document.getElementById('sc-next-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex + 1, false));
+
+    let scSwipeStartX = null;
+    scWrap.addEventListener('pointerdown', (e) => {
+      scSwipeStartX = e.clientX;
+      if (isAutoTourActive) stopShowcaseAutoTour();
+    });
+    scWrap.addEventListener('pointerup', (e) => {
+      if (scSwipeStartX === null) return;
+      const dx = e.clientX - scSwipeStartX;
+      if (dx < -30) moveShowcaseTo(scCurrentIndex + 1, false);
+      else if (dx > 30) moveShowcaseTo(scCurrentIndex - 1, false);
+      scSwipeStartX = null;
+    });
+
+    function resizeShowcase() {
+      const w = scWrap.clientWidth || window.innerWidth;
+      const h = scWrap.clientHeight || window.innerHeight * 0.52;
+      scCamera.aspect = w / h;
+      scCamera.position.z = w / h < 0.85 ? 5.25 : 4.75;
+      scCamera.updateProjectionMatrix();
+      scRenderer.setSize(w, h);
+    }
+
+    /* =====================================================
+       5. 화면 흐름 제어 (인트로 ➔ 3D 쇼케이스 ➔ 3버튼 선택 ➔ 게임)
+       ===================================================== */
+    let activeGameMode = 'CLAW';
+    const introScreen = document.getElementById('intro-screen');
+    const showcaseScreen = document.getElementById('showcase-screen');
+    const selectScreen = document.getElementById('select-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const slotScreen = document.getElementById('slot-screen');
+    const sgScreen = document.getElementById('sg-screen');
+
+    function openShowcaseScreen() {
+      introScreen.style.display = 'none';
+      selectScreen.style.display = 'none';
+      showcaseScreen.style.display = 'flex';
+      showcaseScreen.classList.add('screen-fade-in');
+      resizeShowcase();
+      startShowcaseAutoTour();
+    }
+
+    function openSelectScreen() {
+      stopShowcaseAutoTour();
+      sfx.click();
+      showcaseScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      selectScreen.style.display = 'flex';
+      selectScreen.classList.add('screen-fade-in');
+    }
+
+    document.getElementById('enter-showcase-btn').addEventListener('click', openShowcaseScreen);
+    document.getElementById('go-select-screen-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('back-to-showcase-btn').addEventListener('click', openShowcaseScreen);
+
+    document.getElementById('choose-claw-btn').addEventListener('click', () => {
+      sfx.fanfare();
+      activeGameMode = 'CLAW';
+      selectScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      gameScreen.style.display = 'flex';
+      gameScreen.classList.add('screen-fade-in');
+      handleResize();
+    });
+
+    document.getElementById('choose-slot-btn').addEventListener('click', () => {
+      sfx.fanfare();
+      activeGameMode = 'SLOT';
+      selectScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'flex';
+      slotScreen.classList.add('screen-fade-in');
+      updateSlotDashboard();
+    });
+
+    document.getElementById('choose-refuse-btn').addEventListener('click', () => {
+      sfx.bye();
+      selectScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      sgScreen.classList.add('show');
+    });
+
+    document.getElementById('claw-home-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('slot-home-btn').addEventListener('click', openSelectScreen);
+
+    /* =====================================================
+       6. VIP 배팅 머신 (3릴 슬롯머신) 엔진 & 띠링띠링 사운드
+       ===================================================== */
+    const CELL_HEIGHT = 104;
+    const DRUM_CENTER_OFFSET = 64;
+    const REPEAT_SETS = 9;
+
+    const reelStrips = [
+      document.getElementById('reel-strip-0'),
+      document.getElementById('reel-strip-1'),
+      document.getElementById('reel-strip-2')
+    ];
+    const reelDrums = [
+      document.getElementById('reel-drum-0'),
+      document.getElementById('reel-drum-1'),
+      document.getElementById('reel-drum-2')
+    ];
+    const slotSpinBtn = document.getElementById('slot-spin-btn');
+    const slotLeverBtn = document.getElementById('slot-lever-btn');
+    const slotStatusEl = document.getElementById('slot-status');
+
+    let isSlotSpinning = false;
+    let currentReelIndices = [0, 1, 2];
+
+    function buildSlotReels() {
+      reelStrips.forEach((strip, rIdx) => {
+        strip.innerHTML = '';
+        for (let s = 0; s < REPEAT_SETS; s++) {
+          PRIZE_LIST.forEach((item) => {
+            const cell = document.createElement('div');
+            cell.className = 'slot-cell';
+            cell.innerHTML = `
+              <div class="slot-cell-emoji">${item.emoji}</div>
+              <div class="slot-cell-name">${item.shortLabel}</div>
+              <div class="slot-cell-prob" style="background:${item.badgeColor};">${getEffectiveProbPercent(item)}</div>
+            `;
+            strip.appendChild(cell);
+          });
+        }
+        const initCellIndex = 8 + currentReelIndices[rIdx];
+        const initY = DRUM_CENTER_OFFSET - initCellIndex * CELL_HEIGHT;
+        strip.style.transform = `translate3d(0, ${initY}px, 0)`;
+      });
+    }
+    buildSlotReels();
+
+    function pickWeightedPrize() {
+      const totalW = PRIZE_LIST.reduce((acc, item) => acc + getEffectiveWeight(item), 0);
+      let r = Math.random() * totalW;
+      for (let i = 0; i < PRIZE_LIST.length; i++) {
+        const w = getEffectiveWeight(PRIZE_LIST[i]);
+        if (r < w) return i;
+        r -= w;
+      }
+      return PRIZE_LIST.length - 1;
+    }
+
+    function slotEaseOutBack(t) {
+      const c1 = 1.45;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function startSlotSpin() {
+      if (isSlotSpinning) return;
+      isSlotSpinning = true;
+      slotSpinBtn.disabled = true;
+
+      slotLeverBtn.classList.add('pulled');
+      setTimeout(() => slotLeverBtn.classList.remove('pulled'), 380);
+
+      buildSlotReels();
+
+      const isWin = Math.random() < getSlotHitChance();
+      const mainPrizeIdx = pickWeightedPrize();
+      let targetIndices = [0, 0, 0];
+      let isNearMiss = false;
+
+      if (isWin) {
+        targetIndices = [mainPrizeIdx, mainPrizeIdx, mainPrizeIdx];
+      } else {
+        if (Math.random() < 0.8) {
+          isNearMiss = true;
+          const offIdx = (mainPrizeIdx + (Math.random() < 0.5 ? 1 : PRIZE_LIST.length - 1)) % PRIZE_LIST.length;
+          targetIndices = [mainPrizeIdx, mainPrizeIdx, offIdx];
+        } else {
+          const idx1 = pickWeightedPrize();
+          const idx2 = (idx1 + 2) % PRIZE_LIST.length;
+          const idx3 = (idx1 + 5) % PRIZE_LIST.length;
+          targetIndices = [idx1, idx2, idx3];
+        }
+      }
+
+      slotStatusEl.textContent = '🎵 띠링띠링~ 배팅 머신이 회전합니다!!';
+      sfx.drop();
+
+      const reelConfigs = [0, 1, 2].map((rIdx) => {
+        const startCell = 8 + currentReelIndices[rIdx];
+        const targetSet = 5 + rIdx;
+        const endCell = targetSet * 8 + targetIndices[rIdx];
+        const startY = DRUM_CENTER_OFFSET - startCell * CELL_HEIGHT;
+        const endY = DRUM_CENTER_OFFSET - endCell * CELL_HEIGHT;
+        const duration = rIdx === 0 ? 1850 : rIdx === 1 ? 2750 : (isWin || isNearMiss ? 4100 : 3450);
+
+        reelStrips[rIdx].classList.add('spinning-blur');
+        return {
+          rIdx,
+          startY,
+          endY,
+          duration,
+          locked: false,
+          lastSoundCell: startCell
+        };
+      });
+
+      const startTime = performance.now();
+
+      function animateReels(now) {
+        const elapsed = now - startTime;
+        let allLocked = true;
+
+        reelConfigs.forEach((cfg) => {
+          if (cfg.locked) return;
+          allLocked = false;
+
+          const t = Math.min(1, elapsed / cfg.duration);
+
+          if (cfg.rIdx === 2 && elapsed > 2780 && (isWin || isNearMiss)) {
+            reelDrums[2].classList.add('tension-glow');
+            const teaseName = PRIZE_LIST[targetIndices[0]].name;
+            slotStatusEl.textContent = `🔥 [${teaseName}] 2개 일치!! 마지막 3번째 릴 과연?!`;
+          }
+
+          let curY;
+          if (t < 0.08) {
+            const pullT = t / 0.08;
+            curY = cfg.startY + Math.sin(pullT * Math.PI) * 22;
+          } else {
+            const spinT = (t - 0.08) / 0.92;
+            const eased = slotEaseOutBack(spinT);
+            curY = cfg.startY + (cfg.endY - cfg.startY) * eased;
+          }
+
+          reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${curY}px, 0)`;
+
+          const currentCellFloat = (DRUM_CENTER_OFFSET - curY) / CELL_HEIGHT;
+          const currentCellInt = Math.floor(currentCellFloat);
+          if (currentCellInt !== cfg.lastSoundCell) {
+            cfg.lastSoundCell = currentCellInt;
+            const firstActiveReel = reelConfigs.find((rc) => !rc.locked);
+            if (firstActiveReel && firstActiveReel.rIdx === cfg.rIdx) {
+              sfx.slotDdiring();
+            }
+          }
+
+          if (t >= 1) {
+            cfg.locked = true;
+            reelStrips[cfg.rIdx].classList.remove('spinning-blur');
+            reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${cfg.endY}px, 0)`;
+            sfx.reelLock(cfg.rIdx);
+          }
+        });
+
+        if (!allLocked) {
+          requestAnimationFrame(animateReels);
+        } else {
+          reelDrums[2].classList.remove('tension-glow');
+          currentReelIndices = [...targetIndices];
+          isSlotSpinning = false;
+          slotSpinBtn.disabled = false;
+
+          if (isWin) {
+            const wonItem = PRIZE_LIST[mainPrizeIdx];
+            slotStatusEl.textContent = `🎉 777 JACKPOT!! [${wonItem.name}] 3개 일치 당첨!!`;
+            setTimeout(() => {
+              openConfirmModalByItem(wonItem);
+            }, 480);
+          } else {
+            const missReason = isNearMiss
+              ? `[${PRIZE_LIST[mainPrizeIdx].shortLabel}] 한 칸 차이!`
+              : '배팅 꽝 보너스!';
+            triggerProbabilityBoost(missReason);
+            slotStatusEl.textContent = `😱 아깝게 빗나갔습니다! 뽑기 확률이 +10% 상승했습니다!`;
+          }
+        }
+      }
+
+      requestAnimationFrame(animateReels);
+    }
+
+    slotSpinBtn.addEventListener('click', startSlotSpin);
+    slotLeverBtn.addEventListener('click', startSlotSpin);
+
+    /* =====================================================
+       7. Three.js 3D 인형뽑기 (노란끼를 없앤 화이트·로즈·크롬 부티크 머신)
+       ===================================================== */
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    container.appendChild(renderer.domElement);
+
+    function handleResize() {
+      const w = container.clientWidth || window.innerWidth;
+      const h = container.clientHeight || window.innerHeight * 0.6;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      resizeShowcase();
+    }
+
+    // 노란끼를 제거한 맑고 화사한 스튜디오 화이트/실버 조명
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xe2e8f0, 0.92);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    sunLight.position.set(5, 10, 6);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    sunLight.shadow.bias = -0.001;
+    scene.add(sunLight);
+
+    const studioLight1 = new THREE.PointLight(0xfda4af, 0.45, 12);
+    studioLight1.position.set(-2.2, 3.8, 2.0);
+    scene.add(studioLight1);
+
+    const studioLight2 = new THREE.PointLight(0x93c5fd, 0.45, 12);
+    studioLight2.position.set(2.2, 3.8, -2.0);
+    scene.add(studioLight2);
+
+    let camTheta = 0;
+    let camPhi = 1.18;
+    let camRadius = 7.4;
+    const camTarget = new THREE.Vector3(0, 1.45, 0);
+
+    function updateOrbitCamera() {
+      const sinPhi = Math.sin(camPhi);
+      camera.position.x = camTarget.x + camRadius * sinPhi * Math.sin(camTheta);
+      camera.position.y = camTarget.y + camRadius * Math.cos(camPhi);
+      camera.position.z = camTarget.z + camRadius * sinPhi * Math.cos(camTheta);
+      camera.lookAt(camTarget);
+    }
+    updateOrbitCamera();
+
+    let isDraggingCam = false;
+    let prevPointer = { x: 0, y: 0 };
+
+    container.addEventListener('pointerdown', (e) => {
+      isDraggingCam = true;
+      prevPointer = { x: e.clientX, y: e.clientY };
+      document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingCam) return;
+      const dx = e.clientX - prevPointer.x;
+      const dy = e.clientY - prevPointer.y;
+      prevPointer = { x: e.clientX, y: e.clientY };
+
+      camTheta -= dx * 0.0085;
+      camPhi = Math.max(0.18, Math.min(1.48, camPhi - dy * 0.007));
+      updateOrbitCamera();
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDraggingCam = false;
+    });
+
+    document.querySelectorAll('.cam-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        sfx.click();
+        document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        const view = chip.dataset.view;
+        if (view === 'front') { camTheta = 0; camPhi = 1.18; camRadius = 7.4; }
+        else if (view === 'side') { camTheta = Math.PI / 2; camPhi = 1.18; camRadius = 7.4; }
+        else if (view === 'top') { camTheta = 0; camPhi = 0.22; camRadius = 7.4; }
+        else if (view === 'iso') { camTheta = 0.68; camPhi = 1.02; camRadius = 7.6; }
+        updateOrbitCamera();
+      });
+    });
+
+    // 모던 부티크 아케이드 머신 본체 (펄 화이트 + 로즈 핑크 + 브러시드 실버 크롬)
+    const machineGroup = new THREE.Group();
+    scene.add(machineGroup);
+
+    const lowerCabinet = new THREE.Mesh(
+      new THREE.BoxGeometry(4.3, 1.8, 3.5),
+      new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.32, metalness: 0.05 })
+    );
+    lowerCabinet.position.y = -1.05;
+    lowerCabinet.receiveShadow = true;
+    machineGroup.add(lowerCabinet);
+
+    const frontPanel = new THREE.Mesh(
+      new THREE.BoxGeometry(3.8, 1.3, 0.08),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 })
+    );
+    frontPanel.position.set(0, -1.05, 1.74);
+    machineGroup.add(frontPanel);
+
+    const doorFrame = new THREE.Mesh(
+      new THREE.BoxGeometry(1.1, 0.85, 0.14),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4, metalness: 0.3 })
+    );
+    doorFrame.position.set(-1.18, -1.1, 1.75);
+    machineGroup.add(doorFrame);
+
+    // 깨끗한 쿨 화이트 플레이필드 바닥
+    const playFloor = new THREE.Mesh(
+      new THREE.BoxGeometry(4.2, 0.28, 3.4),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.35 })
+    );
+    playFloor.position.y = -0.14;
+    playFloor.receiveShadow = true;
+    machineGroup.add(playFloor);
+
+    const HOME_X = -1.25;
+    const HOME_Z = 0.95;
+
+    const chuteHole = new THREE.Mesh(
+      new THREE.BoxGeometry(1.05, 0.3, 1.0),
+      new THREE.MeshBasicMaterial({ color: 0x0f172a })
+    );
+    chuteHole.position.set(HOME_X, -0.12, HOME_Z);
+    machineGroup.add(chuteHole);
+
+    // 크리스탈 스카이 투명 배출구 가드
+    const guardMat = new THREE.MeshPhysicalMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.32,
+      roughness: 0.08
+    });
+    const guardRight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.78, 1.05), guardMat);
+    guardRight.position.set(-0.7, 0.39, HOME_Z);
+    machineGroup.add(guardRight);
+
+    const guardBack = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.78, 0.08), guardMat);
+    guardBack.position.set(HOME_X, 0.39, 0.42);
+    machineGroup.add(guardBack);
+
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.12,
+      roughness: 0.05
+    });
+    const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
+    frontGlass.position.set(0, 2.05, 1.68);
+    machineGroup.add(frontGlass);
+
+    const backGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
+    backGlass.position.set(0, 2.05, -1.68);
+    backGlass.rotation.y = Math.PI;
+    machineGroup.add(backGlass);
+
+    // 세련된 실버 크롬 기둥
+    const pillarGeo = new THREE.CylinderGeometry(0.08, 0.08, 4.2, 16);
+    const pillarMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.75, roughness: 0.2 });
+    [
+      [-2.02, 2.1, -1.62],
+      [2.02, 2.1, -1.62],
+      [-2.02, 2.1, 1.62],
+      [2.02, 2.1, 1.62]
+    ].forEach(([x, y, z]) => {
+      const p = new THREE.Mesh(pillarGeo, pillarMat);
+      p.position.set(x, y, z);
+      machineGroup.add(p);
+    });
+
+    // 상단 천장 프레임 (펄 화이트 + 로즈 핑크 몰딩 + 투명 강화유리 천장)
+    const roofFrameMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.25 });
+    const roofRoseTrimMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, metalness: 0.2, roughness: 0.25 });
+
+    [-1.65, 1.65].forEach((zPos) => {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(4.36, 0.28, 0.24), roofFrameMat);
+      bar.position.set(0, 4.3, zPos);
+      machineGroup.add(bar);
+
+      const trim = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.08, 0.26), roofRoseTrimMat);
+      trim.position.set(0, 4.46, zPos);
+      machineGroup.add(trim);
+    });
+
+    [-2.06, 2.06].forEach((xPos) => {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.28, 3.06), roofFrameMat);
+      bar.position.set(xPos, 4.3, 0);
+      machineGroup.add(bar);
+
+      const trim = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 3.1), roofRoseTrimMat);
+      trim.position.set(xPos, 4.46, 0);
+      machineGroup.add(trim);
+    });
+
+    const topGlassRoof = new THREE.Mesh(
+      new THREE.BoxGeometry(3.9, 0.06, 3.08),
+      new THREE.MeshPhysicalMaterial({
+        color: 0xe0f2fe,
+        transparent: true,
+        opacity: 0.16,
+        roughness: 0.05,
+        metalness: 0.1
+      })
+    );
+    topGlassRoof.position.set(0, 4.38, 0);
+    machineGroup.add(topGlassRoof);
+
+    const prizeMeshes = [];
+
+    function spawnUniquePrizes() {
+      prizeMeshes.forEach((m) => scene.remove(m));
+      prizeMeshes.length = 0;
+
+      const slots = [
+        { x: -1.15, z: -0.95 },
+        { x: 0.0,   z: -1.00 },
+        { x: 1.15,  z: -0.95 },
+        { x: -0.15, z: -0.05 },
+        { x: 1.10,  z: -0.05 },
+        { x: 0.05,  z: 0.90 },
+        { x: 1.15,  z: 0.90 },
+        { x: -1.15, z: -0.15 }
+      ].sort(() => Math.random() - 0.5);
+
+      PRIZE_LIST.forEach((item, idx) => {
+        const meshGroup = createCustom3DPrize(item, true);
+        const slot = slots[idx];
+        const jitterX = (Math.random() - 0.5) * 0.22;
+        const jitterZ = (Math.random() - 0.5) * 0.22;
+
+        meshGroup.position.set(slot.x + jitterX, item.radius, slot.z + jitterZ);
+        meshGroup.rotation.y = (Math.random() - 0.5) * 1.2;
+
+        meshGroup.userData = {
+          type: item,
+          baseY: item.radius
+        };
+
+        scene.add(meshGroup);
+        prizeMeshes.push(meshGroup);
+      });
+    }
+
+    spawnUniquePrizes();
+
+    const TOP_Y = 3.85;
+    let clawX = 0.2;
+    let clawZ = 0.0;
+    let clawY = TOP_Y;
+    let clawState = 'IDLE';
+    let grabbedPrize = null;
+    let willSlipMidAir = false;
+    let slipHeight = 2.2;
+    let didMissThisTurn = false;
+
+    const gantryBar = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.04, 0.04, 3.4, 12),
+      new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.18 })
+    );
+    gantryBar.rotation.x = Math.PI / 2;
+    gantryBar.position.set(clawX, TOP_Y + 0.25, 0);
+    scene.add(gantryBar);
+
+    const clawGroup = new THREE.Group();
+    clawGroup.position.set(clawX, TOP_Y, clawZ);
+    scene.add(clawGroup);
+
+    const carriage = new THREE.Mesh(
+      new THREE.BoxGeometry(0.5, 0.22, 0.5),
+      new THREE.MeshStandardMaterial({ color: 0x6366f1, metalness: 0.45, roughness: 0.25 })
+    );
+    carriage.position.y = 0.25;
+    clawGroup.add(carriage);
+
+    const ropeMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.024, 0.024, 1, 8),
+      new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.7 })
+    );
+    clawGroup.add(ropeMesh);
+
+    const clawHead = new THREE.Group();
+    clawGroup.add(clawHead);
+
+    const hubMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.22, 0.26, 0.22, 20),
+      new THREE.MeshStandardMaterial({ color: 0xf43f5e, metalness: 0.35, roughness: 0.22 })
+    );
+    clawHead.add(hubMesh);
+
+    const prongs = [];
+    for (let i = 0; i < 3; i++) {
+      const pivot = new THREE.Group();
+      const angle = (i * Math.PI * 2) / 3;
+      pivot.position.set(Math.cos(angle) * 0.18, -0.06, Math.sin(angle) * 0.18);
+      pivot.rotation.y = -angle;
+
+      const upperArm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.03, 0.03, 0.42, 8),
+        new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.85, roughness: 0.18 })
+      );
+      upperArm.position.set(0.1, -0.18, 0);
+      upperArm.rotation.z = 0.42;
+
+      const lowerTip = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.026, 0.016, 0.38, 8),
+        new THREE.MeshStandardMaterial({ color: 0xe11d48, roughness: 0.25 })
+      );
+      lowerTip.position.set(0.11, -0.46, 0);
+      lowerTip.rotation.z = -0.55;
+
+      pivot.add(upperArm);
+      pivot.add(lowerTip);
+      clawHead.add(pivot);
+      prongs.push(pivot);
+    }
+
+    function setClawOpenAngle(rad) {
+      prongs.forEach((p) => { p.rotation.z = rad; });
+    }
+    setClawOpenAngle(0.36);
+
+    const targetRing = new THREE.Mesh(
+      new THREE.RingGeometry(0.18, 0.26, 32).rotateX(-Math.PI / 2),
+      new THREE.MeshBasicMaterial({ color: 0xf43f5e, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
+    );
+    targetRing.position.set(clawX, 0.01, clawZ);
+    scene.add(targetRing);
+
+    let joyVec = { x: 0, y: 0 };
+    const joyPad = document.getElementById('joystick-pad');
+    const joyBall = document.getElementById('joystick-ball');
+    const joyShaft = document.getElementById('joystick-shaft');
+    let isDraggingJoy = false;
+
+    function updateJoystickVisual(nx, ny) {
+      const maxPx = 28;
+      const px = nx * maxPx;
+      const py = ny * maxPx;
+      joyBall.style.transform = `translate(${px}px, ${py}px)`;
+
+      const dist = Math.hypot(px, py);
+      const angleDeg = Math.atan2(py, px) * (180 / Math.PI) + 90;
+      joyShaft.style.height = `${Math.min(34, dist)}px`;
+      joyShaft.style.transform = `rotate(${angleDeg}deg)`;
+    }
+
+    function handleJoystickMove(clientX, clientY) {
+      const rect = joyPad.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const maxR = rect.width * 0.38;
+
+      let dx = clientX - cx;
+      let dy = clientY - cy;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist > maxR) {
+        dx = (dx / dist) * maxR;
+        dy = (dy / dist) * maxR;
+      }
+
+      joyVec.x = dx / maxR;
+      joyVec.y = dy / maxR;
+      updateJoystickVisual(joyVec.x, joyVec.y);
+    }
+
+    joyPad.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      if (clawState !== 'IDLE') return;
+      isDraggingJoy = true;
+      sfx.click();
+      handleJoystickMove(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingJoy) return;
+      handleJoystickMove(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (!isDraggingJoy) return;
+      isDraggingJoy = false;
+      joyVec = { x: 0, y: 0 };
+      joyBall.style.transform = `translate(0px, 0px)`;
+      joyShaft.style.height = `0px`;
+    });
+
+    const moveKeys = { up: false, down: false, left: false, right: false };
+    document.querySelectorAll('.arcade-dir-btn').forEach((btn) => {
+      const dir = btn.dataset.dir;
+      const start = (e) => {
+        e.preventDefault();
+        if (clawState !== 'IDLE') return;
+        moveKeys[dir] = true;
+        btn.classList.add('active');
+        sfx.click();
+      };
+      const end = (e) => {
+        e.preventDefault();
+        moveKeys[dir] = false;
+        btn.classList.remove('active');
+      };
+      btn.addEventListener('pointerdown', start);
+      btn.addEventListener('pointerup', end);
+      btn.addEventListener('pointerleave', end);
+      btn.addEventListener('pointercancel', end);
+    });
+
+    const statusPill = document.getElementById('status-pill');
+    const dropBtn = document.getElementById('drop-btn');
+
+    function triggerClawDrop() {
+      if (clawState !== 'IDLE') return;
+
+      if (clawX < -0.62 && clawZ > 0.35) {
+        statusPill.textContent = '⚠️ 배출구 위입니다! 상품 쪽으로 이동해주세요.';
+        return;
+      }
+
+      sfx.drop();
+      didMissThisTurn = false;
+      clawState = 'DESCENDING';
+      dropBtn.disabled = true;
+      setClawOpenAngle(0.46);
+      statusPill.textContent = '집게가 내려갑니다...';
+    }
+
+    dropBtn.addEventListener('click', triggerClawDrop);
+
+    function evaluateGrab() {
+      let closest = null;
+      let minDist = 999;
+
+      prizeMeshes.forEach((p) => {
+        const d = Math.hypot(p.position.x - clawX, p.position.z - clawZ);
+        if (d < minDist) {
+          minDist = d;
+          closest = p;
+        }
+      });
+
+      if (closest && minDist <= closest.userData.type.radius * 1.18) {
+        grabbedPrize = closest;
+        const type = grabbedPrize.userData.type;
+
+        const aimFactor = Math.max(0.55, 1 - minDist / (type.radius * 1.25));
+        const finalChance = getEffectiveGrabChance(type) * aimFactor;
+
+        if (Math.random() < finalChance) {
+          willSlipMidAir = false;
+        } else {
+          willSlipMidAir = true;
+          slipHeight = 1.55 + Math.random() * 1.85;
+        }
+        statusPill.textContent = `[${type.name}] 포착! 조심스럽게 들어 올리는 중...`;
+      } else {
+        grabbedPrize = null;
+        didMissThisTurn = true;
+        statusPill.textContent = '아깝다! 허공을 집어 행운 버프(+10%)가 발동됩니다!';
+      }
+    }
+
+    /* =====================================================
+       8. 보상 확정 (O / X) 및 최종 캡처 모달
+       ===================================================== */
+    let currentWonItem = null;
+    const confirmModal = document.getElementById('confirm-modal');
+    const finalModal = document.getElementById('final-modal');
+
+    function openConfirmModalByItem(itemObj) {
+      currentWonItem = itemObj;
+      sfx.win();
+
+      document.getElementById('picked-emoji').textContent = currentWonItem.emoji;
+      document.getElementById('picked-name').textContent = currentWonItem.name;
+      document.getElementById('picked-tier').textContent =
+        `${currentWonItem.tierDesc} (현재 확률 ${getEffectiveProbPercent(currentWonItem)})`;
+
+      confirmModal.classList.add('show');
+    }
+
+    document.getElementById('btn-confirm-o').addEventListener('click', () => {
+      confirmModal.classList.remove('show');
+      sfx.win();
+
+      document.getElementById('final-emoji').textContent = currentWonItem.emoji;
+      document.getElementById('final-name').textContent = currentWonItem.name;
+      document.getElementById('final-prob').textContent =
+        `당첨 확정! (누적 버프 +${luckBoostStack * 10}% 적용)`;
+
+      finalModal.classList.add('show');
+    });
+
+    document.getElementById('btn-confirm-x').addEventListener('click', () => {
+      confirmModal.classList.remove('show');
+      triggerProbabilityBoost('재도전 보너스!');
+
+      if (activeGameMode === 'CLAW') {
+        spawnUniquePrizes();
+        resetClaw(`🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 더 잘 뽑힙니다!`);
+      } else {
+        slotStatusEl.textContent = `🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 희귀 선물 확률 UP!`;
+      }
+    });
+
+    document.getElementById('replay-anyway-btn').addEventListener('click', () => {
+      finalModal.classList.remove('show');
+      spawnUniquePrizes();
+      resetClaw('조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!');
+      openSelectScreen();
+    });
+
+    function resetClaw(msg) {
+      clawState = 'IDLE';
+      dropBtn.disabled = false;
+      setClawOpenAngle(0.36);
+      statusPill.textContent = msg;
+    }
+
+    /* =====================================================
+       9. 메인 애니메이션 루프 (쇼케이스 부드러운 보간 + 인형뽑기 구동)
+       ===================================================== */
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      if (showcaseScreen.style.display === 'flex') {
+        // 더 고급스럽고 우아한 감속 회전 보간
+        scCurrentAngle += (scTargetAngle - scCurrentAngle) * 0.065;
+        carouselGroup.rotation.y = scCurrentAngle;
+
+        scItemNodes.forEach((node, idx) => {
+          const isSelected = idx === scCurrentIndex;
+          const targetScale = isSelected ? 1.04 : 0.60;
+          const curScale = node.holder.scale.x + (targetScale - node.holder.scale.x) * 0.1;
+          node.holder.scale.set(curScale, curScale, curScale);
+
+          node.prize3D.rotation.y += isSelected ? 0.02 : 0.008;
+          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.04;
+        });
+
+        scRenderer.render(scScene, scCamera);
+      }
+
+      if (clawState === 'IDLE') {
+        let inputX = joyVec.x;
+        let inputY = joyVec.y;
+
+        if (moveKeys.left) inputX = -1;
+        if (moveKeys.right) inputX = 1;
+        if (moveKeys.up) inputY = -1;
+        if (moveKeys.down) inputY = 1;
+
+        if (Math.abs(inputX) > 0.05 || Math.abs(inputY) > 0.05) {
+          const speed = 0.035;
+          const cosT = Math.cos(camTheta);
+          const sinT = Math.sin(camTheta);
+          const worldDX = (inputX * cosT + inputY * sinT) * speed;
+          const worldDZ = (-inputX * sinT + inputY * cosT) * speed;
+
+          clawX = Math.max(-1.62, Math.min(1.62, clawX + worldDX));
+          clawZ = Math.max(-1.25, Math.min(1.25, clawZ + worldDZ));
+        }
+      } else if (clawState === 'DESCENDING') {
+        clawY -= 0.055;
+        if (clawY <= 0.68) {
+          clawY = 0.68;
+          clawState = 'GRABBING';
+          setClawOpenAngle(0.06);
+          evaluateGrab();
+          setTimeout(() => { clawState = 'ASCENDING'; }, 380);
+        }
+      } else if (clawState === 'ASCENDING') {
+        clawY += 0.044;
+
+        if (grabbedPrize) {
+          const wobble = (Math.random() - 0.5) * 0.032;
+          grabbedPrize.position.set(clawX + wobble, clawY - 0.48, clawZ + wobble);
+
+          if (willSlipMidAir && clawY >= slipHeight) {
+            sfx.slip();
+            const slipped = grabbedPrize;
+            grabbedPrize = null;
+            willSlipMidAir = false;
+            setClawOpenAngle(0.28);
+            triggerProbabilityBoost(`[${slipped.userData.type.shortLabel}] 미끄러짐!`);
+            statusPill.textContent = `😱 아깝다! 미끄러져서 뽑기 확률이 +10% 상승했습니다!`;
+          }
+        }
+
+        if (clawY >= TOP_Y) {
+          clawY = TOP_Y;
+          if (didMissThisTurn) {
+            didMissThisTurn = false;
+            triggerProbabilityBoost('허공 보너스!');
+          }
+          clawState = grabbedPrize ? 'RETURN_TO_CHUTE' : 'RESETTING';
+        }
+      } else if (clawState === 'RETURN_TO_CHUTE') {
+        const dx = HOME_X - clawX;
+        const dz = HOME_Z - clawZ;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist > 0.06) {
+          clawX += (dx / dist) * 0.045;
+          clawZ += (dz / dist) * 0.045;
+          if (grabbedPrize) {
+            grabbedPrize.position.set(clawX, clawY - 0.48, clawZ);
+          }
+        } else {
+          clawX = HOME_X;
+          clawZ = HOME_Z;
+          clawState = 'RELEASING';
+          setClawOpenAngle(0.46);
+
+          const wonMesh = grabbedPrize;
+          grabbedPrize = null;
+
+          setTimeout(() => {
+            if (wonMesh) openConfirmModalByItem(wonMesh.userData.type);
+            clawState = 'RESETTING';
+          }, 480);
+        }
+      } else if (clawState === 'RESETTING') {
+        const dx = 0.2 - clawX;
+        const dz = 0.0 - clawZ;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 0.06) {
+          clawX += (dx / dist) * 0.055;
+          clawZ += (dz / dist) * 0.055;
+        } else {
+          clawX = 0.2;
+          clawZ = 0.0;
+          const msg = luckBoostStack > 0
+            ? `🔥 현재 확률 +${luckBoostStack * 10}% 상승 적용 중! 다시 뽑아보세요!`
+            : '조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!';
+          resetClaw(msg);
+        }
+      }
+
+      prizeMeshes.forEach((p) => {
+        if (p !== grabbedPrize && p.position.y > p.userData.baseY) {
+          p.position.y = Math.max(p.userData.baseY, p.position.y - 0.12);
+        }
+      });
+
+      gantryBar.position.x = clawX;
+      clawGroup.position.set(clawX, TOP_Y, clawZ);
+      const dropDist = TOP_Y - clawY;
+      clawHead.position.y = -dropDist;
+      ropeMesh.scale.y = Math.max(0.1, dropDist + 0.35);
+      ropeMesh.position.y = -(dropDist / 2) + 0.1;
+
+      targetRing.position.set(clawX, 0.01, clawZ);
+
+      if (gameScreen.style.display === 'flex') {
+        renderer.render(scene, camera);
+      }
+    }
+
+    requestAnimationFrame(animate);
+
+    /* =====================================================
+       10. 설정 & 확률표 모달 이벤트 연결
+       ===================================================== */
+    const settingsModal = document.getElementById('settings-modal');
+    document.getElementById('settings-btn').addEventListener('click', () => {
+      sfx.click();
+      settingsModal.classList.add('show');
+    });
+    document.getElementById('close-settings-btn').addEventListener('click', () => {
+      settingsModal.classList.remove('show');
+    });
+
+    const modeJoyBtn = document.getElementById('mode-joystick-btn');
+    const modeDpadBtn = document.getElementById('mode-dpad-btn');
+    const joyUI = document.getElementById('joystick-ui');
+    const dpadUI = document.getElementById('dpad-ui');
+
+    modeJoyBtn.addEventListener('click', () => {
+      sfx.click();
+      modeJoyBtn.classList.add('active');
+      modeDpadBtn.classList.remove('active');
+      joyUI.style.display = 'flex';
+      dpadUI.style.display = 'none';
+    });
+
+    modeDpadBtn.addEventListener('click', () => {
+      sfx.click();
+      modeDpadBtn.classList.add('active');
+      modeJoyBtn.classList.remove('active');
+      joyUI.style.display = 'none';
+      dpadUI.style.display = 'flex';
+    });
+
+    const toggleSoundBtn = document.getElementById('toggle-sound-btn');
+    toggleSoundBtn.addEventListener('click', () => {
+      sfx.enabled = !sfx.enabled;
+      toggleSoundBtn.textContent = sfx.enabled ? '켜짐 (ON)' : '꺼짐 (MUTE)';
+      toggleSoundBtn.classList.toggle('active', sfx.enabled);
+    });
+
+    document.getElementById('shuffle-prizes-btn').addEventListener('click', () => {
+      sfx.click();
+      spawnUniquePrizes();
+      settingsModal.classList.remove('show');
+    });
+
+    const probModal = document.getElementById('prob-modal');
+    document.getElementById('prob-btn-claw').addEventListener('click', () => {
+      sfx.click();
+      renderProbListModal();
+      probModal.classList.add('show');
+    });
+    document.getElementById('prob-btn-slot').addEventListener('click', () => {
+      sfx.click();
+      renderProbListModal();
+      probModal.classList.add('show');
+    });
+    document.getElementById('close-prob-btn').addEventListener('click', () => {
+      probModal.classList.remove('show');
+    });
+
+    window.addEventListener('resize', handleResize);
+  </script>
+</body>
+</html>
