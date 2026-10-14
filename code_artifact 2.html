@@ -1,0 +1,714 @@
+<!-- ... existing code ... -->
+      <!-- 10. 보상 확정 (O / X) 모달 -->
+<!-- ... existing code ... -->
+      drop() {
+        if (typeof window.recordGameAttempt === 'function') {
+          window.recordGameAttempt();
+        }
+        this.tone(520, 'triangle', 0.18, 0.12);
+        setTimeout(() => this.tone(360, 'triangle', 0.25, 0.12), 120);
+      }
+      slip() {
+        this.tone(280, 'sawtooth', 0.18, 0.1);
+        setTimeout(() => this.tone(175, 'sawtooth', 0.3, 0.1), 150);
+      }
+      // 상품이 바닥이나 가드에 떨어져 통통 튀는 물리 효과음
+      thud(vol = 0.09) {
+        this.tone(135, 'sine', 0.09, vol);
+      }
+      confettiPop() {
+        this.tone(180, 'triangle', 0.08, 0.14);
+        [880, 1174.66, 1567.98, 2093].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'sine', 0.16, 0.1), 40 + i * 45);
+        });
+      }
+      win() {
+        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'triangle', 0.26, 0.15), i * 95);
+        });
+      }
+<!-- ... existing code ... -->
+    const topGlassRoof = new THREE.Mesh(
+      new THREE.BoxGeometry(3.9, 0.06, 3.08),
+      new THREE.MeshPhysicalMaterial({
+        color: 0xe0f2fe,
+        transparent: true,
+        opacity: 0.16,
+        roughness: 0.05,
+        metalness: 0.1
+      })
+    );
+    topGlassRoof.position.set(0, 4.38, 0);
+    machineGroup.add(topGlassRoof);
+
+    const prizeMeshes = [];
+
+    // 각 상품을 2개씩 총 16개 생성하여 인형뽑기 통 안을 풍성하게 채움
+    function spawnUniquePrizes() {
+      prizeMeshes.forEach((m) => scene.remove(m));
+      prizeMeshes.length = 0;
+
+      // 배출구(좌측 하단: x < -0.65, z > 0.35)를 제외한 16개의 입체 배치 슬롯
+      const slots = [
+        { x: -1.35, z: -1.05 },
+        { x: -0.55, z: -1.08 },
+        { x:  0.30, z: -1.08 },
+        { x:  1.20, z: -1.02 },
+        { x: -1.35, z: -0.35 },
+        { x: -0.55, z: -0.40 },
+        { x:  0.28, z: -0.42 },
+        { x:  1.18, z: -0.35 },
+        { x: -0.15, z:  0.25 },
+        { x:  0.65, z:  0.22 },
+        { x:  1.35, z:  0.28 },
+        { x: -0.05, z:  0.98 },
+        { x:  0.72, z:  0.98 },
+        { x:  1.38, z:  0.95 },
+        { x: -0.92, z: -0.72 },
+        { x:  0.75, z: -0.72 }
+      ].sort(() => Math.random() - 0.5);
+
+      // 8종 상품을 각각 2개씩(총 16개) 리스트 구성
+      const doubledPrizes = [...PRIZE_LIST, ...PRIZE_LIST];
+
+      doubledPrizes.forEach((item, idx) => {
+        const meshGroup = createCustom3DPrize(item, true);
+        const slot = slots[idx];
+        const jitterX = (Math.random() - 0.5) * 0.16;
+        const jitterZ = (Math.random() - 0.5) * 0.16;
+        // 일부 상품은 살짝 위층에 얹혀 있는 듯한 입체감 부여
+        const stackOffset = idx >= 14 ? 0.22 : 0;
+
+        meshGroup.position.set(
+          slot.x + jitterX,
+          item.radius + stackOffset,
+          slot.z + jitterZ
+        );
+        meshGroup.rotation.set(
+          (Math.random() - 0.5) * 0.25,
+          Math.random() * Math.PI * 2,
+          (Math.random() - 0.5) * 0.25
+        );
+
+        meshGroup.userData = {
+          type: item,
+          baseY: item.radius,
+          vx: 0,
+          vy: 0,
+          vz: 0,
+          rotVelX: 0,
+          rotVelZ: 0
+        };
+
+        scene.add(meshGroup);
+        prizeMeshes.push(meshGroup);
+      });
+
+      // 초기 배치 시 서로 겹친 캡슐들을 자연스럽게 밀어내어 정리
+      resolvePrizeCollisions();
+    }
+
+    // 캡슐끼리 겹치거나 배출구 영역으로 침범하지 않도록 물리 보정
+    function resolvePrizeCollisions() {
+      for (let iter = 0; iter < 3; iter++) {
+        for (let i = 0; i < prizeMeshes.length; i++) {
+          const a = prizeMeshes[i];
+          if (a === grabbedPrize || a === releasingPrize) continue;
+
+          // 배출구 아크릴 가드 바깥으로 밀어내기
+          if (a.position.x < -0.58 && a.position.z > 0.30) {
+            if (Math.abs(a.position.x - (-0.58)) < Math.abs(a.position.z - 0.30)) {
+              a.position.x = -0.55;
+            } else {
+              a.position.z = 0.28;
+            }
+          }
+
+          // 기계 벽면 경계 유지
+          a.position.x = Math.max(-1.58, Math.min(1.58, a.position.x));
+          a.position.z = Math.max(-1.22, Math.min(1.22, a.position.z));
+
+          for (let j = i + 1; j < prizeMeshes.length; j++) {
+            const b = prizeMeshes[j];
+            if (b === grabbedPrize || b === releasingPrize) continue;
+
+            const dx = b.position.x - a.position.x;
+            const dz = b.position.z - a.position.z;
+            const dist = Math.hypot(dx, dz);
+            const minDist = (a.userData.type.radius + b.userData.type.radius) * 0.84;
+
+            if (dist > 0.001 && dist < minDist) {
+              const push = (minDist - dist) * 0.5;
+              const nx = dx / dist;
+              const nz = dz / dist;
+              a.position.x -= nx * push;
+              a.position.z -= nz * push;
+              b.position.x += nx * push;
+              b.position.z += nz * push;
+            }
+          }
+        }
+      }
+    }
+
+    const TOP_Y = 3.85;
+    let clawX = 0.2;
+    let clawZ = 0.0;
+    let clawY = TOP_Y;
+    let clawState = 'IDLE';
+    let grabbedPrize = null;
+    let releasingPrize = null;
+
+    // 실패 연출 모드: 'NONE'(성공), 'ASCENT'(올라가다 떨어짐), 'CARRY'(배출구로 들고 가다가 중간에 떨어트림!)
+    let slipMode = 'NONE';
+    let slipHeight = 2.2;
+    let carryStartX = 0;
+    let carryStartZ = 0;
+    let slipCarryProgress = 0.55;
+    let didMissThisTurn = false;
+
+    spawnUniquePrizes();
+<!-- ... existing code ... -->
+    function evaluateGrab() {
+      let closest = null;
+      let minDist = 999;
+
+      prizeMeshes.forEach((p) => {
+        const d = Math.hypot(p.position.x - clawX, p.position.z - clawZ);
+        if (d < minDist) {
+          minDist = d;
+          closest = p;
+        }
+      });
+
+      if (closest && minDist <= closest.userData.type.radius * 1.22) {
+        grabbedPrize = closest;
+        grabbedPrize.userData.vx = 0;
+        grabbedPrize.userData.vy = 0;
+        grabbedPrize.userData.vz = 0;
+        const type = grabbedPrize.userData.type;
+
+        const aimFactor = Math.max(0.55, 1 - minDist / (type.radius * 1.28));
+        const finalChance = getEffectiveGrabChance(type) * aimFactor;
+
+        if (Math.random() < finalChance) {
+          slipMode = 'NONE';
+        } else {
+          // 실패 시: 65% 확률로 끝까지 들어 올린 뒤 배출구로 이동하다가 중간에 툭 떨어트림! (나머지 35%는 상승 중 낙하)
+          if (Math.random() < 0.65) {
+            slipMode = 'CARRY';
+            // 전체 이동 거리의 28% ~ 85% 지점 사이(심지어 배출구 코앞!)에서 떨어지도록 설정
+            slipCarryProgress = 0.28 + Math.random() * 0.57;
+          } else {
+            slipMode = 'ASCENT';
+            slipHeight = 1.65 + Math.random() * 1.85;
+          }
+        }
+        setUnifiedStatus(statusPill, `[${type.name}] 포착! 조심스럽게 들어 올리는 중...`);
+      } else {
+        grabbedPrize = null;
+        slipMode = 'NONE';
+        didMissThisTurn = true;
+        setUnifiedStatus(statusPill, '아깝다! 허공을 집어 행운 버프(+10%)가 발동됩니다!');
+      }
+    }
+
+    // 집게에서 상품이 미끄러져 떨어질 때 물리 속도와 회전력을 부여하는 헬퍼
+    function dropGrabbedPrizeWithPhysics(reasonLabel, carryDirX = 0, carryDirZ = 0) {
+      if (!grabbedPrize) return;
+      sfx.slip();
+      const slipped = grabbedPrize;
+      grabbedPrize = null;
+      slipMode = 'NONE';
+
+      // 이동 중이던 관성 + 약간의 랜덤 튕김 부여
+      slipped.userData.vx = carryDirX * 0.025 + (Math.random() - 0.5) * 0.03;
+      slipped.userData.vz = carryDirZ * 0.025 + (Math.random() - 0.5) * 0.03;
+      slipped.userData.vy = -0.02;
+      slipped.userData.rotVelX = (Math.random() - 0.5) * 0.14;
+      slipped.userData.rotVelZ = (Math.random() - 0.5) * 0.14;
+
+      // 집게가 힘없이 살짝 벌어지는 연출
+      setClawOpenAngle(0.32);
+      triggerProbabilityBoost(reasonLabel);
+    }
+<!-- ... existing code ... -->
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      if (showcaseScreen.style.display === 'flex') {
+        scCurrentAngle += (scTargetAngle - scCurrentAngle) * 0.065;
+        carouselGroup.rotation.y = scCurrentAngle;
+
+        scItemNodes.forEach((node, idx) => {
+          const isSelected = idx === scCurrentIndex;
+          const targetScale = isSelected ? 1.04 : 0.60;
+          const curScale = node.holder.scale.x + (targetScale - node.holder.scale.x) * 0.1;
+          node.holder.scale.set(curScale, curScale, curScale);
+
+          node.prize3D.rotation.y += isSelected ? 0.02 : 0.008;
+          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.04;
+        });
+
+        scRenderer.render(scScene, scCamera);
+      }
+
+      if (clawState === 'IDLE') {
+        let inputX = joyVec.x;
+        let inputY = joyVec.y;
+
+        if (moveKeys.left) inputX = -1;
+        if (moveKeys.right) inputX = 1;
+        if (moveKeys.up) inputY = -1;
+        if (moveKeys.down) inputY = 1;
+
+        if (Math.abs(inputX) > 0.05 || Math.abs(inputY) > 0.05) {
+          const speed = 0.035;
+          const cosT = Math.cos(camTheta);
+          const sinT = Math.sin(camTheta);
+          const worldDX = (inputX * cosT + inputY * sinT) * speed;
+          const worldDZ = (-inputX * sinT + inputY * cosT) * speed;
+
+          clawX = Math.max(-1.62, Math.min(1.62, clawX + worldDX));
+          clawZ = Math.max(-1.25, Math.min(1.25, clawZ + worldDZ));
+        }
+      } else if (clawState === 'DESCENDING') {
+        clawY -= 0.055;
+        if (clawY <= 0.68) {
+          clawY = 0.68;
+          clawState = 'GRABBING';
+          setClawOpenAngle(0.06);
+          evaluateGrab();
+          setTimeout(() => { clawState = 'ASCENDING'; }, 380);
+        }
+      } else if (clawState === 'ASCENDING') {
+        clawY += 0.044;
+
+        if (grabbedPrize) {
+          // 올라가는 동안 아슬아슬하게 흔들리는 연출
+          const wobble = Math.sin(now * 0.035) * 0.025;
+          grabbedPrize.position.set(clawX + wobble, clawY - 0.48, clawZ - wobble);
+          grabbedPrize.rotation.z = wobble * 2.5;
+
+          if (slipMode === 'ASCENT' && clawY >= slipHeight) {
+            dropGrabbedPrizeWithPhysics(`[${grabbedPrize.userData.type.shortLabel}] 상승 중 미끄러짐!`);
+          }
+        }
+
+        if (clawY >= TOP_Y) {
+          clawY = TOP_Y;
+          if (didMissThisTurn) {
+            didMissThisTurn = false;
+            triggerProbabilityBoost('허공 보너스!');
+          }
+          if (grabbedPrize) {
+            carryStartX = clawX;
+            carryStartZ = clawZ;
+            clawState = 'RETURN_TO_CHUTE';
+            setUnifiedStatus(
+              statusPill,
+              `🔥 [${grabbedPrize.userData.type.shortLabel}] 배출구로 이동 중! 제발 떨어지지 마라...!!`
+            );
+          } else {
+            clawState = 'RESETTING';
+          }
+        }
+      } else if (clawState === 'RETURN_TO_CHUTE') {
+        const dx = HOME_X - clawX;
+        const dz = HOME_Z - clawZ;
+        const dist = Math.hypot(dx, dz);
+        const totalCarryDist = Math.max(0.01, Math.hypot(HOME_X - carryStartX, HOME_Z - carryStartZ));
+        const currentProgress = 1 - dist / totalCarryDist;
+
+        if (dist > 0.06) {
+          const dirX = dx / dist;
+          const dirZ = dz / dist;
+          clawX += dirX * 0.042;
+          clawZ += dirZ * 0.042;
+
+          if (grabbedPrize) {
+            // 이동 중 진자처럼 흔들리는 연출 (떨어지기 직전에는 더 크게 흔들림)
+            const swingAmp = slipMode === 'CARRY' ? 0.045 : 0.022;
+            const swing = Math.sin(now * 0.028) * swingAmp;
+            grabbedPrize.position.set(clawX + swing, clawY - 0.48, clawZ + swing * 0.7);
+            grabbedPrize.rotation.z = swing * 3.2;
+
+            // 이동 중 집게 힘이 풀리며 중간에 툭 떨어트리는 연출!
+            if (slipMode === 'CARRY' && currentProgress >= slipCarryProgress) {
+              const nearChuteMsg = currentProgress > 0.65
+                ? `[${grabbedPrize.userData.type.shortLabel}] 배출구 코앞에서 낙하!`
+                : `[${grabbedPrize.userData.type.shortLabel}] 이동 중 툭 떨어짐!`;
+              dropGrabbedPrizeWithPhysics(nearChuteMsg, dirX, dirZ);
+            }
+          }
+        } else {
+          clawX = HOME_X;
+          clawZ = HOME_Z;
+
+          if (grabbedPrize) {
+            clawState = 'RELEASING';
+            setClawOpenAngle(0.46);
+
+            const wonMesh = grabbedPrize;
+            grabbedPrize = null;
+            releasingPrize = wonMesh;
+            releasingPrize.userData.vy = -0.05;
+
+            setTimeout(() => {
+              if (releasingPrize) {
+                const wonType = releasingPrize.userData.type;
+                scene.remove(releasingPrize);
+                const idx = prizeMeshes.indexOf(releasingPrize);
+                if (idx > -1) prizeMeshes.splice(idx, 1);
+                releasingPrize = null;
+                openConfirmModalByItem(wonType);
+              }
+              clawState = 'RESETTING';
+            }, 520);
+          } else {
+            // 중간에 떨어트리고 빈 집게만 배출구에 도착한 경우 바로 원위치 복귀
+            clawState = 'RESETTING';
+          }
+        }
+      } else if (clawState === 'RESETTING') {
+        const dx = 0.2 - clawX;
+        const dz = 0.0 - clawZ;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 0.06) {
+          clawX += (dx / dist) * 0.055;
+          clawZ += (dz / dist) * 0.055;
+        } else {
+          clawX = 0.2;
+          clawZ = 0.0;
+          const msg = luckBoostStack > 0
+            ? `🔥 현재 확률 +${luckBoostStack * 10}% 상승 적용 중! 다시 뽑아보세요!`
+            : '조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!';
+          resetClaw(msg);
+        }
+      }
+
+      // 당첨되어 배출구 구멍 아래로 쏙 빨려 들어가는 상품 낙하 처리
+      if (releasingPrize) {
+        releasingPrize.userData.vy -= 0.012;
+        releasingPrize.position.y += releasingPrize.userData.vy;
+        releasingPrize.rotation.x += 0.08;
+        releasingPrize.rotation.z += 0.06;
+      }
+
+      // 필드 위 16개 상품들의 중력 낙하 + 바닥 바운스 + 가드 튕김 물리 연산
+      let anyBouncing = false;
+      prizeMeshes.forEach((p) => {
+        if (p === grabbedPrize || p === releasingPrize) return;
+
+        if (p.position.y > p.userData.baseY || Math.abs(p.userData.vy) > 0.001 || Math.abs(p.userData.vx) > 0.001) {
+          anyBouncing = true;
+          p.userData.vy -= 0.0095; // 중력 가속도
+          p.position.x += p.userData.vx;
+          p.position.y += p.userData.vy;
+          p.position.z += p.userData.vz;
+
+          p.rotation.x += p.userData.rotVelX;
+          p.rotation.z += p.userData.rotVelZ;
+
+          // 배출구 투명 가드 근처에 떨어지면 가드 벽에 튕겨서 필드 쪽으로 데구르르 굴러감
+          if (p.position.x < -0.58 && p.position.z > 0.30) {
+            if (p.position.y > 0.72) {
+              p.userData.vx = Math.abs(p.userData.vx) + 0.028;
+              p.userData.vz = -Math.abs(p.userData.vz) - 0.022;
+            } else {
+              p.position.x = -0.56;
+              p.userData.vx = Math.abs(p.userData.vx) * 0.6;
+            }
+          }
+
+          // 바닥 충돌 및 통통 튀는 탄성 바운스
+          if (p.position.y <= p.userData.baseY) {
+            p.position.y = p.userData.baseY;
+            if (p.userData.vy < -0.04) {
+              sfx.thud(Math.min(0.12, Math.abs(p.userData.vy) * 0.6));
+              p.userData.vy = -p.userData.vy * 0.42; // 바닥 반발 계수
+              p.userData.vx *= 0.72;
+              p.userData.vz *= 0.72;
+              p.userData.rotVelX *= 0.65;
+              p.userData.rotVelZ *= 0.65;
+            } else {
+              p.userData.vy = 0;
+              p.userData.vx *= 0.5;
+              p.userData.vz *= 0.5;
+              p.userData.rotVelX = 0;
+              p.userData.rotVelZ = 0;
+              if (Math.abs(p.userData.vx) < 0.002) p.userData.vx = 0;
+              if (Math.abs(p.userData.vz) < 0.002) p.userData.vz = 0;
+            }
+          }
+        }
+      });
+
+      if (anyBouncing) {
+        resolvePrizeCollisions();
+      }
+
+      gantryBar.position.x = clawX;
+      clawGroup.position.set(clawX, TOP_Y, clawZ);
+      const dropDist = TOP_Y - clawY;
+      clawHead.position.y = -dropDist;
+      ropeMesh.scale.y = Math.max(0.1, dropDist + 0.35);
+      ropeMesh.position.y = -(dropDist / 2) + 0.1;
+
+      targetRing.position.set(clawX, 0.01, clawZ);
+
+      if (gameScreen.style.display === 'flex') {
+        renderer.render(scene, camera);
+      }
+    }
+
+    requestAnimationFrame(animate);
+
+    /* =====================================================
+       11. 축하 폭죽(Confetti) 물리 엔진 & 도전 횟수 캡처 인증 시스템
+       ===================================================== */
+    const confettiStyle = document.createElement('style');
+    confettiStyle.textContent = `
+      #confetti-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 999;
+      }
+      .confirm-attempt-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 auto 10px;
+        padding: 5px 14px;
+        border-radius: 99px;
+        background: #fff0e0;
+        border: 1.5px solid #ffb076;
+        color: #9c3d14;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .attempt-record-card {
+        margin: 12px 0 6px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 55%, #fde68a 100%);
+        border: 2.5px solid #f59e0b;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        text-align: center;
+      }
+      .attempt-record-tag {
+        display: inline-block;
+        background: #d97706;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.8px;
+        padding: 2px 9px;
+        border-radius: 99px;
+        margin-bottom: 5px;
+      }
+      .attempt-record-headline {
+        font-size: 14.5px;
+        font-weight: 900;
+        color: #78350f;
+        line-height: 1.35;
+        word-break: keep-all;
+      }
+      .attempt-record-sub {
+        margin-top: 4px;
+        font-size: 11.5px;
+        font-weight: 800;
+        color: #b45309;
+      }
+    `;
+    document.head.appendChild(confettiStyle);
+
+    const confettiCanvas = document.createElement('canvas');
+    confettiCanvas.id = 'confetti-canvas';
+    document.body.appendChild(confettiCanvas);
+    const cfCtx = confettiCanvas.getContext('2d');
+
+    function resizeConfettiCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    resizeConfettiCanvas();
+    window.addEventListener('resize', resizeConfettiCanvas);
+
+    const confettiParticles = [];
+    let confettiAnimId = null;
+    const CONFETTI_COLORS = [
+      '#ff4d6d', '#ffb703', '#10b981', '#38bdf8',
+      '#a855f7', '#fb8500', '#fde047', '#ec4899'
+    ];
+
+    function launchConfettiBurst(count = 95, fromSides = true) {
+      sfx.confettiPop();
+      const w = confettiCanvas.width;
+      const h = confettiCanvas.height;
+
+      for (let i = 0; i < count; i++) {
+        const isLeft = i % 2 === 0;
+        const startX = fromSides
+          ? (isLeft ? w * 0.08 : w * 0.92) + (Math.random() - 0.5) * 40
+          : w * 0.5 + (Math.random() - 0.5) * (w * 0.5);
+        const startY = fromSides ? h * 0.62 + (Math.random() - 0.5) * 60 : h * 0.35;
+
+        const baseAngle = fromSides
+          ? (isLeft ? -Math.PI * 0.33 : -Math.PI * 0.67) + (Math.random() - 0.5) * 0.55
+          : -Math.PI * 0.5 + (Math.random() - 0.5) * 1.4;
+        const speed = 9 + Math.random() * 14;
+
+        confettiParticles.push({
+          x: startX,
+          y: startY,
+          vx: Math.cos(baseAngle) * speed,
+          vy: Math.sin(baseAngle) * speed - 2,
+          w: 7 + Math.random() * 7,
+          h: 5 + Math.random() * 6,
+          color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+          shape: Math.random() < 0.25 ? 'circle' : 'rect',
+          tilt: Math.random() * Math.PI * 2,
+          tiltSpeed: (Math.random() - 0.5) * 0.25,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.06 + Math.random() * 0.08,
+          opacity: 1,
+          decay: 0.006 + Math.random() * 0.006
+        });
+      }
+
+      if (!confettiAnimId) {
+        confettiAnimId = requestAnimationFrame(updateConfetti);
+      }
+    }
+
+    function updateConfetti() {
+      cfCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+      for (let i = confettiParticles.length - 1; i >= 0; i--) {
+        const p = confettiParticles[i];
+        p.vy += 0.32; // 중력
+        p.vx *= 0.985; // 공기 저항
+        p.wobble += p.wobbleSpeed;
+        p.tilt += p.tiltSpeed;
+
+        p.x += p.vx + Math.sin(p.wobble) * 1.2;
+        p.y += p.vy;
+        p.opacity -= p.decay;
+
+        if (p.opacity <= 0 || p.y > confettiCanvas.height + 40) {
+          confettiParticles.splice(i, 1);
+          continue;
+        }
+
+        cfCtx.save();
+        cfCtx.globalAlpha = Math.max(0, p.opacity);
+        cfCtx.translate(p.x, p.y);
+        cfCtx.rotate(p.tilt);
+        cfCtx.scale(Math.cos(p.wobble), 1);
+        cfCtx.fillStyle = p.color;
+
+        if (p.shape === 'circle') {
+          cfCtx.beginPath();
+          cfCtx.arc(0, 0, p.w * 0.55, 0, Math.PI * 2);
+          cfCtx.fill();
+        } else {
+          cfCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        }
+        cfCtx.restore();
+      }
+
+      if (confettiParticles.length > 0) {
+        confettiAnimId = requestAnimationFrame(updateConfetti);
+      } else {
+        cfCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        confettiAnimId = null;
+      }
+    }
+
+    let totalAttempts = 0;
+    let clawAttempts = 0;
+    let slotAttempts = 0;
+
+    window.recordGameAttempt = function () {
+      totalAttempts++;
+      if (activeGameMode === 'CLAW') {
+        clawAttempts++;
+      } else {
+        slotAttempts++;
+      }
+    };
+
+    function getAttemptFlavorComment(count) {
+      if (count <= 1) {
+        return '⚡ 단 1번 만에 원샷원킬 획득!! (신들린 금손 인증)';
+      } else if (count <= 3) {
+        return `✨ 총 ${count}번 만에 초고속 쾌속 획득!! (금손 인증)`;
+      } else if (count <= 7) {
+        return `🔥 총 ${count}번의 끈질긴 도전 끝에 당첨 성공!`;
+      } else if (count <= 12) {
+        return `💦 총 ${count}번의 처절한 혈투 끝에 마침내 획득!!`;
+      } else {
+        return `👑 총 ${count}번의 눈물겨운 집념으로 기적의 획득!!`;
+      }
+    }
+
+    // 보상 확정 모달과 최종 캡처 티켓에 도전 기록 배지 주입
+    const confirmQuestionEl = document.querySelector('#confirm-modal .confirm-question');
+    const confirmAttemptPill = document.createElement('div');
+    confirmAttemptPill.className = 'confirm-attempt-pill';
+    if (confirmQuestionEl) {
+      confirmQuestionEl.parentNode.insertBefore(confirmAttemptPill, confirmQuestionEl);
+      confirmQuestionEl.parentNode.style.textAlign = 'center';
+    }
+
+    const captureNoticeEl = document.querySelector('#final-modal .capture-notice');
+    const attemptRecordCard = document.createElement('div');
+    attemptRecordCard.className = 'attempt-record-card';
+    attemptRecordCard.innerHTML = `
+      <div class="attempt-record-tag">🏆 CHALLENGE RECORD · 도전 기록 인증</div>
+      <div class="attempt-record-headline" id="final-attempt-headline">⚡ 단 1번 만에 원샷원킬 획득!!</div>
+      <div class="attempt-record-sub" id="final-attempt-sub">획득 종목: 3D 인형뽑기 · 누적 버프 +0%</div>
+    `;
+    if (captureNoticeEl) {
+      captureNoticeEl.parentNode.insertBefore(attemptRecordCard, captureNoticeEl);
+    }
+
+    const _baseOpenConfirmModalByItem = openConfirmModalByItem;
+    openConfirmModalByItem = function (itemObj) {
+      if (totalAttempts < 1) totalAttempts = 1;
+      const modeName = activeGameMode === 'CLAW' ? '🕹️ 3D 인형뽑기' : '🎰 VIP 배팅 머신';
+      confirmAttemptPill.textContent = `${modeName} · 현재 총 ${totalAttempts}회 도전 만에 획득!`;
+
+      _baseOpenConfirmModalByItem(itemObj);
+      launchConfettiBurst(85, true);
+    };
+
+    document.getElementById('btn-confirm-o').addEventListener('click', () => {
+      const count = Math.max(1, totalAttempts);
+      const modeName = activeGameMode === 'CLAW' ? '3D 인형뽑기' : 'VIP 배팅 머신';
+      const buffPct = luckBoostStack * 10;
+
+      const headlineEl = document.getElementById('final-attempt-headline');
+      const subEl = document.getElementById('final-attempt-sub');
+      if (headlineEl) headlineEl.textContent = getAttemptFlavorComment(count);
+      if (subEl) {
+        subEl.textContent = `종목: ${modeName} · 도전 횟수: 총 ${count}회 (행운 버프 +${buffPct}%)`;
+      }
+
+      document.getElementById('final-prob').textContent =
+        `${currentWonItem.tierDesc} · 확률 ${getEffectiveProbPercent(currentWonItem)} 돌파!`;
+
+      // 최종 확정 시 2연속 폭죽 피날레 발사!
+      launchConfettiBurst(120, true);
+      setTimeout(() => launchConfettiBurst(90, false), 320);
+    });
+
+    document.getElementById('replay-anyway-btn').addEventListener('click', () => {
+      totalAttempts = 0;
+      clawAttempts = 0;
+      slotAttempts = 0;
+    });
