@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>★경축★ 유지성님 탄신일 선물 뽑기</title>
+  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -22,16 +23,7 @@
       height: 100dvh;
       overflow: hidden;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fff4ea;
-    }
-
-    .screen-fade-in {
-      animation: screenAppear 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes screenAppear {
-      from { opacity: 0; transform: scale(0.96) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      background: #0a0b10;
     }
 
     /* =====================================================
@@ -40,12 +32,12 @@
     #intro-screen {
       position: fixed;
       inset: 0;
-      z-index: 200;
+      z-index: 100;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: 14px;
+      padding: 16px;
       background: repeating-conic-gradient(
         from 0deg,
         #ff0000 0deg 15deg,
@@ -72,12 +64,11 @@
       border: 4px ridge #ffd700;
       color: #00ff00;
       font-weight: 900;
-      font-size: 14px;
-      padding: 5px 0;
+      font-size: 15px;
+      padding: 6px 0;
       white-space: nowrap;
       overflow: hidden;
       box-shadow: 0 0 15px #ff00ff;
-      flex-shrink: 0;
     }
 
     .y2k-marquee span {
@@ -110,15 +101,15 @@
       font-weight: 900;
       padding: 4px 12px;
       border: 3px double #000;
-      font-size: 13px;
+      font-size: 14px;
       transform: rotate(-3deg);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       animation: blink 0.4s infinite alternate;
     }
 
     @keyframes blink {
       from { opacity: 1; transform: scale(1) rotate(-3deg); }
-      to { opacity: 0.75; transform: scale(1.06) rotate(3deg); }
+      to { opacity: 0.7; transform: scale(1.08) rotate(3deg); }
     }
 
     .y2k-title {
@@ -126,8 +117,11 @@
       font-weight: 900;
       line-height: 1.25;
       color: #fff;
-      text-shadow: 3px 3px 0 #ff00de, -3px -3px 0 #00ffff, 0 0 20px #ffff00;
-      margin: 6px 0;
+      text-shadow: 
+        3px 3px 0 #ff00de,
+        -3px -3px 0 #00ffff,
+        0 0 20px #ffff00;
+      margin: 8px 0;
       word-break: keep-all;
     }
 
@@ -135,20 +129,20 @@
       display: inline-block;
       background: linear-gradient(90deg, #00ff00, #ffff00, #00ffff);
       color: #000;
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 900;
       padding: 6px 16px;
       border: 4px solid #ff0000;
       border-radius: 8px;
-      margin: 8px 0;
+      margin: 10px 0;
       box-shadow: 4px 4px 0 #000;
     }
 
     .y2k-sub {
       color: #ffd700;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: bold;
-      margin-top: 6px;
+      margin-top: 8px;
       text-shadow: 1px 1px 0 #000;
       line-height: 1.4;
     }
@@ -157,16 +151,16 @@
       display: flex;
       justify-content: center;
       gap: 12px;
-      margin: 12px 0 4px;
+      margin: 14px 0 6px;
     }
 
     .y2k-fu {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       background: #ffd700;
       border: 3px solid #fff;
       color: #d60000;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -177,18 +171,18 @@
     }
 
     .y2k-fu span {
-      transform: rotate(135deg);
+      transform: rotate(135deg); /* 역복(倒福) 패러디 */
     }
 
     @keyframes spinFu {
       0%, 100% { transform: rotate(45deg) scale(1); }
-      50% { transform: rotate(225deg) scale(1.12); }
+      50% { transform: rotate(225deg) scale(1.15); }
     }
 
-    .y2k-enter-btn {
+    .y2k-btn {
       width: 100%;
-      max-width: 390px;
-      padding: 19px 14px;
+      max-width: 380px;
+      padding: 18px 12px;
       font-size: 22px;
       font-weight: 900;
       color: #000;
@@ -204,1129 +198,240 @@
 
     @keyframes pulseBtn {
       from { transform: scale(0.97); }
-      to { transform: scale(1.03); filter: brightness(1.14); }
+      to { transform: scale(1.04); filter: brightness(1.2); }
     }
 
     .floating-sticker {
       position: absolute;
-      font-size: 26px;
+      font-size: 28px;
       pointer-events: none;
       animation: floatAround 4s linear infinite;
     }
 
     @keyframes floatAround {
       0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-18px) rotate(180deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
       100% { transform: translateY(0) rotate(360deg); }
     }
 
     /* =====================================================
-       2. 3D 선물 라인업 쇼케이스 화면 (UI/UX 개선 완료)
-       ===================================================== */
-    #showcase-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 180;
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      background: radial-gradient(circle at 50% 42%, #fffdf9 0%, #ffe8d1 52%, #ffc599 100%);
-      color: #4a2511;
-      padding: 12px 14px 14px;
-    }
-
-    /* 깔끔한 중앙 정렬 헤더 (건너뛰기 버튼 및 하단 중복 배너 제거) */
-    .showcase-top-bar {
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      background: rgba(255, 252, 247, 0.92);
-      border: 2.5px solid #ff9466;
-      border-radius: 22px;
-      padding: 10px 14px;
-      box-shadow: 0 5px 0 #e06338, 0 8px 18px rgba(180, 75, 35, 0.12);
-      z-index: 10;
-      flex-shrink: 0;
-    }
-
-    .showcase-top-sub {
-      font-size: 10px;
-      font-weight: 900;
-      color: #e05a2b;
-      letter-spacing: 1.2px;
-    }
-
-    .showcase-top-title {
-      font-size: 18px;
-      font-weight: 900;
-      color: #4a2511;
-      margin-top: 2px;
-    }
-
-    .showcase-top-hint {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 3px 12px;
-      border-radius: 99px;
-      background: #fff0e0;
-      color: #9c4119;
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    /* 3D 쇼케이스 무대 영역 (가리는 요소 없이 탁 트인 뷰포트) */
-    #showcase-canvas-wrap {
-      position: relative;
-      flex: 1;
-      width: 100%;
-      min-height: 220px;
-      overflow: hidden;
-      cursor: grab;
-      touch-action: none;
-    }
-
-    /* 컴팩트하고 세련된 하단 정보 & 이동 패널 */
-    .showcase-card-panel {
-      width: 100%;
-      max-width: 420px;
-      position: relative;
-      z-index: 15;
-      background: rgba(255, 252, 248, 0.95);
-      border: 3px solid #ff9f68;
-      border-radius: 24px;
-      padding: 12px 14px 14px;
-      box-shadow: 0 7px 0 #d96b38, 0 12px 26px rgba(92, 42, 12, 0.18);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .showcase-nav-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .nav-arrow-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #ffd166 0%, #f4a261 100%);
-      border: 2.5px solid #fff;
-      color: #4a2511;
-      font-size: 18px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 4px 0 #c96e2c;
-      flex-shrink: 0;
-      transition: transform 0.1s;
-    }
-
-    .nav-arrow-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #c96e2c;
-    }
-
-    .showcase-item-info {
-      flex: 1;
-      text-align: center;
-      min-width: 0;
-    }
-
-    .showcase-item-counter {
-      font-size: 11px;
-      font-weight: 900;
-      color: #e05a2b;
-      letter-spacing: 1px;
-    }
-
-    .showcase-item-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: #3d1e0d;
-      margin: 2px 0 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .showcase-item-meta {
-      display: inline-block;
-      background: #ffe8cf;
-      border: 1.5px solid #ffb076;
-      padding: 4px 12px;
-      border-radius: 99px;
-      font-size: 11.5px;
-      font-weight: 800;
-      color: #9c3d14;
-      line-height: 1.3;
-    }
-
-    .showcase-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .showcase-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #f5cba7;
-      transition: all 0.25s;
-    }
-
-    .showcase-dot.active {
-      width: 20px;
-      border-radius: 99px;
-      background: #ff6b35;
-    }
-
-    .showcase-next-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 16px;
-      border: 2px solid #fff3b0;
-      background: linear-gradient(180deg, #ff8c42 0%, #e04d19 100%);
-      color: #fff;
-      font-size: 17px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 5px 0 #9e3109, 0 8px 18px rgba(224, 77, 25, 0.3);
-      transition: transform 0.1s;
-    }
-
-    .showcase-next-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 #9e3109;
-    }
-
-    .showcase-skip-btn {
-      padding: 8px 16px;
-      border-radius: 99px;
-      background: #ffedd9;
-      border: 2px solid #f4a261;
-      color: #7c3517;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* =====================================================
-       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
-       ===================================================== */
-    #select-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 170;
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 16px 24px;
-      background: radial-gradient(circle at 50% 25%, #fff9f2 0%, #ffd8b5 55%, #ff9f68 100%);
-      color: #3d1e0d;
-    }
-
-    .select-header-card {
-      width: 100%;
-      max-width: 400px;
-      background: #fffdf9;
-      border: 4px solid #ff7b47;
-      border-radius: 26px;
-      padding: 20px 16px;
-      text-align: center;
-      box-shadow: 0 8px 0 #d9531e, 0 14px 30px rgba(180, 60, 20, 0.2);
-    }
-
-    .select-options-wrap {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .mode-select-card {
-      width: 100%;
-      padding: 18px 18px;
-      border-radius: 24px;
-      border: 3px solid #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-align: left;
-      transition: transform 0.12s;
-    }
-
-    .mode-select-card:active {
-      transform: translateY(4px);
-    }
-
-    .mode-select-card.card-claw {
-      background: linear-gradient(135deg, #ff8c42 0%, #ff3c6f 100%);
-      color: #fff;
-      box-shadow: 0 7px 0 #b81d47, 0 12px 25px rgba(255, 60, 111, 0.35);
-    }
-
-    .mode-select-card.card-slot {
-      background: linear-gradient(135deg, #f59e0b 0%, #b91c1c 100%);
-      color: #fff;
-      box-shadow: 0 7px 0 #7f1d1d, 0 12px 25px rgba(185, 28, 28, 0.4);
-    }
-
-    .mode-select-card.card-refuse {
-      background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
-      color: #cbd5e1;
-      padding: 14px 18px;
-      box-shadow: 0 5px 0 #0f172a;
-    }
-
-    .mode-card-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .mode-card-icon {
-      font-size: 36px;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
-    }
-
-    .mode-card-title {
-      font-size: 20px;
-      font-weight: 900;
-    }
-
-    .mode-card-desc {
-      font-size: 12px;
-      opacity: 0.92;
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
-    /* =====================================================
-       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
-       ===================================================== */
-    #sg-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      background: #000000;
-      color: #ffffff;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #sg-screen.show {
-      display: flex;
-    }
-
-    .sg-text {
-      font-size: 110px;
-      font-weight: 900;
-      letter-spacing: -2px;
-      animation: sgPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes sgPop {
-      from { transform: scale(0.1) rotate(-20deg); opacity: 0; }
-      to { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    /* =====================================================
-       5. 확률 +10% 상승 화려한 버프 토스트 팝업 & 상단 뱃지
-       ===================================================== */
-    #boost-banner-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 400;
-      pointer-events: none;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    #boost-banner-overlay.show {
-      display: flex;
-    }
-
-    .boost-popup-card {
-      background: linear-gradient(135deg, #fffbeb 0%, #fde047 45%, #f59e0b 100%);
-      border: 4px solid #ffffff;
-      border-radius: 28px;
-      padding: 20px 24px;
-      text-align: center;
-      color: #451a03;
-      box-shadow:
-        0 0 0 5px #ea580c,
-        0 0 50px rgba(251, 191, 36, 0.95),
-        0 20px 40px rgba(0, 0, 0, 0.5);
-      animation: boostExplosion 1.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes boostExplosion {
-      0% { opacity: 0; transform: scale(0.3) rotate(-8deg); }
-      18% { opacity: 1; transform: scale(1.12) rotate(3deg); }
-      30% { transform: scale(0.96) rotate(-1deg); }
-      45% { transform: scale(1.03) rotate(0deg); }
-      80% { opacity: 1; transform: scale(1) translateY(0); }
-      100% { opacity: 0; transform: scale(0.88) translateY(-30px); }
-    }
-
-    .boost-popup-tag {
-      display: inline-block;
-      background: #dc2626;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 900;
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 6px;
-    }
-
-    .boost-popup-main {
-      font-size: 25px;
-      font-weight: 900;
-      color: #7c2d12;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.8);
-      line-height: 1.25;
-    }
-
-    .boost-popup-sub {
-      margin-top: 6px;
-      font-size: 14px;
-      font-weight: 800;
-      color: #9a3412;
-    }
-
-    .luck-buff-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: linear-gradient(90deg, #ef4444, #f59e0b);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 3px 10px;
-      border-radius: 99px;
-      border: 1.5px solid #fff;
-      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-      animation: buffPulse 1s infinite alternate;
-    }
-
-    @keyframes buffPulse {
-      from { transform: scale(1); }
-      to { transform: scale(1.06); filter: brightness(1.1); }
-    }
-
-    /* =====================================================
-       6. 인형뽑기 화면: 따뜻한 하이엔드 3D 아케이드 스튜디오
+       2. 본 게임 화면: 하이엔드 글래스모피즘 3D 인형뽑기
        ===================================================== */
     #game-screen {
       position: fixed;
       inset: 0;
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: radial-gradient(circle at 50% 25%, #fffdf9 0%, #ffe4cc 52%, #ffc299 100%);
-      color: #3d261c;
+      background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #090d16 55%, #05070b 100%);
+      color: #ffffff;
       z-index: 10;
     }
 
-    .arcade-header {
+    /* 오로라 배경 빛 번짐 */
+    .ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 { width: 280px; height: 280px; background: #6366f1; top: -60px; left: -60px; }
+    .glow-2 { width: 320px; height: 320px; background: #ec4899; bottom: 80px; right: -80px; }
+
+    /* 상단 글래스 헤더 */
+    .glass-header {
       position: relative;
       z-index: 20;
-      margin: 10px 12px 0;
-      padding: 10px 14px;
-      background: linear-gradient(180deg, #fffaf4 0%, #ffedd9 100%);
-      border: 3px solid #ff8c61;
-      border-radius: 22px;
+      margin: 12px 14px 0;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 6px 0 #e06338, 0 10px 20px rgba(180, 75, 35, 0.18);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     }
 
-    .brand-box {
+    .header-title-wrap {
       display: flex;
       flex-direction: column;
-      gap: 2px;
     }
 
-    .brand-sub {
-      font-size: 10px;
-      font-weight: 800;
-      color: #e05a2b;
-      letter-spacing: 0.5px;
+    .header-sub {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #a5b4fc;
+      font-weight: 600;
     }
 
-    .brand-title {
+    .header-main {
       font-size: 16px;
-      font-weight: 900;
-      color: #4a2511;
+      font-weight: 700;
+      background: linear-gradient(90deg, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .top-btn-group {
-      display: flex;
-      gap: 7px;
-    }
-
-    .circle-ui-btn {
+    .icon-btn {
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: linear-gradient(180deg, #ffd166 0%, #f4a261 100%);
-      border: 2.5px solid #fff;
-      color: #4a2511;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
       font-size: 16px;
-      font-weight: 900;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 0 #c96e2c, 0 6px 12px rgba(0,0,0,0.15);
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
-    .circle-ui-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #c96e2c;
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.22);
     }
 
-    .hud-overlay-top {
+    /* 상태 토스트 바 */
+    #status-pill {
       position: relative;
       z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      align-self: center;
       margin-top: 8px;
-      pointer-events: none;
-    }
-
-    #status-pill {
-      pointer-events: auto;
       padding: 6px 16px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 2px solid #ffb085;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       font-size: 13px;
-      font-weight: 800;
-      color: #7c3517;
-      box-shadow: 0 4px 12px rgba(180, 75, 35, 0.12);
+      color: #e2e8f0;
+      font-weight: 500;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      transition: all 0.25s ease;
     }
 
-    .cam-preset-bar {
-      pointer-events: auto;
-      display: flex;
-      gap: 6px;
-    }
-
-    .cam-chip {
-      padding: 5px 11px;
-      border-radius: 99px;
-      background: rgba(255, 250, 244, 0.88);
-      border: 1.5px solid #f4a261;
-      color: #6b3419;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-      transition: all 0.15s;
-    }
-
-    .cam-chip:active, .cam-chip.active {
-      background: #ff7b47;
-      color: #fff;
-      border-color: #d9531e;
-    }
-
+    /* 3D 캔버스 영역 */
     #canvas-container {
       position: relative;
       flex: 1;
       width: 100%;
       z-index: 5;
       overflow: hidden;
-      cursor: grab;
-      touch-action: none;
     }
 
-    .rotate-hint {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(74, 37, 17, 0.68);
-      color: #fff9f2;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 99px;
-      pointer-events: none;
-      z-index: 15;
-      white-space: nowrap;
-    }
-
-    .arcade-deck {
+    /* 하단 글래스 컨트롤 독 */
+    .glass-controls {
       position: relative;
-      z-index: 25;
-      margin: 0 10px 10px;
-      padding: 14px 20px 18px;
-      background: linear-gradient(180deg, #fff5e6 0%, #f5d6b8 65%, #e3b992 100%);
-      border: 4px solid #d48c59;
-      border-radius: 30px;
-      box-shadow:
-        0 8px 0 #9c5b2e,
-        0 14px 30px rgba(92, 42, 12, 0.35),
-        inset 0 3px 2px rgba(255, 255, 255, 0.8);
+      z-index: 20;
+      margin: 0 14px 14px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 26px;
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      min-height: 148px;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
     }
 
-    .joystick-zone {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    /* 방향키 패드 (D-Pad) */
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 46px);
+      grid-template-rows: repeat(2, 46px);
       gap: 6px;
     }
 
-    .joystick-base {
-      width: 112px;
-      height: 112px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 45%, #475569 0%, #1e293b 70%, #0f172a 100%);
-      border: 5px solid #cbd5e1;
-      box-shadow:
-        0 6px 0 #64748b,
-        0 10px 18px rgba(0,0,0,0.3),
-        inset 0 4px 10px rgba(0,0,0,0.7);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: none;
-    }
-
-    .joystick-washer {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255,255,255,0.12);
-      position: absolute;
-      pointer-events: none;
-    }
-
-    .joystick-shaft {
-      width: 14px;
-      height: 40px;
-      background: linear-gradient(90deg, #94a3b8, #f8fafc, #475569);
-      border-radius: 7px;
-      position: absolute;
-      transform-origin: center bottom;
-      pointer-events: none;
-      bottom: 50%;
-    }
-
-    .joystick-ball {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 28%, #ff9999 0%, #ff2a2a 32%, #c90000 78%, #6b0000 100%);
-      box-shadow:
-        0 8px 16px rgba(0,0,0,0.45),
-        inset -3px -5px 10px rgba(0,0,0,0.4),
-        inset 4px 4px 10px rgba(255,255,255,0.65);
-      position: absolute;
-      cursor: pointer;
-      touch-action: none;
-      transition: transform 0.05s linear;
-    }
-
-    .dpad-zone {
-      display: none;
-      grid-template-columns: repeat(3, 44px);
-      grid-template-rows: repeat(2, 44px);
-      gap: 6px;
-    }
-
-    .arcade-dir-btn {
-      background: linear-gradient(180deg, #ff9f1c 0%, #e76f51 100%);
-      border: 2px solid #fff;
+    .dpad-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 14px;
       color: #fff;
       font-size: 18px;
-      font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 5px 0 #9c3d23, 0 6px 10px rgba(0,0,0,0.2);
-      touch-action: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 4px 10px rgba(0,0,0,0.25);
+      transition: transform 0.1s, background 0.15s;
     }
 
-    .arcade-dir-btn:active, .arcade-dir-btn.active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 #9c3d23;
-      filter: brightness(1.1);
+    .dpad-btn:active, .dpad-btn.active {
+      background: rgba(99, 102, 241, 0.55);
+      border-color: rgba(165, 180, 252, 0.8);
+      transform: scale(0.92);
     }
 
-    .control-label {
-      font-size: 11px;
-      font-weight: 800;
-      color: #6b3419;
-      letter-spacing: 0.5px;
-    }
-
-    .push-button-zone {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .arcade-push-housing {
-      width: 114px;
-      height: 114px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
-      padding: 10px;
-      box-shadow:
-        0 7px 0 #090d16,
-        0 12px 20px rgba(0,0,0,0.35),
-        inset 0 2px 3px rgba(255,255,255,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .arcade-push-plunger {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 3px solid #fff3b0;
-      background: radial-gradient(circle at 35% 30%, #fff07c 0%, #ffb703 45%, #fb8500 85%, #c15c00 100%);
-      color: #4a1c00;
-      font-size: 18px;
-      font-weight: 900;
-      line-height: 1.15;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow:
-        0 8px 0 #b55100,
-        0 10px 20px rgba(251, 133, 0, 0.55),
-        inset 0 4px 8px rgba(255, 255, 255, 0.8);
-      transition: transform 0.08s ease, box-shadow 0.08s ease;
-      transform: translateY(-4px);
-    }
-
-    .arcade-push-plunger span {
-      font-size: 11px;
-      font-weight: 800;
-      color: #6b2b00;
-      margin-top: 2px;
-    }
-
-    .arcade-push-plunger:active:not(:disabled) {
-      transform: translateY(3px);
-      box-shadow:
-        0 1px 0 #b55100,
-        0 3px 8px rgba(251, 133, 0, 0.4),
-        inset 0 3px 6px rgba(255, 255, 255, 0.6);
-    }
-
-    .arcade-push-plunger:disabled {
-      filter: grayscale(0.55) brightness(0.85);
-      cursor: not-allowed;
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #666;
-    }
-
-    /* =====================================================
-       7. VIP 배팅 머신 (슬롯머신) 화면
-       ===================================================== */
-    #slot-screen {
-      position: fixed;
-      inset: 0;
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      background: radial-gradient(circle at 50% 35%, #581c87 0%, #311042 48%, #13071e 100%);
-      color: #fef3c7;
-      z-index: 15;
-      padding: 10px 12px 16px;
-    }
-
-    .casino-header {
-      width: 100%;
-      max-width: 420px;
-      padding: 10px 14px;
-      background: linear-gradient(180deg, #4c1d95 0%, #2e1065 100%);
-      border: 3px solid #fbbf24;
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 6px 0 #92400e, 0 10px 25px rgba(0,0,0,0.6);
-    }
-
-    .slot-status-pill {
-      padding: 7px 16px;
-      border-radius: 99px;
-      background: rgba(15, 23, 42, 0.78);
-      border: 2px solid #fbbf24;
-      color: #fde68a;
-      font-size: 13px;
-      font-weight: 800;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.45);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    .slot-machine-stage {
-      position: relative;
-      width: 100%;
-      max-width: 410px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slot-cabinet {
-      width: 100%;
-      background: linear-gradient(180deg, #fde047 0%, #f59e0b 25%, #b45309 75%, #78350f 100%);
-      border: 4px solid #fffbeb;
-      border-radius: 32px;
-      padding: 14px 12px 18px;
-      box-shadow:
-        0 12px 0 #451a03,
-        0 20px 50px rgba(0, 0, 0, 0.8),
-        inset 0 3px 6px rgba(255, 255, 255, 0.85);
-      position: relative;
-    }
-
-    .slot-marquee-box {
-      background: linear-gradient(180deg, #1e1b4b 0%, #090d16 100%);
-      border: 3px solid #fde047;
-      border-radius: 20px;
-      padding: 8px 10px;
-      text-align: center;
-      margin-bottom: 12px;
-      box-shadow: inset 0 0 18px rgba(236, 72, 153, 0.55), 0 4px 10px rgba(0,0,0,0.45);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slot-bulbs-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 6px;
-      margin-bottom: 4px;
-    }
-
-    .slot-bulb {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #fde047;
-      box-shadow: 0 0 8px #fde047, 0 0 14px #f59e0b;
-      animation: bulbChase 0.6s infinite alternate;
-    }
-
-    .slot-bulb:nth-child(even) {
-      animation-delay: 0.3s;
-      background: #f43f5e;
-      box-shadow: 0 0 8px #f43f5e, 0 0 14px #e11d48;
-    }
-
-    @keyframes bulbChase {
-      from { opacity: 0.35; transform: scale(0.85); }
-      to { opacity: 1; transform: scale(1.15); }
-    }
-
-    .slot-marquee-title {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      color: #fff;
-      text-shadow: 0 0 10px #f43f5e, 0 0 20px #f59e0b;
-    }
-
-    .slot-marquee-sub {
-      font-size: 11px;
-      font-weight: 800;
-      color: #38bdf8;
-      margin-top: 2px;
-    }
-
-    .slot-window-frame {
-      position: relative;
-      background: #090d16;
-      border: 5px solid #451a03;
-      border-radius: 22px;
-      padding: 8px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      box-shadow:
-        inset 0 8px 18px rgba(0,0,0,0.9),
-        0 2px 0 rgba(255,255,255,0.6);
-    }
-
-    .payline-bar {
-      position: absolute;
-      left: -6px;
-      right: -6px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 108px;
-      border-top: 3px solid rgba(250, 204, 21, 0.9);
-      border-bottom: 3px solid rgba(250, 204, 21, 0.9);
-      background: linear-gradient(90deg, rgba(250,204,21,0.12), rgba(255,255,255,0.04), rgba(250,204,21,0.12));
-      pointer-events: none;
-      z-index: 12;
-      box-shadow: 0 0 16px rgba(250, 204, 21, 0.45);
-    }
-
-    .payline-badge-left, .payline-badge-right {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #dc2626;
-      border: 2px solid #fef08a;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 900;
-      padding: 3px 6px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    }
-    .payline-badge-left { left: -10px; }
-    .payline-badge-right { right: -10px; }
-
-    .reel-drum {
-      position: relative;
-      height: 232px;
-      background: #fffdf9;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
-    }
-
-    .reel-drum.tension-glow {
-      box-shadow: 0 0 22px #f43f5e, inset 0 0 18px #f59e0b;
-      border: 2px solid #fde047;
-    }
-
-    .reel-drum::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(10, 12, 22, 0.72) 0%,
-        rgba(10, 12, 22, 0.18) 22%,
-        rgba(255, 255, 255, 0.15) 46%,
-        rgba(255, 255, 255, 0) 54%,
-        rgba(10, 12, 22, 0.18) 78%,
-        rgba(10, 12, 22, 0.72) 100%
-      );
-      pointer-events: none;
-      z-index: 8;
-    }
-
-    .reel-strip {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      will-change: transform;
-    }
-
-    .reel-strip.spinning-blur {
-      filter: blur(1.4px);
-    }
-
-    .slot-cell {
-      height: 104px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1.5px dashed #e2e8f0;
-      padding: 4px;
-      background: radial-gradient(circle, #ffffff 0%, #fff7ed 100%);
-    }
-
-    .slot-cell-emoji {
-      font-size: 44px;
-      line-height: 1;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
-    }
-
-    .slot-cell-name {
-      font-size: 12px;
-      font-weight: 900;
-      color: #1e293b;
-      margin-top: 4px;
-      text-align: center;
-      word-break: keep-all;
-    }
-
-    .slot-cell-prob {
-      font-size: 9px;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 99px;
-      color: #fff;
-      margin-top: 2px;
-    }
-
-    .slot-info-bar {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .slot-lcd-box {
-      background: #140726;
-      border: 2px solid #fbbf24;
-      border-radius: 12px;
-      padding: 6px 4px;
-      text-align: center;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
-    }
-
-    .slot-lcd-label {
-      font-size: 9px;
-      font-weight: 800;
-      color: #a78bfa;
-      letter-spacing: 0.5px;
-    }
-
-    .slot-lcd-val {
-      font-size: 14px;
-      font-weight: 900;
-      color: #fde047;
-      margin-top: 1px;
-    }
-
-    .slot-control-deck {
-      width: 100%;
-      max-width: 410px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .slot-spin-btn {
+    /* 우측 액션 버튼 영역 */
+    .action-area {
       flex: 1;
-      padding: 18px 16px;
-      border-radius: 24px;
-      border: 3px solid #fef08a;
-      background: linear-gradient(180deg, #ff4d6d 0%, #e11d48 50%, #9f1239 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cam-btn {
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .drop-btn {
+      padding: 16px 12px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(236, 72, 153, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.35);
       color: #fff;
-      font-size: 21px;
-      font-weight: 900;
+      font-size: 17px;
+      font-weight: 800;
       letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow:
-        0 8px 0 #4c0519,
-        0 12px 30px rgba(225, 29, 72, 0.55),
-        inset 0 3px 6px rgba(255, 255, 255, 0.5);
-      transition: transform 0.08s, box-shadow 0.08s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4), inset 0 1px 2px rgba(255,255,255,0.4);
+      transition: transform 0.15s, opacity 0.2s;
     }
 
-    .slot-spin-btn span {
-      font-size: 11px;
-      color: #fde047;
-      font-weight: 800;
-      margin-top: 2px;
+    .drop-btn:active {
+      transform: scale(0.95);
     }
 
-    .slot-spin-btn:active:not(:disabled) {
-      transform: translateY(5px);
-      box-shadow: 0 3px 0 #4c0519, 0 6px 15px rgba(225, 29, 72, 0.4);
-    }
-
-    .slot-spin-btn:disabled {
-      filter: grayscale(0.5) brightness(0.8);
+    .drop-btn:disabled {
+      opacity: 0.45;
       cursor: not-allowed;
-      transform: translateY(3px);
-      box-shadow: 0 3px 0 #333;
-    }
-
-    .slot-lever-box {
-      width: 78px;
-      height: 78px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
-      border: 3px solid #fbbf24;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 7px 0 #090d16, 0 10px 20px rgba(0,0,0,0.5);
-      position: relative;
-      transition: transform 0.15s;
-    }
-
-    .slot-lever-ball {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b 60%, #b45309 100%);
-      border: 2px solid #fff;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .slot-lever-box.pulled .slot-lever-ball {
-      transform: translateY(18px) scale(0.9);
-    }
-
-    .slot-lever-label {
-      font-size: 10px;
-      font-weight: 900;
-      color: #fde68a;
-      margin-top: 5px;
     }
 
     /* =====================================================
-       8. 모달 공통 (확률표 ? / 설정 ⚙️ / 보상 확정 O X / 캡처 티켓)
+       3. 모달 공통 (확률표 ? 모달 / 보상 확정 O X / 최종 캡처)
        ===================================================== */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 300;
-      background: rgba(54, 26, 12, 0.65);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      z-index: 60;
+      background: rgba(4, 6, 12, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1335,23 +440,23 @@
 
     .modal-overlay.show {
       display: flex;
-      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: fadeIn 0.25s ease-out;
     }
 
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.88); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
 
-    .warm-modal {
+    .glass-modal {
       width: 100%;
       max-width: 400px;
-      background: #fffaf4;
-      border: 4px solid #ff9f68;
+      background: rgba(25, 30, 48, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 28px;
-      padding: 22px 18px;
-      color: #4a2511;
-      box-shadow: 0 10px 0 #d96b38, 0 20px 50px rgba(0,0,0,0.35);
+      padding: 22px 20px;
+      color: #fff;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2);
       max-height: 88dvh;
       overflow-y: auto;
     }
@@ -1360,13 +465,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .modal-title {
-      font-size: 19px;
-      font-weight: 900;
-      color: #4a2511;
+      font-size: 18px;
+      font-weight: 800;
     }
 
     .prob-list {
@@ -1381,9 +485,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 12px;
-      border-radius: 16px;
-      background: #fff0e0;
-      border: 2px solid #ffd5b5;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .prob-left {
@@ -1393,114 +497,71 @@
     }
 
     .prob-emoji {
-      font-size: 24px;
+      font-size: 22px;
     }
 
     .prob-name {
       font-size: 14px;
-      font-weight: 800;
-      color: #3d1e0d;
+      font-weight: 700;
     }
 
     .prob-desc {
       font-size: 11px;
-      color: #8c5233;
-      font-weight: 600;
+      color: #94a3b8;
     }
 
     .prob-badge {
       font-size: 13px;
-      font-weight: 900;
-      padding: 5px 10px;
+      font-weight: 800;
+      padding: 4px 10px;
       border-radius: 99px;
-      background: #ff7b47;
-      color: #fff;
-      text-align: right;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      color: #c7d2fe;
     }
 
-    .setting-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 12px;
-      background: #fff0e0;
-      border: 2px solid #ffd5b5;
-      border-radius: 16px;
-      margin-bottom: 10px;
-    }
-
-    .setting-label {
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .mode-toggle-group {
-      display: flex;
-      gap: 6px;
-    }
-
-    .mode-btn {
-      padding: 8px 12px;
-      border-radius: 12px;
-      border: 2px solid #f4a261;
-      background: #fff;
-      color: #6b3419;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .mode-btn.active {
-      background: #ff7b47;
-      color: #fff;
-      border-color: #c94614;
-    }
-
+    /* 보상 확정 (O / X) 스타일 */
     .reward-preview-box {
       text-align: center;
-      padding: 20px 12px;
-      margin: 10px 0 16px;
+      padding: 22px 12px;
+      margin: 12px 0 18px;
       border-radius: 22px;
-      background: radial-gradient(circle, #fffdf9 0%, #ffe3c4 100%);
-      border: 3px solid #ffb076;
-      box-shadow: inset 0 2px 10px rgba(255, 140, 66, 0.18);
+      background: radial-gradient(circle, rgba(99,102,241,0.28) 0%, rgba(15,23,42,0.5) 100%);
+      border: 1px solid rgba(255,255,255,0.16);
     }
 
     .reward-big-emoji {
-      font-size: 70px;
+      font-size: 68px;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
       display: inline-block;
       animation: bounceItem 1.4s ease-in-out infinite;
     }
 
     @keyframes bounceItem {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-10px) scale(1.06); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .reward-title {
       font-size: 24px;
-      font-weight: 900;
-      color: #3d1e0d;
-      margin-top: 8px;
+      font-weight: 800;
+      margin-top: 10px;
     }
 
     .reward-tier {
       display: inline-block;
       margin-top: 6px;
       font-size: 12px;
-      color: #d94e1f;
-      font-weight: 800;
-      background: #ffdcc2;
-      padding: 4px 10px;
-      border-radius: 99px;
+      color: #f472b6;
+      font-weight: 700;
     }
 
     .confirm-question {
       text-align: center;
-      font-size: 19px;
-      font-weight: 900;
-      margin-bottom: 16px;
-      color: #4a2511;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #f8fafc;
     }
 
     .ox-buttons {
@@ -1510,9 +571,9 @@
     }
 
     .ox-btn {
-      padding: 16px;
-      border-radius: 22px;
-      font-size: 32px;
+      padding: 18px;
+      border-radius: 20px;
+      font-size: 30px;
       font-weight: 900;
       cursor: pointer;
       display: flex;
@@ -1520,66 +581,69 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
-      border: 3px solid #fff;
-      transition: transform 0.1s;
+      transition: transform 0.15s;
     }
 
     .ox-btn span {
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 700;
     }
 
     .ox-btn.btn-o {
-      background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.85), rgba(5, 150, 105, 0.85));
+      border: 1px solid rgba(110, 231, 183, 0.5);
       color: #fff;
-      box-shadow: 0 6px 0 #065f46, 0 10px 20px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
     }
 
     .ox-btn.btn-x {
-      background: linear-gradient(180deg, #fb7185 0%, #e11d48 100%);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.85), rgba(185, 28, 28, 0.85));
+      border: 1px solid rgba(252, 165, 165, 0.5);
       color: #fff;
-      box-shadow: 0 6px 0 #9f1239, 0 10px 20px rgba(225, 29, 72, 0.3);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35);
     }
 
     .ox-btn:active {
-      transform: translateY(4px);
+      transform: scale(0.95);
     }
 
+    /* 최종 캡처 티켓 화면 */
     .capture-ticket {
-      background: linear-gradient(180deg, #fffdf9 0%, #fff0df 100%);
-      border: 3px dashed #ff8c52;
+      background: linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.28);
       border-radius: 24px;
-      padding: 20px 16px;
+      padding: 24px 18px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .capture-notice {
-      margin-top: 14px;
-      padding: 16px 12px;
+      margin-top: 18px;
+      padding: 16px 14px;
       border-radius: 16px;
-      background: #ff7b47;
+      background: rgba(99, 102, 241, 0.22);
+      border: 1px solid rgba(165, 180, 252, 0.45);
       color: #fff;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.5;
       word-break: keep-all;
-      box-shadow: 0 4px 12px rgba(255, 123, 71, 0.35);
     }
 
     .capture-notice strong {
-      color: #fff380;
+      color: #fde047;
       font-size: 16px;
     }
 
     .ticket-meta {
       margin-top: 14px;
       padding-top: 12px;
-      border-top: 1.5px dashed #f4a261;
+      border-top: 1px dashed rgba(255,255,255,0.2);
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      font-weight: 700;
-      color: #8c5233;
+      color: #94a3b8;
     }
   </style>
 </head>
@@ -1589,13 +653,13 @@
        1. 인트로 화면 (Y2K 병맛 대륙풍 생일 축하 화면)
        ===================================================== -->
   <div id="intro-screen">
-    <div class="floating-sticker" style="top:10%; left:6%;">🐉</div>
-    <div class="floating-sticker" style="top:16%; right:6%; animation-delay:1s;">🎂</div>
-    <div class="floating-sticker" style="bottom:20%; left:8%; animation-delay:0.5s;">💰</div>
-    <div class="floating-sticker" style="bottom:22%; right:8%; animation-delay:1.5s;">🎆</div>
+    <div class="floating-sticker" style="top:12%; left:8%;">🐉</div>
+    <div class="floating-sticker" style="top:18%; right:8%; animation-delay:1s;">🎂</div>
+    <div class="floating-sticker" style="bottom:22%; left:10%; animation-delay:0.5s;">💰</div>
+    <div class="floating-sticker" style="bottom:25%; right:10%; animation-delay:1.5s;">🎆</div>
 
     <div class="y2k-marquee">
-      <span>★경축★ 2026년 10월 14일 우주대스타 유지성님 탄신일 기념 VIP 전산망 무료 개방!! 100% 당첨 보장 선물 뽑기 가동중 ★축하합니다★</span>
+      <span>★경축★ 2026년 10월 14일 우주대스타 유지성님 탄신일 기념 VIP 전산망 무료 개방!! 100% 당첨 보장 황금 인형뽑기 가동중 ★축하합니다★</span>
     </div>
 
     <div class="y2k-card">
@@ -1603,7 +667,7 @@
       <div class="y2k-title">유지성님<br>생일 축하드립니다!</div>
       <div class="y2k-date">2026년 10월 14일</div>
       <div class="y2k-sub">
-        ★ 대륙의 기운을 담은 초호화 생일 선물 ★<br>
+        ★ 대륙의 기운을 담은 초호화 선물 뽑기 ★<br>
         생일자 본인이 직접 선물을 뽑으십시오!!
       </div>
       <div class="y2k-fu-grid">
@@ -1613,8 +677,9 @@
       </div>
     </div>
 
-    <button class="y2k-enter-btn" id="enter-showcase-btn">
-      🎁 뽑을 수 있는 선물 확인하기 🎁
+    <button class="y2k-btn" id="start-game-btn">
+      🎁 선물 뽑으러 입장하기 🎁<br>
+      <span style="font-size:13px; color:#fff; text-shadow:1px 1px 0 #000;">(클릭 시 초고화질 3D 그래픽 가동)</span>
     </button>
 
     <div class="y2k-marquee" style="border-color:#00ffff;">
@@ -1623,307 +688,71 @@
   </div>
 
   <!-- =====================================================
-       2. 3D 선물 라인업 쇼케이스 화면 (UI/UX 및 3D 비율 완벽 개선)
-       ===================================================== -->
-  <div id="showcase-screen">
-    <div class="showcase-top-bar">
-      <div class="showcase-top-sub">JISUNG'S BIRTHDAY PRIZE LINEUP</div>
-      <div class="showcase-top-title">✨ 유지성님이 뽑을 수 있는 상품 ✨</div>
-      <div class="showcase-top-hint">👆 좌우로 스와이프하여 8가지 3D 선물을 둘러보세요</div>
-    </div>
-
-    <div id="showcase-canvas-wrap"></div>
-
-    <div class="showcase-card-panel">
-      <div class="showcase-nav-row">
-        <button class="nav-arrow-btn" id="sc-prev-btn">◀</button>
-        <div class="showcase-item-info">
-          <div class="showcase-item-counter" id="sc-item-counter">PRIZE 1 / 8</div>
-          <div class="showcase-item-title" id="sc-item-title">🥊 복싱 글러브</div>
-          <div class="showcase-item-meta" id="sc-item-meta">극악 난이도 · 특대형 헤비급 · 현재 확률 1.5%</div>
-        </div>
-        <button class="nav-arrow-btn" id="sc-next-btn">▶</button>
-      </div>
-
-      <div class="showcase-dots" id="sc-dots"></div>
-
-      <button class="showcase-next-btn" id="go-select-screen-btn">
-        게임 선택하러 가기 ➔
-      </button>
-    </div>
-  </div>
-
-  <!-- =====================================================
-       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
-       ===================================================== -->
-  <div id="select-screen">
-    <div class="select-header-card">
-      <div style="font-size:11px; font-weight:900; color:#e05a2b; letter-spacing:1px;">2026. 10. 14 HAPPY BIRTHDAY</div>
-      <div style="font-size:24px; font-weight:900; margin-top:4px;">어떤 기계로 뽑으시겠어요?</div>
-      <div style="font-size:13px; color:#8c5233; font-weight:700; margin-top:6px;">
-        안 뽑힐 때마다 <strong style="color:#d9381e;">확률 +10% 상승 버프</strong>가 발동됩니다!
-      </div>
-    </div>
-
-    <div class="select-options-wrap">
-      <button class="mode-select-card card-claw" id="choose-claw-btn">
-        <div class="mode-card-left">
-          <span class="mode-card-icon">🕹️</span>
-          <div>
-            <div class="mode-card-title">3D 인형뽑기</div>
-            <div class="mode-card-desc">투명 유리천장 360° 시점 조절 & 아케이드 조이스틱</div>
-          </div>
-        </div>
-        <span style="font-size:22px; font-weight:900;">➔</span>
-      </button>
-
-      <button class="mode-select-card card-slot" id="choose-slot-btn">
-        <div class="mode-card-left">
-          <span class="mode-card-icon">🎰</span>
-          <div>
-            <div class="mode-card-title">VIP 배팅 머신</div>
-            <div class="mode-card-desc">띠링띠링~ 3릴 잭팟 슬롯! 레버를 당겨 한방 승부!</div>
-          </div>
-        </div>
-        <span style="font-size:22px; font-weight:900;">➔</span>
-      </button>
-
-      <button class="mode-select-card card-refuse" id="choose-refuse-btn">
-        <div class="mode-card-left">
-          <span class="mode-card-icon" style="font-size:26px;">🚫</span>
-          <div>
-            <div class="mode-card-title" style="font-size:17px;">생일 선물 안받음</div>
-            <div class="mode-card-desc">선물 없이 쿨하게 앱 종료하기</div>
-          </div>
-        </div>
-        <span style="font-size:18px; font-weight:900;">✕</span>
-      </button>
-    </div>
-
-    <button class="showcase-skip-btn" id="back-to-showcase-btn" style="padding:10px 18px; font-size:13px;">
-      🎁 3D 선물 라인업 다시 보기
-    </button>
-  </div>
-
-  <!-- =====================================================
-       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
-       ===================================================== -->
-  <div id="sg-screen">
-    <div class="sg-text">ㅅㄱ~</div>
-  </div>
-
-  <!-- =====================================================
-       5. 확률 +10% 상승 화려한 버프 팝업 오버레이
-       ===================================================== -->
-  <div id="boost-banner-overlay">
-    <div class="boost-popup-card" id="boost-popup-card">
-      <div class="boost-popup-tag">🔥 LUCKY FEVER BUFF 🔥</div>
-      <div class="boost-popup-main">확률 +10% 상승!!</div>
-      <div class="boost-popup-sub" id="boost-popup-sub">현재 누적 확률 버프: +10% UP!</div>
-    </div>
-  </div>
-
-  <!-- =====================================================
-       6. 인형뽑기 게임 화면 (천장 투명 유리 + 3D 토이 아케이드)
+       2. 본 게임 화면 (글래스모피즘 + 3D 크레인 게임)
        ===================================================== -->
   <div id="game-screen">
-    <header class="arcade-header">
-      <div class="brand-box">
-        <span class="brand-sub">HAPPY BIRTHDAY JISUNG · 2026.10.14</span>
-        <div class="brand-title">
-          <span>🎪 지성 기프트 아케이드</span>
-          <span class="luck-buff-pill" id="claw-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
-        </div>
-      </div>
-      <div class="top-btn-group">
-        <button class="circle-ui-btn" id="claw-home-btn" title="게임 선택 화면으로">🏠</button>
-        <button class="circle-ui-btn" id="settings-btn" title="조작 설정">⚙️</button>
-        <button class="circle-ui-btn" id="prob-btn-claw" title="확률 및 상품 안내">?</button>
-      </div>
-    </header>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
 
-    <div class="hud-overlay-top">
-      <div id="status-pill">조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!</div>
-      <div class="cam-preset-bar">
-        <button class="cam-chip active" data-view="front">정면 뷰</button>
-        <button class="cam-chip" data-view="side">측면 뷰</button>
-        <button class="cam-chip" data-view="top">위에서 조준(유리천장)</button>
-        <button class="cam-chip" data-view="iso">대각선 뷰</button>
+    <!-- 상단 글래스 헤더 -->
+    <header class="glass-header">
+      <div class="header-title-wrap">
+        <span class="header-sub">JISUNG'S 2026.10.14 EDITION</span>
+        <span class="header-main">3D 프리즘 크레인</span>
       </div>
-    </div>
-
-    <div id="canvas-container">
-      <div class="rotate-hint">👆 화면을 드래그하면 기계를 360° 돌려볼 수 있어요</div>
-    </div>
-
-    <div class="arcade-deck">
-      <div class="joystick-zone" id="joystick-ui">
-        <div class="joystick-base" id="joystick-pad">
-          <div class="joystick-washer"></div>
-          <div class="joystick-shaft" id="joystick-shaft"></div>
-          <div class="joystick-ball" id="joystick-ball"></div>
-        </div>
-        <span class="control-label">🕹️ 조이스틱 이동</span>
-      </div>
-
-      <div class="joystick-zone" id="dpad-ui" style="display:none;">
-        <div class="dpad-zone" style="display:grid;">
-          <div></div>
-          <button class="arcade-dir-btn" data-dir="up">▲</button>
-          <div></div>
-          <button class="arcade-dir-btn" data-dir="left">◀</button>
-          <button class="arcade-dir-btn" data-dir="down">▼</button>
-          <button class="arcade-dir-btn" data-dir="right">▶</button>
-        </div>
-        <span class="control-label">➕ 버튼 이동</span>
-      </div>
-
-      <div class="push-button-zone">
-        <div class="arcade-push-housing">
-          <button class="arcade-push-plunger" id="drop-btn">
-            PUSH!
-            <span>선물 뽑기</span>
-          </button>
-        </div>
-        <span class="control-label">🔴 뽑기 확정 버튼</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================================================
-       7. VIP 배팅 머신 (슬롯머신) 화면
-       ===================================================== -->
-  <div id="slot-screen">
-    <header class="casino-header">
-      <div class="brand-box">
-        <span class="brand-sub" style="color:#fbbf24;">VIP VEGAS BETTING MACHINE · 2026.10.14</span>
-        <div class="brand-title" style="color:#fffbeb;">
-          <span>🎰 지성 로얄 배팅 머신</span>
-          <span class="luck-buff-pill" id="slot-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
-        </div>
-      </div>
-      <div class="top-btn-group">
-        <button class="circle-ui-btn" id="slot-home-btn" title="게임 선택 화면으로">🏠</button>
-        <button class="circle-ui-btn" id="prob-btn-slot" title="확률 및 상품 안내">?</button>
+      <div class="header-actions">
+        <button class="icon-btn" id="sound-btn" title="사운드 켜기/끄기">🔊</button>
+        <button class="icon-btn" id="prob-btn" title="확률 및 상품 정보">?</button>
       </div>
     </header>
 
-    <div class="slot-status-pill" id="slot-status">
-      3개의 릴이 똑같이 맞춰지면 해당 상품 당첨! (빗나가면 확률 +10% 상승!)
-    </div>
+    <!-- 현재 상태 표시 바 -->
+    <div id="status-pill">조이스틱으로 조준 후 DROP 버튼을 누르세요</div>
 
-    <div class="slot-machine-stage">
-      <div class="slot-cabinet">
-        <div class="slot-marquee-box">
-          <div class="slot-bulbs-row">
-            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
-            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
-            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
-            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
-          </div>
-          <div class="slot-marquee-title">777 BIRTHDAY JACKPOT 777</div>
-          <div class="slot-marquee-sub">★ 중앙 라인에 같은 선물 3개가 모이면 즉시 당첨 ★</div>
-        </div>
+    <!-- 3D 캔버스 컨테이너 -->
+    <div id="canvas-container"></div>
 
-        <div class="slot-window-frame">
-          <div class="payline-bar">
-            <span class="payline-badge-left">PAY ▶</span>
-            <span class="payline-badge-right">◀ WIN</span>
-          </div>
-
-          <div class="reel-drum" id="reel-drum-0">
-            <div class="reel-strip" id="reel-strip-0"></div>
-          </div>
-          <div class="reel-drum" id="reel-drum-1">
-            <div class="reel-strip" id="reel-strip-1"></div>
-          </div>
-          <div class="reel-drum" id="reel-drum-2">
-            <div class="reel-strip" id="reel-strip-2"></div>
-          </div>
-        </div>
-
-        <div class="slot-info-bar">
-          <div class="slot-lcd-box">
-            <div class="slot-lcd-label">BET CREDIT</div>
-            <div class="slot-lcd-val">FREE ∞</div>
-          </div>
-          <div class="slot-lcd-box">
-            <div class="slot-lcd-label">LUCK BUFF</div>
-            <div class="slot-lcd-val" id="slot-lcd-buff">+0%</div>
-          </div>
-          <div class="slot-lcd-box">
-            <div class="slot-lcd-label">WIN RATE</div>
-            <div class="slot-lcd-val" id="slot-lcd-winrate">45%</div>
-          </div>
-        </div>
+    <!-- 하단 글래스 컨트롤러 -->
+    <div class="glass-controls">
+      <div class="dpad">
+        <div></div>
+        <button class="dpad-btn" data-dir="up">▲</button>
+        <div></div>
+        <button class="dpad-btn" data-dir="left">◀</button>
+        <button class="dpad-btn" data-dir="down">▼</button>
+        <button class="dpad-btn" data-dir="right">▶</button>
       </div>
-    </div>
 
-    <div class="slot-control-deck">
-      <button class="slot-spin-btn" id="slot-spin-btn">
-        🎰 BET & SPIN!
-        <span>배팅 머신 돌리기 (띠링띠링~)</span>
-      </button>
-      <div class="slot-lever-box" id="slot-lever-btn" title="레버 당기기">
-        <div class="slot-lever-ball"></div>
-        <div class="slot-lever-label">PULL!</div>
+      <div class="action-area">
+        <button class="cam-btn" id="cam-toggle-btn">🎥 시점 전환 (정면 / 위에서 조준)</button>
+        <button class="drop-btn" id="drop-btn">DROP (뽑기)</button>
       </div>
     </div>
   </div>
 
   <!-- =====================================================
-       8. [⚙️] 설정 모달
-       ===================================================== -->
-  <div class="modal-overlay" id="settings-modal">
-    <div class="warm-modal">
-      <div class="modal-header">
-        <div class="modal-title">⚙️ 아케이드 기계 설정</div>
-        <button class="circle-ui-btn" id="close-settings-btn" style="width:34px; height:34px; font-size:14px;">✕</button>
-      </div>
-
-      <div class="setting-row">
-        <span class="setting-label">🎮 조작 방식 선택</span>
-        <div class="mode-toggle-group">
-          <button class="mode-btn active" id="mode-joystick-btn">🕹️ 조이스틱</button>
-          <button class="mode-btn" id="mode-dpad-btn">➕ 버튼(방향키)</button>
-        </div>
-      </div>
-
-      <div class="setting-row">
-        <span class="setting-label">🔊 효과음 사운드</span>
-        <button class="mode-btn active" id="toggle-sound-btn">켜짐 (ON)</button>
-      </div>
-
-      <div class="setting-row">
-        <span class="setting-label">🔄 상품 위치 다시 섞기</span>
-        <button class="mode-btn" id="shuffle-prizes-btn">재배치</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================================================
-       9. [?] 상품별 확률 안내 모달 (실시간 상승 확률 반영)
+       3. [?] 상품 확률 및 난이도 안내 모달
        ===================================================== -->
   <div class="modal-overlay" id="prob-modal">
-    <div class="warm-modal">
+    <div class="glass-modal">
       <div class="modal-header">
-        <div class="modal-title">📊 상품 크기 & 실시간 확률표</div>
-        <button class="circle-ui-btn" id="close-prob-btn" style="width:34px; height:34px; font-size:14px;">✕</button>
+        <div class="modal-title">📊 상품별 크기 및 획득 확률</div>
+        <button class="icon-btn" id="close-prob-btn">✕</button>
       </div>
-      <p style="font-size:12px; color:#7c3f1c; line-height:1.5; font-weight:600;" id="prob-modal-desc">
-        안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!
+      <p style="font-size:12px; color:#cbd5e1; line-height:1.5; margin-bottom:10px;">
+        상품마다 <strong>크기와 무게</strong>가 다르게 설정되어 있습니다. 무겁고 큰 상품일수록 집게가 들어 올리는 도중 미끄러질 확률이 높습니다!
       </p>
       <div class="prob-list" id="prob-list-container"></div>
     </div>
   </div>
 
   <!-- =====================================================
-       10. 보상 확정 (O / X) 모달
+       4. 보상 확정 (O / X) 모달
        ===================================================== -->
   <div class="modal-overlay" id="confirm-modal">
-    <div class="warm-modal">
-      <div class="modal-header" style="justify-content:center; margin-bottom:2px;">
-        <div class="modal-title">🎉 선물 당첨 성공!!</div>
+    <div class="glass-modal">
+      <div class="modal-header" style="justify-content:center; margin-bottom:4px;">
+        <div class="modal-title">🎉 선물 획득 성공!</div>
       </div>
 
       <div class="reward-preview-box">
@@ -1937,30 +766,30 @@
       <div class="ox-buttons">
         <button class="ox-btn btn-o" id="btn-confirm-o">
           O
-          <span>이 선물로 확정!</span>
+          <span>확정하기</span>
         </button>
         <button class="ox-btn btn-x" id="btn-confirm-x">
           X
-          <span>다시 하기 (확률 +10% UP!)</span>
+          <span>다시 뽑기</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- =====================================================
-       11. 최종 캡처 인증 화면 모달 (O 선택 시)
+       5. 최종 캡처 인증 화면 모달 (O 선택 시)
        ===================================================== -->
   <div class="modal-overlay" id="final-modal">
-    <div class="warm-modal">
+    <div class="glass-modal">
       <div class="capture-ticket">
-        <div style="font-size:11px; letter-spacing:1.5px; color:#d9531e; font-weight:900;">
-          HAPPY BIRTHDAY JISUNG · 2026.10.14
+        <div style="font-size:11px; letter-spacing:2px; color:#a5b4fc; font-weight:700;">
+          HAPPY BIRTHDAY JISUNG
         </div>
-        <div style="font-size:20px; font-weight:900; margin-top:4px; color:#3d1e0d;">
-          🎂 생일 선물 당첨 교환권 🎂
+        <div style="font-size:19px; font-weight:800; margin-top:4px;">
+          🎂 생일 선물 당첨 인증서 🎂
         </div>
 
-        <div class="reward-preview-box" style="margin:14px 0;">
+        <div class="reward-preview-box" style="margin:16px 0;">
           <div class="reward-big-emoji" id="final-emoji">🎁</div>
           <div class="reward-title" id="final-name">상품명</div>
           <div class="reward-tier" id="final-prob">확률 정보</div>
@@ -1971,26 +800,25 @@
         </div>
 
         <div class="ticket-meta">
-          <span>당첨자: 유지성 님</span>
-          <span>생일: 2026년 10월 14일</span>
+          <span>수령인: 유지성 님</span>
+          <span>기념일: 2026. 10. 14</span>
         </div>
       </div>
 
-      <button class="mode-btn" id="replay-anyway-btn" style="width:100%; margin-top:12px; padding:12px; font-size:13px;">
-        🔄 게임 선택 화면으로 돌아가기
+      <button class="cam-btn" id="replay-anyway-btn" style="width:100%; margin-top:12px; padding:12px;">
+        🔄 재미로 한 번 더 해보기
       </button>
     </div>
   </div>
 
   <script>
     /* =====================================================
-       1. 사운드 효과음 신디사이저 ('띠링띠링~' 배팅 머신 벨 사운드 포함)
+       사운드 신디사이저 (외부 오디오 파일 없이 효과음 생성)
        ===================================================== */
-    class ArcadeSound {
+    class SoundFX {
       constructor() {
         this.ctx = null;
         this.enabled = true;
-        this.chimeIdx = 0;
       }
       init() {
         if (!this.ctx) {
@@ -1999,7 +827,7 @@
         }
         if (this.ctx.state === 'suspended') this.ctx.resume();
       }
-      tone(freq, type = 'sine', duration = 0.12, vol = 0.1) {
+      playTone(freq, type = 'sine', duration = 0.12, vol = 0.12) {
         if (!this.enabled) return;
         this.init();
         const osc = this.ctx.createOscillator();
@@ -2013,1130 +841,302 @@
         osc.start();
         osc.stop(this.ctx.currentTime + duration);
       }
-      diriring() {
-        const melody = [
-          { f: 587.33, t: 0 },
-          { f: 739.99, t: 90 },
-          { f: 880.00, t: 180 },
-          { f: 1174.66, t: 270 },
-          { f: 659.25, t: 480 },
-          { f: 830.61, t: 570 },
-          { f: 987.77, t: 660 },
-          { f: 1318.51, t: 750 }
-        ];
-        melody.forEach((n) => {
-          setTimeout(() => this.tone(n.f, 'triangle', 0.24, 0.13), n.t);
+      playIntroFanfare() {
+        const notes = [523, 659, 784, 1046, 784, 1046];
+        notes.forEach((n, i) => {
+          setTimeout(() => this.playTone(n, 'square', 0.18, 0.1), i * 110);
         });
       }
-      slotDdiring() {
-        const bells = [1046.5, 1318.5, 1567.98, 2093.0];
-        const f = bells[this.chimeIdx % bells.length];
-        this.chimeIdx++;
-        this.tone(f, 'triangle', 0.075, 0.085);
+      playMove() {
+        this.playTone(320, 'triangle', 0.05, 0.04);
       }
-      reelLock(reelIndex) {
-        const lockFreqs = [523.25, 659.25, 783.99];
-        this.tone(160, 'square', 0.06, 0.12);
-        setTimeout(() => {
-          this.tone(lockFreqs[reelIndex] || 784, 'triangle', 0.22, 0.16);
-        }, 35);
+      playDrop() {
+        this.playTone(440, 'sine', 0.25, 0.1);
+        setTimeout(() => this.playTone(300, 'sine', 0.3, 0.1), 150);
       }
-      fanfare() {
-        [523, 659, 784, 1046, 784, 1046].forEach((n, i) => {
-          setTimeout(() => this.tone(n, 'triangle', 0.2, 0.12), i * 105);
+      playSlip() {
+        this.playTone(250, 'sawtooth', 0.2, 0.12);
+        setTimeout(() => this.playTone(160, 'sawtooth', 0.35, 0.12), 160);
+      }
+      playWin() {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((n, i) => {
+          setTimeout(() => this.playTone(n, 'triangle', 0.28, 0.15), i * 120);
         });
-      }
-      boostUp() {
-        [440, 554, 659, 880, 1108, 1318].forEach((n, i) => {
-          setTimeout(() => this.tone(n, 'sine', 0.18, 0.14), i * 65);
-        });
-      }
-      click() {
-        this.tone(620, 'sine', 0.06, 0.06);
-      }
-      drop() {
-        this.tone(520, 'triangle', 0.18, 0.12);
-        setTimeout(() => this.tone(360, 'triangle', 0.25, 0.12), 120);
-      }
-      slip() {
-        this.tone(280, 'sawtooth', 0.18, 0.1);
-        setTimeout(() => this.tone(175, 'sawtooth', 0.3, 0.1), 150);
-      }
-      win() {
-        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((n, i) => {
-          setTimeout(() => this.tone(n, 'triangle', 0.26, 0.15), i * 95);
-        });
-      }
-      bye() {
-        this.tone(300, 'sawtooth', 0.15, 0.12);
-        setTimeout(() => this.tone(140, 'sawtooth', 0.4, 0.15), 120);
       }
     }
-    const sfx = new ArcadeSound();
+    const sfx = new SoundFX();
 
     /* =====================================================
-       2. 8종 상품 데이터 및 실시간 확률 +10% 상승(버프) 시스템
+       상품 데이터 정의
+       순서: 복싱 글러브 < 10000원 미만 음식 선택권 < 영양제 < 빅맥 < 하모니카, 초코에몽, 바나나우유, 마이쭈
        ===================================================== */
-    const PRIZE_LIST = [
+    const PRIZE_TYPES = [
       {
         id: 'glove',
         name: '복싱 글러브',
-        shortLabel: '복싱 글러브',
         emoji: '🥊',
-        radius: 0.52,
-        baseGrabChance: 0.03,
-        baseWeight: 1.5,
-        isRare: true,
-        badgeColor: '#dc2626',
-        tierDesc: '극악 난이도 · 특대형 헤비급'
+        color: '#ef4444',
+        subColor: '#991b1b',
+        radius: 0.56,         // 가장 크고 무거움 (집게에서 잘 빠짐)
+        grabChance: 0.025,    // 집었을 때 안 떨어지고 나올 확률 2.5%
+        displayProb: '1.5%',
+        tierDesc: '극악 난이도 · 특대형/초중량',
+        count: 2
       },
       {
         id: 'food_voucher',
         name: '10000원 미만 음식 선택권',
-        shortLabel: '1만원 식권',
         emoji: '🎫',
-        radius: 0.46,
-        baseGrabChance: 0.07,
-        baseWeight: 4.5,
-        isRare: true,
-        badgeColor: '#f59e0b',
-        tierDesc: '최상 난이도 · 대형 황금 티켓'
+        color: '#f59e0b',
+        subColor: '#b45309',
+        radius: 0.49,
+        grabChance: 0.06,
+        displayProb: '4.5%',
+        tierDesc: '최상 난이도 · 대형 티켓',
+        count: 2
       },
       {
         id: 'vitamin',
         name: '영양제',
-        shortLabel: '영양제',
         emoji: '💊',
-        radius: 0.41,
-        baseGrabChance: 0.13,
-        baseWeight: 8.0,
-        isRare: true,
-        badgeColor: '#10b981',
-        tierDesc: '상급 난이도 · 묵직한 영양제 통'
+        color: '#10b981',
+        subColor: '#047857',
+        radius: 0.44,
+        grabChance: 0.11,
+        displayProb: '8.0%',
+        tierDesc: '상급 난이도 · 묵직한 보틀',
+        count: 3
       },
       {
         id: 'bigmac',
         name: '빅맥',
-        shortLabel: '빅맥',
         emoji: '🍔',
-        radius: 0.38,
-        baseGrabChance: 0.20,
-        baseWeight: 12.0,
-        isRare: true,
-        badgeColor: '#ea580c',
-        tierDesc: '중상 난이도 · 더블 패티 버거'
+        color: '#d97706',
+        subColor: '#65a30d',
+        radius: 0.40,
+        grabChance: 0.18,
+        displayProb: '12.0%',
+        tierDesc: '중상 난이도 · 중형 사이즈',
+        count: 3
       },
       {
         id: 'harmonica',
         name: '하모니카',
-        shortLabel: '하모니카',
         emoji: '🎶',
-        radius: 0.33,
-        baseGrabChance: 0.36,
-        baseWeight: 18.0,
-        isRare: false,
-        badgeColor: '#6366f1',
-        tierDesc: '보통 난이도 · 클래식 하모니카'
+        color: '#94a3b8',
+        subColor: '#475569',
+        radius: 0.34,
+        grabChance: 0.35,
+        displayProb: '18.0%',
+        tierDesc: '보통 난이도 · 소형 사이즈',
+        count: 4
       },
       {
         id: 'choco',
         name: '초코에몽',
-        shortLabel: '초코에몽',
         emoji: '🧃',
-        radius: 0.32,
-        baseGrabChance: 0.39,
-        baseWeight: 18.5,
-        isRare: false,
-        badgeColor: '#78350f',
-        tierDesc: '보통 난이도 · 진한 초코 드링크'
+        color: '#78350f',
+        subColor: '#38bdf8',
+        radius: 0.33,
+        grabChance: 0.38,
+        displayProb: '18.5%',
+        tierDesc: '보통 난이도 · 소형 팩',
+        count: 4
       },
       {
         id: 'banana',
         name: '바나나우유',
-        shortLabel: '바나나우유',
         emoji: '🍌',
-        radius: 0.32,
-        baseGrabChance: 0.39,
-        baseWeight: 18.5,
-        isRare: false,
-        badgeColor: '#ca8a04',
-        tierDesc: '보통 난이도 · 달콤 단지우유'
+        color: '#fde047',
+        subColor: '#16a34a',
+        radius: 0.33,
+        grabChance: 0.38,
+        displayProb: '18.5%',
+        tierDesc: '보통 난이도 · 소형 단지',
+        count: 4
       },
       {
         id: 'mychew',
         name: '마이쭈',
-        shortLabel: '마이쭈',
         emoji: '🍬',
-        radius: 0.30,
-        baseGrabChance: 0.44,
-        baseWeight: 19.0,
-        isRare: false,
-        badgeColor: '#ec4899',
-        tierDesc: '쉬움 난이도 · 쫄깃 딸기 마이쭈'
+        color: '#ec4899',
+        subColor: '#db2777',
+        radius: 0.31,
+        grabChance: 0.42,
+        displayProb: '19.0%',
+        tierDesc: '쉬움 난이도 · 초소형 스낵',
+        count: 4
       }
     ];
 
-    let luckBoostStack = 0;
-
-    function getEffectiveGrabChance(item) {
-      return Math.min(0.95, item.baseGrabChance + luckBoostStack * 0.10);
-    }
-
-    function getEffectiveWeight(item) {
-      if (luckBoostStack === 0) return item.baseWeight;
-      if (item.isRare) {
-        return item.baseWeight * (1 + luckBoostStack * 0.38);
-      } else {
-        return Math.max(4, item.baseWeight * Math.pow(0.91, luckBoostStack));
-      }
-    }
-
-    function getEffectiveProbPercent(item) {
-      const totalW = PRIZE_LIST.reduce((acc, p) => acc + getEffectiveWeight(p), 0);
-      return ((getEffectiveWeight(item) / totalW) * 100).toFixed(1) + '%';
-    }
-
-    function getSlotHitChance() {
-      return Math.min(0.98, 0.45 + luckBoostStack * 0.15);
-    }
-
-    function updateSlotDashboard() {
-      const boostPct = luckBoostStack * 10;
-      document.getElementById('slot-lcd-buff').textContent = `+${boostPct}%`;
-      document.getElementById('slot-lcd-winrate').textContent = `${Math.round(getSlotHitChance() * 100)}%`;
-    }
-
-    function renderProbListModal() {
-      const probContainer = document.getElementById('prob-list-container');
-      probContainer.innerHTML = '';
-      const boostPct = luckBoostStack * 10;
-
-      document.getElementById('prob-modal-desc').innerHTML =
-        boostPct > 0
-          ? `🔥 <strong>현재 행운 버프 +${boostPct}% 적용 중!</strong><br>집게 그립력, 배팅 머신 당첨률(${Math.round(getSlotHitChance() * 100)}%), 상위 희귀 선물 출현율이 모두 크게 상승했습니다!`
-          : `안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!`;
-
-      PRIZE_LIST.forEach((p) => {
-        const curProb = getEffectiveProbPercent(p);
-        const grabPct = Math.round(getEffectiveGrabChance(p) * 100);
-        const row = document.createElement('div');
-        row.className = 'prob-item';
-        row.innerHTML = `
-          <div class="prob-left">
-            <div class="prob-emoji">${p.emoji}</div>
-            <div>
-              <div class="prob-name">${p.name}</div>
-              <div class="prob-desc">${p.tierDesc} · 인형뽑기 그립 ${grabPct}%</div>
-            </div>
+    // 확률표 모달 리스트 렌더링
+    const probListEl = document.getElementById('prob-list-container');
+    PRIZE_TYPES.forEach((item) => {
+      const row = document.createElement('div');
+      row.className = 'prob-item';
+      row.innerHTML = `
+        <div class="prob-left">
+          <div class="prob-emoji">${item.emoji}</div>
+          <div>
+            <div class="prob-name">${item.name}</div>
+            <div class="prob-desc">${item.tierDesc}</div>
           </div>
-          <div class="prob-badge">${curProb}</div>
-        `;
-        probContainer.appendChild(row);
-      });
-    }
-    renderProbListModal();
-
-    let boostTimer = null;
-    function triggerProbabilityBoost(reasonText = '') {
-      luckBoostStack++;
-      const totalBoost = luckBoostStack * 10;
-      sfx.boostUp();
-
-      const clawBadge = document.getElementById('claw-buff-badge');
-      const slotBadge = document.getElementById('slot-buff-badge');
-      clawBadge.style.display = 'inline-flex';
-      slotBadge.style.display = 'inline-flex';
-      clawBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
-      slotBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
-
-      const overlay = document.getElementById('boost-banner-overlay');
-      const card = document.getElementById('boost-popup-card');
-      const sub = document.getElementById('boost-popup-sub');
-
-      sub.textContent = `${reasonText ? reasonText + ' · ' : ''}현재 누적 확률 버프 +${totalBoost}% UP!`;
-
-      overlay.classList.remove('show');
-      void card.offsetWidth;
-      overlay.classList.add('show');
-
-      if (boostTimer) clearTimeout(boostTimer);
-      boostTimer = setTimeout(() => {
-        overlay.classList.remove('show');
-      }, 1950);
-
-      updateSlotDashboard();
-      renderProbListModal();
-    }
+        </div>
+        <div class="prob-badge">${item.displayProb}</div>
+      `;
+      probListEl.appendChild(row);
+    });
 
     /* =====================================================
-       3. 공통 3D 입체 상품 모델 생성기 (복싱 글러브 등 디테일 강화)
-       ===================================================== */
-    function makeLabelCanvas(title, sub, bgHex, textHex = '#ffffff') {
-      const cvs = document.createElement('canvas');
-      cvs.width = 256;
-      cvs.height = 128;
-      const ctx = cvs.getContext('2d');
-      ctx.fillStyle = bgHex;
-      ctx.fillRect(0, 0, 256, 128);
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 6;
-      ctx.strokeRect(6, 6, 244, 116);
-      ctx.fillStyle = textHex;
-      ctx.font = 'bold 34px Pretendard, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(title, 128, 52);
-      ctx.font = 'bold 20px Pretendard, sans-serif';
-      ctx.fillText(sub, 128, 92);
-      return new THREE.CanvasTexture(cvs);
-    }
-
-    function createCustom3DPrize(item, includeShell = true) {
-      const root = new THREE.Group();
-
-      if (includeShell) {
-        const shell = new THREE.Mesh(
-          new THREE.SphereGeometry(item.radius, 24, 20),
-          new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.20,
-            roughness: 0.08
-          })
-        );
-        root.add(shell);
-      }
-
-      const model = new THREE.Group();
-
-      if (item.id === 'glove') {
-        const redMat = new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.35, metalness: 0.08 });
-        const cuffMat = new THREE.MeshStandardMaterial({ color: 0xfff8eb, roughness: 0.4 });
-        const goldLabelTex = makeLabelCanvas('CHAMP', 'PRO GLOVE', '#f59e0b', '#ffffff');
-        const goldMat = new THREE.MeshStandardMaterial({ map: goldLabelTex, metalness: 0.3, roughness: 0.25 });
-
-        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.28, 22, 18), redMat);
-        fist.scale.set(1.0, 1.12, 0.86);
-        fist.position.y = 0.08;
-        model.add(fist);
-
-        const thumb = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 14), redMat);
-        thumb.scale.set(0.85, 1.22, 0.85);
-        thumb.position.set(0.22, 0.05, 0.09);
-        thumb.rotation.z = -0.38;
-        model.add(thumb);
-
-        const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.20, 20), cuffMat);
-        cuff.position.y = -0.19;
-        model.add(cuff);
-
-        const strap = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.09, 20), goldMat);
-        strap.position.y = -0.17;
-        model.add(strap);
-
-      } else if (item.id === 'food_voucher') {
-        const tex = makeLabelCanvas('₩10,000', '음식 선택권 VIP', '#f59e0b', '#fffbeb');
-        const cardMat = new THREE.MeshStandardMaterial({ color: 0xffd166, metalness: 0.5, roughness: 0.25 });
-        const faceMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.2 });
-
-        const ticket = new THREE.Mesh(
-          new THREE.BoxGeometry(0.60, 0.36, 0.11),
-          [cardMat, cardMat, cardMat, cardMat, faceMat, faceMat]
-        );
-        ticket.rotation.x = -0.22;
-        model.add(ticket);
-
-      } else if (item.id === 'vitamin') {
-        const tex = makeLabelCanvas('VITA+', '고농축 영양제', '#10b981', '#ffffff');
-        const body = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.20, 0.20, 0.42, 22),
-          new THREE.MeshStandardMaterial({ map: tex, roughness: 0.25 })
-        );
-        model.add(body);
-
-        const cap = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.17, 0.17, 0.11, 20),
-          new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 })
-        );
-        cap.position.y = 0.25;
-        model.add(cap);
-
-      } else if (item.id === 'bigmac') {
-        const bunMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.55 });
-        const pattyMat = new THREE.MeshStandardMaterial({ color: 0x5c2c16, roughness: 0.8 });
-        const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.3 });
-        const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x65a30d, roughness: 0.5 });
-
-        const bBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.22, 0.08, 20), bunMat);
-        bBun.position.y = -0.17;
-        model.add(bBun);
-
-        const patty1 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
-        patty1.position.y = -0.10;
-        model.add(patty1);
-
-        const cheese = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.02, 0.40), cheeseMat);
-        cheese.position.y = -0.06;
-        cheese.rotation.y = 0.4;
-        model.add(cheese);
-
-        const midBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.06, 20), bunMat);
-        midBun.position.y = -0.01;
-        model.add(midBun);
-
-        const lettuce = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.04, 14), lettuceMat);
-        lettuce.position.y = 0.04;
-        model.add(lettuce);
-
-        const patty2 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
-        patty2.position.y = 0.09;
-        model.add(patty2);
-
-        const topBun = new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), bunMat);
-        topBun.position.y = 0.12;
-        model.add(topBun);
-
-      } else if (item.id === 'harmonica') {
-        const chrome = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.8, roughness: 0.2 });
-        const wood = new THREE.MeshStandardMaterial({ color: 0x9a3412, roughness: 0.5 });
-
-        const core = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.1, 0.18), wood);
-        model.add(core);
-
-        const topPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
-        topPlate.position.y = 0.07;
-        model.add(topPlate);
-
-        const botPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
-        botPlate.position.y = -0.07;
-        model.add(botPlate);
-
-      } else if (item.id === 'choco') {
-        const tex = makeLabelCanvas('초코에몽', 'CHOCO DRINK', '#5c2c16', '#7dd3fc');
-        const sideMat = new THREE.MeshStandardMaterial({ color: 0x5c2c16, roughness: 0.4 });
-        const frontMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.3 });
-
-        const pack = new THREE.Mesh(
-          new THREE.BoxGeometry(0.26, 0.40, 0.18),
-          [sideMat, sideMat, sideMat, sideMat, frontMat, frontMat]
-        );
-        model.add(pack);
-
-        const straw = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.015, 0.015, 0.16, 8),
-          new THREE.MeshStandardMaterial({ color: 0x38bdf8 })
-        );
-        straw.position.set(0.06, 0.24, 0);
-        straw.rotation.z = -0.25;
-        model.add(straw);
-
-      } else if (item.id === 'banana') {
-        const yellowMat = new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.25 });
-        const greenMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.3 });
-
-        const lowerJar = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.16, 0.21, 20), yellowMat);
-        lowerJar.position.y = -0.09;
-        model.add(lowerJar);
-
-        const upperJar = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.21, 0.17, 20), yellowMat);
-        upperJar.position.y = 0.09;
-        model.add(upperJar);
-
-        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.05, 20), greenMat);
-        cap.position.y = 0.20;
-        model.add(cap);
-
-      } else if (item.id === 'mychew') {
-        const tex = makeLabelCanvas('마이쭈', 'STRAWBERRY', '#ec4899', '#ffffff');
-        const pinkMat = new THREE.MeshStandardMaterial({ color: 0xf472b6 });
-        const faceMat = new THREE.MeshStandardMaterial({ map: tex });
-
-        const stick = new THREE.Mesh(
-          new THREE.BoxGeometry(0.42, 0.18, 0.16),
-          [pinkMat, pinkMat, faceMat, faceMat, faceMat, faceMat]
-        );
-        stick.rotation.z = 0.25;
-        model.add(stick);
-      }
-
-      root.add(model);
-      return root;
-    }
-
-    /* =====================================================
-       4. 3D 선물 쇼케이스 캐러셀 구현 (카메라 거리 & 포커스 스케일링 최적화)
-       ===================================================== */
-    const scWrap = document.getElementById('showcase-canvas-wrap');
-    const scScene = new THREE.Scene();
-
-    // ★ 카메라 거리를 z=5.0으로 넓혀 3D 상품과 받침대가 하단 카드에 절대 가리지 않고 한눈에 들어오도록 개선 ★
-    const scCamera = new THREE.PerspectiveCamera(36, 1, 0.1, 50);
-    scCamera.position.set(0, 0.72, 5.05);
-    scCamera.lookAt(0, -0.04, 0);
-
-    const scRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    scRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    scRenderer.outputEncoding = THREE.sRGBEncoding;
-    scWrap.appendChild(scRenderer.domElement);
-
-    scScene.add(new THREE.HemisphereLight(0xfffdf9, 0xf4a261, 0.95));
-    const scDirLight = new THREE.DirectionalLight(0xffffff, 0.85);
-    scDirLight.position.set(4, 7, 5);
-    scScene.add(scDirLight);
-
-    const carouselGroup = new THREE.Group();
-    carouselGroup.position.y = 0.04;
-    scScene.add(carouselGroup);
-
-    const CAROUSEL_RADIUS = 1.95;
-    const scItemNodes = [];
-    let scCurrentIndex = 0;
-    let scTargetAngle = 0;
-    let scCurrentAngle = Math.PI * 2.5;
-
-    const scDotsEl = document.getElementById('sc-dots');
-    PRIZE_LIST.forEach((item, idx) => {
-      const angle = (idx / PRIZE_LIST.length) * Math.PI * 2;
-      const holder = new THREE.Group();
-      holder.position.set(Math.sin(angle) * CAROUSEL_RADIUS, 0, Math.cos(angle) * CAROUSEL_RADIUS);
-
-      // 고급스러운 2단 원형 전시 받침대
-      const ped = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.42, 0.48, 0.08, 28),
-        new THREE.MeshStandardMaterial({ color: 0xfff3e0, metalness: 0.15, roughness: 0.3 })
-      );
-      ped.position.y = -0.38;
-      holder.add(ped);
-
-      const pedRim = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.45, 0.45, 0.03, 28),
-        new THREE.MeshStandardMaterial({ color: 0xff8c42, metalness: 0.4, roughness: 0.25 })
-      );
-      pedRim.position.y = -0.33;
-      holder.add(pedRim);
-
-      const prize3D = createCustom3DPrize(item, false);
-      holder.add(prize3D);
-
-      carouselGroup.add(holder);
-      scItemNodes.push({ holder, prize3D, item, baseAngle: angle });
-
-      const dot = document.createElement('div');
-      dot.className = 'showcase-dot' + (idx === 0 ? ' active' : '');
-      scDotsEl.appendChild(dot);
-    });
-
-    function updateShowcaseUI(index) {
-      const item = PRIZE_LIST[index];
-      document.getElementById('sc-item-counter').textContent = `PRIZE ${index + 1} / ${PRIZE_LIST.length}`;
-      document.getElementById('sc-item-title').textContent = `${item.emoji} ${item.name}`;
-      document.getElementById('sc-item-meta').textContent =
-        `${item.tierDesc} · 현재 확률 ${getEffectiveProbPercent(item)}`;
-
-      Array.from(scDotsEl.children).forEach((d, i) => {
-        d.classList.toggle('active', i === index);
-      });
-    }
-
-    function moveShowcaseTo(newIndex) {
-      const count = PRIZE_LIST.length;
-      scCurrentIndex = (newIndex + count) % count;
-      const stepAngle = (Math.PI * 2) / count;
-      const desiredAngle = -scCurrentIndex * stepAngle;
-
-      let diff = (desiredAngle - scTargetAngle) % (Math.PI * 2);
-      if (diff > Math.PI) diff -= Math.PI * 2;
-      if (diff < -Math.PI) diff += Math.PI * 2;
-      scTargetAngle += diff;
-
-      sfx.click();
-      updateShowcaseUI(scCurrentIndex);
-    }
-
-    document.getElementById('sc-prev-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex - 1));
-    document.getElementById('sc-next-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex + 1));
-
-    let scSwipeStartX = null;
-    scWrap.addEventListener('pointerdown', (e) => {
-      scSwipeStartX = e.clientX;
-    });
-    scWrap.addEventListener('pointerup', (e) => {
-      if (scSwipeStartX === null) return;
-      const dx = e.clientX - scSwipeStartX;
-      if (dx < -30) moveShowcaseTo(scCurrentIndex + 1);
-      else if (dx > 30) moveShowcaseTo(scCurrentIndex - 1);
-      scSwipeStartX = null;
-    });
-
-    function resizeShowcase() {
-      const w = scWrap.clientWidth || window.innerWidth;
-      const h = scWrap.clientHeight || window.innerHeight * 0.52;
-      scCamera.aspect = w / h;
-      // 모바일 세로 화면 비율에 맞춰 카메라 거리 자동 보정 (가림 현상 원천 차단)
-      scCamera.position.z = w / h < 0.85 ? 5.25 : 4.75;
-      scCamera.updateProjectionMatrix();
-      scRenderer.setSize(w, h);
-    }
-
-    /* =====================================================
-       5. 화면 흐름 제어 (인트로 ➔ 3D 쇼케이스 ➔ 3버튼 선택 ➔ 게임)
-       ===================================================== */
-    let activeGameMode = 'CLAW';
-    const introScreen = document.getElementById('intro-screen');
-    const showcaseScreen = document.getElementById('showcase-screen');
-    const selectScreen = document.getElementById('select-screen');
-    const gameScreen = document.getElementById('game-screen');
-    const slotScreen = document.getElementById('slot-screen');
-    const sgScreen = document.getElementById('sg-screen');
-
-    function openShowcaseScreen() {
-      introScreen.style.display = 'none';
-      selectScreen.style.display = 'none';
-      showcaseScreen.style.display = 'flex';
-      showcaseScreen.classList.add('screen-fade-in');
-      resizeShowcase();
-
-      sfx.diriring();
-      scCurrentIndex = 0;
-      scTargetAngle = 0;
-      scCurrentAngle = Math.PI * 2.25;
-      updateShowcaseUI(0);
-    }
-
-    function openSelectScreen() {
-      sfx.click();
-      showcaseScreen.style.display = 'none';
-      gameScreen.style.display = 'none';
-      slotScreen.style.display = 'none';
-      selectScreen.style.display = 'flex';
-      selectScreen.classList.add('screen-fade-in');
-    }
-
-    document.getElementById('enter-showcase-btn').addEventListener('click', openShowcaseScreen);
-    document.getElementById('go-select-screen-btn').addEventListener('click', openSelectScreen);
-    document.getElementById('back-to-showcase-btn').addEventListener('click', openShowcaseScreen);
-
-    document.getElementById('choose-claw-btn').addEventListener('click', () => {
-      sfx.fanfare();
-      activeGameMode = 'CLAW';
-      selectScreen.style.display = 'none';
-      slotScreen.style.display = 'none';
-      gameScreen.style.display = 'flex';
-      gameScreen.classList.add('screen-fade-in');
-      handleResize();
-    });
-
-    document.getElementById('choose-slot-btn').addEventListener('click', () => {
-      sfx.fanfare();
-      activeGameMode = 'SLOT';
-      selectScreen.style.display = 'none';
-      gameScreen.style.display = 'none';
-      slotScreen.style.display = 'flex';
-      slotScreen.classList.add('screen-fade-in');
-      updateSlotDashboard();
-    });
-
-    document.getElementById('choose-refuse-btn').addEventListener('click', () => {
-      sfx.bye();
-      selectScreen.style.display = 'none';
-      gameScreen.style.display = 'none';
-      slotScreen.style.display = 'none';
-      sgScreen.classList.add('show');
-    });
-
-    document.getElementById('claw-home-btn').addEventListener('click', openSelectScreen);
-    document.getElementById('slot-home-btn').addEventListener('click', openSelectScreen);
-
-    /* =====================================================
-       6. VIP 배팅 머신 (3릴 슬롯머신) 엔진 & 띠링띠링 사운드
-       ===================================================== */
-    const CELL_HEIGHT = 104;
-    const DRUM_CENTER_OFFSET = 64;
-    const REPEAT_SETS = 9;
-
-    const reelStrips = [
-      document.getElementById('reel-strip-0'),
-      document.getElementById('reel-strip-1'),
-      document.getElementById('reel-strip-2')
-    ];
-    const reelDrums = [
-      document.getElementById('reel-drum-0'),
-      document.getElementById('reel-drum-1'),
-      document.getElementById('reel-drum-2')
-    ];
-    const slotSpinBtn = document.getElementById('slot-spin-btn');
-    const slotLeverBtn = document.getElementById('slot-lever-btn');
-    const slotStatusEl = document.getElementById('slot-status');
-
-    let isSlotSpinning = false;
-    let currentReelIndices = [0, 1, 2];
-
-    function buildSlotReels() {
-      reelStrips.forEach((strip, rIdx) => {
-        strip.innerHTML = '';
-        for (let s = 0; s < REPEAT_SETS; s++) {
-          PRIZE_LIST.forEach((item) => {
-            const cell = document.createElement('div');
-            cell.className = 'slot-cell';
-            cell.innerHTML = `
-              <div class="slot-cell-emoji">${item.emoji}</div>
-              <div class="slot-cell-name">${item.shortLabel}</div>
-              <div class="slot-cell-prob" style="background:${item.badgeColor};">${getEffectiveProbPercent(item)}</div>
-            `;
-            strip.appendChild(cell);
-          });
-        }
-        const initCellIndex = 8 + currentReelIndices[rIdx];
-        const initY = DRUM_CENTER_OFFSET - initCellIndex * CELL_HEIGHT;
-        strip.style.transform = `translate3d(0, ${initY}px, 0)`;
-      });
-    }
-    buildSlotReels();
-
-    function pickWeightedPrize() {
-      const totalW = PRIZE_LIST.reduce((acc, item) => acc + getEffectiveWeight(item), 0);
-      let r = Math.random() * totalW;
-      for (let i = 0; i < PRIZE_LIST.length; i++) {
-        const w = getEffectiveWeight(PRIZE_LIST[i]);
-        if (r < w) return i;
-        r -= w;
-      }
-      return PRIZE_LIST.length - 1;
-    }
-
-    function slotEaseOutBack(t) {
-      const c1 = 1.45;
-      const c3 = c1 + 1;
-      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-    }
-
-    function startSlotSpin() {
-      if (isSlotSpinning) return;
-      isSlotSpinning = true;
-      slotSpinBtn.disabled = true;
-
-      slotLeverBtn.classList.add('pulled');
-      setTimeout(() => slotLeverBtn.classList.remove('pulled'), 380);
-
-      buildSlotReels();
-
-      const isWin = Math.random() < getSlotHitChance();
-      const mainPrizeIdx = pickWeightedPrize();
-      let targetIndices = [0, 0, 0];
-      let isNearMiss = false;
-
-      if (isWin) {
-        targetIndices = [mainPrizeIdx, mainPrizeIdx, mainPrizeIdx];
-      } else {
-        if (Math.random() < 0.8) {
-          isNearMiss = true;
-          const offIdx = (mainPrizeIdx + (Math.random() < 0.5 ? 1 : PRIZE_LIST.length - 1)) % PRIZE_LIST.length;
-          targetIndices = [mainPrizeIdx, mainPrizeIdx, offIdx];
-        } else {
-          const idx1 = pickWeightedPrize();
-          const idx2 = (idx1 + 2) % PRIZE_LIST.length;
-          const idx3 = (idx1 + 5) % PRIZE_LIST.length;
-          targetIndices = [idx1, idx2, idx3];
-        }
-      }
-
-      slotStatusEl.textContent = '🎵 띠링띠링~ 배팅 머신이 회전합니다!!';
-      sfx.drop();
-
-      const reelConfigs = [0, 1, 2].map((rIdx) => {
-        const startCell = 8 + currentReelIndices[rIdx];
-        const targetSet = 5 + rIdx;
-        const endCell = targetSet * 8 + targetIndices[rIdx];
-        const startY = DRUM_CENTER_OFFSET - startCell * CELL_HEIGHT;
-        const endY = DRUM_CENTER_OFFSET - endCell * CELL_HEIGHT;
-        const duration = rIdx === 0 ? 1850 : rIdx === 1 ? 2750 : (isWin || isNearMiss ? 4100 : 3450);
-
-        reelStrips[rIdx].classList.add('spinning-blur');
-        return {
-          rIdx,
-          startY,
-          endY,
-          duration,
-          locked: false,
-          lastSoundCell: startCell
-        };
-      });
-
-      const startTime = performance.now();
-
-      function animateReels(now) {
-        const elapsed = now - startTime;
-        let allLocked = true;
-
-        reelConfigs.forEach((cfg) => {
-          if (cfg.locked) return;
-          allLocked = false;
-
-          const t = Math.min(1, elapsed / cfg.duration);
-
-          if (cfg.rIdx === 2 && elapsed > 2780 && (isWin || isNearMiss)) {
-            reelDrums[2].classList.add('tension-glow');
-            const teaseName = PRIZE_LIST[targetIndices[0]].name;
-            slotStatusEl.textContent = `🔥 [${teaseName}] 2개 일치!! 마지막 3번째 릴 과연?!`;
-          }
-
-          let curY;
-          if (t < 0.08) {
-            const pullT = t / 0.08;
-            curY = cfg.startY + Math.sin(pullT * Math.PI) * 22;
-          } else {
-            const spinT = (t - 0.08) / 0.92;
-            const eased = slotEaseOutBack(spinT);
-            curY = cfg.startY + (cfg.endY - cfg.startY) * eased;
-          }
-
-          reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${curY}px, 0)`;
-
-          const currentCellFloat = (DRUM_CENTER_OFFSET - curY) / CELL_HEIGHT;
-          const currentCellInt = Math.floor(currentCellFloat);
-          if (currentCellInt !== cfg.lastSoundCell) {
-            cfg.lastSoundCell = currentCellInt;
-            const firstActiveReel = reelConfigs.find((rc) => !rc.locked);
-            if (firstActiveReel && firstActiveReel.rIdx === cfg.rIdx) {
-              sfx.slotDdiring();
-            }
-          }
-
-          if (t >= 1) {
-            cfg.locked = true;
-            reelStrips[cfg.rIdx].classList.remove('spinning-blur');
-            reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${cfg.endY}px, 0)`;
-            sfx.reelLock(cfg.rIdx);
-          }
-        });
-
-        if (!allLocked) {
-          requestAnimationFrame(animateReels);
-        } else {
-          reelDrums[2].classList.remove('tension-glow');
-          currentReelIndices = [...targetIndices];
-          isSlotSpinning = false;
-          slotSpinBtn.disabled = false;
-
-          if (isWin) {
-            const wonItem = PRIZE_LIST[mainPrizeIdx];
-            slotStatusEl.textContent = `🎉 777 JACKPOT!! [${wonItem.name}] 3개 일치 당첨!!`;
-            setTimeout(() => {
-              openConfirmModalByItem(wonItem);
-            }, 480);
-          } else {
-            const missReason = isNearMiss
-              ? `아깝다! [${PRIZE_LIST[mainPrizeIdx].shortLabel}] 한 칸 차이!`
-              : '배팅 머신 꽝 보너스!';
-            triggerProbabilityBoost(missReason);
-            slotStatusEl.textContent = `😱 아깝게 빗나갔습니다! 뽑기 확률이 +10% 상승했습니다!`;
-          }
-        }
-      }
-
-      requestAnimationFrame(animateReels);
-    }
-
-    slotSpinBtn.addEventListener('click', startSlotSpin);
-    slotLeverBtn.addEventListener('click', startSlotSpin);
-
-    /* =====================================================
-       7. Three.js 3D 인형뽑기 (상단 투명 강화유리 천장 + 360도 회전)
+       3D 인형뽑기 (Three.js) 구현
        ===================================================== */
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
+    let isTopView = false;
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(renderer.domElement);
 
-    function handleResize() {
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || window.innerHeight * 0.6;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-      resizeShowcase();
-    }
+    // 조명 세팅
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0xfff8f0, 0xf4a261, 0.88);
-    scene.add(hemiLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(4, 9, 5);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
+    scene.add(dirLight);
 
-    const sunLight = new THREE.DirectionalLight(0xfff3e0, 0.95);
-    sunLight.position.set(5, 10, 6);
-    sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 1024;
-    sunLight.shadow.mapSize.height = 1024;
-    sunLight.shadow.bias = -0.001;
-    scene.add(sunLight);
+    const neonLight1 = new THREE.PointLight(0x6366f1, 1.4, 10);
+    neonLight1.position.set(-2.2, 3.5, 1.5);
+    scene.add(neonLight1);
 
-    const warmPoint1 = new THREE.PointLight(0xffb703, 0.7, 12);
-    warmPoint1.position.set(-2.2, 3.8, 2.0);
-    scene.add(warmPoint1);
+    const neonLight2 = new THREE.PointLight(0xec4899, 1.2, 10);
+    neonLight2.position.set(2.2, 3.5, -1.5);
+    scene.add(neonLight2);
 
-    const warmPoint2 = new THREE.PointLight(0xff7b47, 0.6, 12);
-    warmPoint2.position.set(2.2, 3.8, -2.0);
-    scene.add(warmPoint2);
-
-    let camTheta = 0;
-    let camPhi = 1.18;
-    let camRadius = 7.4;
-    const camTarget = new THREE.Vector3(0, 1.45, 0);
-
-    function updateOrbitCamera() {
-      const sinPhi = Math.sin(camPhi);
-      camera.position.x = camTarget.x + camRadius * sinPhi * Math.sin(camTheta);
-      camera.position.y = camTarget.y + camRadius * Math.cos(camPhi);
-      camera.position.z = camTarget.z + camRadius * sinPhi * Math.cos(camTheta);
-      camera.lookAt(camTarget);
-    }
-    updateOrbitCamera();
-
-    let isDraggingCam = false;
-    let prevPointer = { x: 0, y: 0 };
-
-    container.addEventListener('pointerdown', (e) => {
-      isDraggingCam = true;
-      prevPointer = { x: e.clientX, y: e.clientY };
-      document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
-    });
-
-    window.addEventListener('pointermove', (e) => {
-      if (!isDraggingCam) return;
-      const dx = e.clientX - prevPointer.x;
-      const dy = e.clientY - prevPointer.y;
-      prevPointer = { x: e.clientX, y: e.clientY };
-
-      camTheta -= dx * 0.0085;
-      camPhi = Math.max(0.18, Math.min(1.48, camPhi - dy * 0.007));
-      updateOrbitCamera();
-    });
-
-    window.addEventListener('pointerup', () => {
-      isDraggingCam = false;
-    });
-
-    document.querySelectorAll('.cam-chip').forEach((chip) => {
-      chip.addEventListener('click', () => {
-        sfx.click();
-        document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
-        chip.classList.add('active');
-        const view = chip.dataset.view;
-        if (view === 'front') { camTheta = 0; camPhi = 1.18; camRadius = 7.4; }
-        else if (view === 'side') { camTheta = Math.PI / 2; camPhi = 1.18; camRadius = 7.4; }
-        else if (view === 'top') { camTheta = 0; camPhi = 0.22; camRadius = 7.4; }
-        else if (view === 'iso') { camTheta = 0.68; camPhi = 1.02; camRadius = 7.6; }
-        updateOrbitCamera();
-      });
-    });
-
+    // 뽑기 기계 케이스 생성
     const machineGroup = new THREE.Group();
     scene.add(machineGroup);
 
-    const lowerCabinet = new THREE.Mesh(
-      new THREE.BoxGeometry(4.3, 1.8, 3.5),
-      new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.35 })
-    );
-    lowerCabinet.position.y = -1.05;
-    lowerCabinet.receiveShadow = true;
-    machineGroup.add(lowerCabinet);
+    // 바닥 판
+    const floorGeo = new THREE.BoxGeometry(4.4, 0.3, 3.6);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.3,
+      metalness: 0.4
+    });
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+    floorMesh.position.y = -0.15;
+    floorMesh.receiveShadow = true;
+    machineGroup.add(floorMesh);
 
-    const frontPanel = new THREE.Mesh(
-      new THREE.BoxGeometry(3.8, 1.3, 0.08),
-      new THREE.MeshStandardMaterial({ color: 0xfff5e6, roughness: 0.4 })
-    );
-    frontPanel.position.set(0, -1.05, 1.74);
-    machineGroup.add(frontPanel);
-
-    const doorFrame = new THREE.Mesh(
-      new THREE.BoxGeometry(1.1, 0.85, 0.14),
-      new THREE.MeshStandardMaterial({ color: 0x4a2511, roughness: 0.5 })
-    );
-    doorFrame.position.set(-1.18, -1.1, 1.75);
-    machineGroup.add(doorFrame);
-
-    const playFloor = new THREE.Mesh(
-      new THREE.BoxGeometry(4.2, 0.28, 3.4),
-      new THREE.MeshStandardMaterial({ color: 0xfff3e0, roughness: 0.4 })
-    );
-    playFloor.position.y = -0.14;
-    playFloor.receiveShadow = true;
-    machineGroup.add(playFloor);
-
-    const HOME_X = -1.25;
-    const HOME_Z = 0.95;
-
-    const chuteHole = new THREE.Mesh(
-      new THREE.BoxGeometry(1.05, 0.3, 1.0),
-      new THREE.MeshBasicMaterial({ color: 0x2b1408 })
-    );
-    chuteHole.position.set(HOME_X, -0.12, HOME_Z);
+    // 좌측 하단 배출구 (Drop Chute) 구역: x in [-2.0, -0.95], z in [0.65, 1.65]
+    const chuteHoleGeo = new THREE.BoxGeometry(1.05, 0.32, 1.0);
+    const chuteHoleMat = new THREE.MeshBasicMaterial({ color: 0x05070b });
+    const chuteHole = new THREE.Mesh(chuteHoleGeo, chuteHoleMat);
+    chuteHole.position.set(-1.42, -0.14, 1.12);
     machineGroup.add(chuteHole);
 
-    const guardMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffb703,
+    // 배출구 투명 가드 벽
+    const chuteWallMat = new THREE.MeshPhysicalMaterial({
+      color: 0x818cf8,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.35,
       roughness: 0.1
     });
-    const guardRight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.78, 1.05), guardMat);
-    guardRight.position.set(-0.7, 0.39, HOME_Z);
-    machineGroup.add(guardRight);
+    const wall1 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.85, 1.05), chuteWallMat);
+    wall1.position.set(-0.88, 0.42, 1.12);
+    machineGroup.add(wall1);
 
-    const guardBack = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.78, 0.08), guardMat);
-    guardBack.position.set(HOME_X, 0.39, 0.42);
-    machineGroup.add(guardBack);
+    const wall2 = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.85, 0.08), chuteWallMat);
+    wall2.position.set(-1.42, 0.42, 0.6);
+    machineGroup.add(wall2);
 
-    const glassMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.14,
-      roughness: 0.05
+    // 네온 모서리 기둥 4개 및 상단 프레임
+    const pillarGeo = new THREE.CylinderGeometry(0.06, 0.06, 4.6, 16);
+    const pillarMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      emissive: 0x4f46e5,
+      emissiveIntensity: 0.4,
+      metalness: 0.8,
+      roughness: 0.2
     });
-    const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
-    frontGlass.position.set(0, 2.05, 1.68);
-    machineGroup.add(frontGlass);
-
-    const backGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
-    backGlass.position.set(0, 2.05, -1.68);
-    backGlass.rotation.y = Math.PI;
-    machineGroup.add(backGlass);
-
-    const pillarGeo = new THREE.CylinderGeometry(0.08, 0.08, 4.2, 16);
-    const pillarMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
-    [
-      [-2.02, 2.1, -1.62],
-      [2.02, 2.1, -1.62],
-      [-2.02, 2.1, 1.62],
-      [2.02, 2.1, 1.62]
-    ].forEach(([x, y, z]) => {
+    const corners = [
+      [-2.15, 2.3, -1.75],
+      [2.15, 2.3, -1.75],
+      [-2.15, 2.3, 1.75],
+      [2.15, 2.3, 1.75]
+    ];
+    corners.forEach(([x, y, z]) => {
       const p = new THREE.Mesh(pillarGeo, pillarMat);
       p.position.set(x, y, z);
       machineGroup.add(p);
     });
 
-    const roofFrameMat = new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.3 });
-    const roofGoldTrimMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
-
-    [-1.65, 1.65].forEach((zPos) => {
-      const bar = new THREE.Mesh(new THREE.BoxGeometry(4.36, 0.28, 0.24), roofFrameMat);
-      bar.position.set(0, 4.3, zPos);
-      machineGroup.add(bar);
-
-      const trim = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.08, 0.26), roofGoldTrimMat);
-      trim.position.set(0, 4.46, zPos);
-      machineGroup.add(trim);
+    // 상단 천장 루프
+    const roofGeo = new THREE.BoxGeometry(4.45, 0.22, 3.65);
+    const roofMat = new THREE.MeshStandardMaterial({
+      color: 0x0f172a,
+      metalness: 0.7,
+      roughness: 0.2
     });
+    const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+    roofMesh.position.y = 4.6;
+    machineGroup.add(roofMesh);
 
-    [-2.06, 2.06].forEach((xPos) => {
-      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.28, 3.06), roofFrameMat);
-      bar.position.set(xPos, 4.3, 0);
-      machineGroup.add(bar);
+    /* =====================================================
+       크레인(집게) & 레이저 조준선 생성
+       ===================================================== */
+    const clawGroup = new THREE.Group();
+    const HOME_X = -1.42;
+    const HOME_Z = 1.12;
+    const TOP_Y = 3.95;
 
-      const trim = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 3.1), roofGoldTrimMat);
-      trim.position.set(xPos, 4.46, 0);
-      machineGroup.add(trim);
-    });
-
-    const topGlassRoof = new THREE.Mesh(
-      new THREE.BoxGeometry(3.9, 0.06, 3.08),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xe0f2fe,
-        transparent: true,
-        opacity: 0.18,
-        roughness: 0.05,
-        metalness: 0.1
-      })
-    );
-    topGlassRoof.position.set(0, 4.38, 0);
-    machineGroup.add(topGlassRoof);
-
-    const prizeMeshes = [];
-
-    function spawnUniquePrizes() {
-      prizeMeshes.forEach((m) => scene.remove(m));
-      prizeMeshes.length = 0;
-
-      const slots = [
-        { x: -1.15, z: -0.95 },
-        { x: 0.0,   z: -1.00 },
-        { x: 1.15,  z: -0.95 },
-        { x: -0.15, z: -0.05 },
-        { x: 1.10,  z: -0.05 },
-        { x: 0.05,  z: 0.90 },
-        { x: 1.15,  z: 0.90 },
-        { x: -1.15, z: -0.15 }
-      ].sort(() => Math.random() - 0.5);
-
-      PRIZE_LIST.forEach((item, idx) => {
-        const meshGroup = createCustom3DPrize(item, true);
-        const slot = slots[idx];
-        const jitterX = (Math.random() - 0.5) * 0.22;
-        const jitterZ = (Math.random() - 0.5) * 0.22;
-
-        meshGroup.position.set(slot.x + jitterX, item.radius, slot.z + jitterZ);
-        meshGroup.rotation.y = (Math.random() - 0.5) * 1.2;
-
-        meshGroup.userData = {
-          type: item,
-          baseY: item.radius
-        };
-
-        scene.add(meshGroup);
-        prizeMeshes.push(meshGroup);
-      });
-    }
-
-    spawnUniquePrizes();
-
-    const TOP_Y = 3.85;
-    let clawX = 0.2;
-    let clawZ = 0.0;
+    let clawState = 'IDLE'; // IDLE, DESCENDING, GRABBING, ASCENDING, RETURN_X, RETURN_Z, RELEASING, RESETTING
+    let clawX = 0;
+    let clawZ = 0;
     let clawY = TOP_Y;
-    let clawState = 'IDLE';
     let grabbedPrize = null;
     let willSlipMidAir = false;
-    let slipHeight = 2.2;
-    let didMissThisTurn = false;
+    let slipHeight = 2.4;
 
-    const gantryBar = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.04, 0.04, 3.4, 12),
-      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.2 })
-    );
-    gantryBar.rotation.x = Math.PI / 2;
-    gantryBar.position.set(clawX, TOP_Y + 0.25, 0);
-    scene.add(gantryBar);
-
-    const clawGroup = new THREE.Group();
     clawGroup.position.set(clawX, TOP_Y, clawZ);
     scene.add(clawGroup);
 
-    const carriage = new THREE.Mesh(
-      new THREE.BoxGeometry(0.5, 0.22, 0.5),
-      new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.3 })
+    // 상단 이동 카트
+    const carriageMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.55, 0.2, 0.55),
+      new THREE.MeshStandardMaterial({ color: 0x6366f1, metalness: 0.6, roughness: 0.3 })
     );
-    carriage.position.y = 0.25;
-    clawGroup.add(carriage);
+    carriageMesh.position.y = 0.45;
+    clawGroup.add(carriageMesh);
 
-    const ropeMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.024, 0.024, 1, 8),
-      new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.7 })
-    );
+    // 줄(와이어)
+    const ropeGeo = new THREE.CylinderGeometry(0.025, 0.025, 1, 8);
+    const ropeMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.8 });
+    const ropeMesh = new THREE.Mesh(ropeGeo, ropeMat);
     clawGroup.add(ropeMesh);
 
+    // 집게 헤드(움직이는 부분)
     const clawHead = new THREE.Group();
     clawGroup.add(clawHead);
 
     const hubMesh = new THREE.Mesh(
       new THREE.CylinderGeometry(0.22, 0.26, 0.22, 20),
-      new THREE.MeshStandardMaterial({ color: 0xff7b47, metalness: 0.3, roughness: 0.25 })
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.7, roughness: 0.2 })
     );
     clawHead.add(hubMesh);
 
+    // 3개의 집게 발톱(Prongs)
     const prongs = [];
     for (let i = 0; i < 3; i++) {
       const pivot = new THREE.Group();
@@ -3146,14 +1146,14 @@
 
       const upperArm = new THREE.Mesh(
         new THREE.CylinderGeometry(0.03, 0.03, 0.42, 8),
-        new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.8, roughness: 0.2 })
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.85, roughness: 0.15 })
       );
       upperArm.position.set(0.1, -0.18, 0);
       upperArm.rotation.z = 0.42;
 
       const lowerTip = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.026, 0.016, 0.38, 8),
-        new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.3 })
+        new THREE.CylinderGeometry(0.025, 0.015, 0.36, 8),
+        new THREE.MeshStandardMaterial({ color: 0xf43f5e, metalness: 0.5, roughness: 0.3 })
       );
       lowerTip.position.set(0.11, -0.46, 0);
       lowerTip.rotation.z = -0.55;
@@ -3164,118 +1164,215 @@
       prongs.push(pivot);
     }
 
-    function setClawOpenAngle(rad) {
-      prongs.forEach((p) => { p.rotation.z = rad; });
+    function setClawOpenAngle(angleRad) {
+      prongs.forEach((p) => {
+        p.rotation.z = angleRad;
+      });
     }
-    setClawOpenAngle(0.36);
+    setClawOpenAngle(0.35);
 
-    const targetRing = new THREE.Mesh(
-      new THREE.RingGeometry(0.18, 0.26, 32).rotateX(-Math.PI / 2),
-      new THREE.MeshBasicMaterial({ color: 0xff5400, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
-    );
-    targetRing.position.set(clawX, 0.01, clawZ);
-    scene.add(targetRing);
+    // 바닥 조준 레이저 링
+    const laserRingGeo = new THREE.RingGeometry(0.18, 0.25, 32);
+    laserRingGeo.rotateX(-Math.PI / 2);
+    const laserRingMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.85
+    });
+    const laserRing = new THREE.Mesh(laserRingGeo, laserRingMat);
+    laserRing.position.set(clawX, 0.02, clawZ);
+    scene.add(laserRing);
 
-    let joyVec = { x: 0, y: 0 };
-    const joyPad = document.getElementById('joystick-pad');
-    const joyBall = document.getElementById('joystick-ball');
-    const joyShaft = document.getElementById('joystick-shaft');
-    let isDraggingJoy = false;
+    /* =====================================================
+       캔버스 텍스처 생성기 (각 상품의 이모지 & 이름을 고화질 캡슐에 매핑)
+       ===================================================== */
+    function createPrizeTexture(type) {
+      const cvs = document.createElement('canvas');
+      cvs.width = 512;
+      cvs.height = 256;
+      const ctx = cvs.getContext('2d');
 
-    function updateJoystickVisual(nx, ny) {
-      const maxPx = 28;
-      const px = nx * maxPx;
-      const py = ny * maxPx;
-      joyBall.style.transform = `translate(${px}px, ${py}px)`;
+      // 배경 그라데이션
+      const grad = ctx.createLinearGradient(0, 0, 0, 256);
+      grad.addColorStop(0, type.color);
+      grad.addColorStop(1, type.subColor);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 512, 256);
 
-      const dist = Math.hypot(px, py);
-      const angleDeg = Math.atan2(py, px) * (180 / Math.PI) + 90;
-      joyShaft.style.height = `${Math.min(34, dist)}px`;
-      joyShaft.style.transform = `rotate(${angleDeg}deg)`;
+      // 화이트 라벨 띠
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.fillRect(0, 68, 512, 120);
+
+      // 앞뒤 양면에 이모지 + 텍스트 표기
+      [128, 384].forEach((centerX) => {
+        ctx.font = '56px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(type.emoji, centerX, 112);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 22px Pretendard, sans-serif';
+        const shortName = type.name.length > 9 ? '1만원 미만 식권' : type.name;
+        ctx.fillText(shortName, centerX, 162);
+      });
+
+      const tex = new THREE.CanvasTexture(cvs);
+      tex.needsUpdate = true;
+      return tex;
     }
 
-    function handleJoystickMove(clientX, clientY) {
-      const rect = joyPad.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const maxR = rect.width * 0.38;
+    /* =====================================================
+       상품 오브젝트 스폰 및 배치
+       ===================================================== */
+    const prizeMeshes = [];
 
-      let dx = clientX - cx;
-      let dy = clientY - cy;
-      const dist = Math.hypot(dx, dy);
+    function spawnPrizes() {
+      // 기존 상품 초기화
+      prizeMeshes.forEach((m) => scene.remove(m));
+      prizeMeshes.length = 0;
 
-      if (dist > maxR) {
-        dx = (dx / dist) * maxR;
-        dy = (dy / dist) * maxR;
+      const placedPositions = [];
+
+      PRIZE_TYPES.forEach((type) => {
+        const tex = createPrizeTexture(type);
+
+        for (let c = 0; c < type.count; c++) {
+          const group = new THREE.Group();
+
+          // 반투명 글래스 캡슐 안에 들어있는 고퀄리티 구형/특수 모델
+          const sphereGeo = new THREE.SphereGeometry(type.radius, 28, 24);
+          const sphereMat = new THREE.MeshStandardMaterial({
+            map: tex,
+            roughness: 0.22,
+            metalness: 0.15
+          });
+          const mesh = new THREE.Mesh(sphereGeo, sphereMat);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          group.add(mesh);
+
+          // 겹치지 않는 랜덤 좌표 탐색 (배출구 영역 제외)
+          let px = 0, pz = 0;
+          let tries = 0;
+          while (tries < 80) {
+            px = (Math.random() - 0.5) * 3.1;
+            pz = (Math.random() - 0.5) * 2.4;
+            // 좌측 하단 배출구 영역 회피
+            if (px < -0.65 && pz > 0.35) {
+              tries++;
+              continue;
+            }
+            const overlap = placedPositions.some((p) => {
+              const dist = Math.hypot(p.x - px, p.z - pz);
+              return dist < (p.r + type.radius) * 0.86;
+            });
+            if (!overlap) break;
+            tries++;
+          }
+
+          placedPositions.push({ x: px, z: pz, r: type.radius });
+          group.position.set(px, type.radius, pz);
+          group.rotation.y = (Math.random() - 0.5) * 0.8;
+
+          group.userData = {
+            type: type,
+            baseY: type.radius,
+            velocityY: 0
+          };
+
+          scene.add(group);
+          prizeMeshes.push(group);
+        }
+      });
+    }
+
+    spawnPrizes();
+
+    /* =====================================================
+       카메라 시점 업데이트
+       ===================================================== */
+    function updateCameraPosition() {
+      if (isTopView) {
+        camera.position.set(0, 7.6, 1.6);
+        camera.lookAt(0, 0.2, 0.1);
+      } else {
+        camera.position.set(0, 3.3, 6.2);
+        camera.lookAt(0, 1.35, 0);
       }
-
-      joyVec.x = dx / maxR;
-      joyVec.y = dy / maxR;
-      updateJoystickVisual(joyVec.x, joyVec.y);
     }
+    updateCameraPosition();
 
-    joyPad.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      if (clawState !== 'IDLE') return;
-      isDraggingJoy = true;
-      sfx.click();
-      handleJoystickMove(e.clientX, e.clientY);
+    document.getElementById('cam-toggle-btn').addEventListener('click', () => {
+      isTopView = !isTopView;
+      updateCameraPosition();
+      sfx.playMove();
     });
 
-    window.addEventListener('pointermove', (e) => {
-      if (!isDraggingJoy) return;
-      handleJoystickMove(e.clientX, e.clientY);
-    });
-
-    window.addEventListener('pointerup', () => {
-      if (!isDraggingJoy) return;
-      isDraggingJoy = false;
-      joyVec = { x: 0, y: 0 };
-      joyBall.style.transform = `translate(0px, 0px)`;
-      joyShaft.style.height = `0px`;
-    });
-
+    /* =====================================================
+       조이스틱 / 방향키 조작
+       ===================================================== */
     const moveKeys = { up: false, down: false, left: false, right: false };
-    document.querySelectorAll('.arcade-dir-btn').forEach((btn) => {
+    const statusPill = document.getElementById('status-pill');
+    const dropBtn = document.getElementById('drop-btn');
+
+    document.querySelectorAll('.dpad-btn').forEach((btn) => {
       const dir = btn.dataset.dir;
-      const start = (e) => {
+      const startMove = (e) => {
         e.preventDefault();
         if (clawState !== 'IDLE') return;
         moveKeys[dir] = true;
         btn.classList.add('active');
-        sfx.click();
+        sfx.playMove();
       };
-      const end = (e) => {
+      const endMove = (e) => {
         e.preventDefault();
         moveKeys[dir] = false;
         btn.classList.remove('active');
       };
-      btn.addEventListener('pointerdown', start);
-      btn.addEventListener('pointerup', end);
-      btn.addEventListener('pointerleave', end);
-      btn.addEventListener('pointercancel', end);
+
+      btn.addEventListener('pointerdown', startMove);
+      btn.addEventListener('pointerup', endMove);
+      btn.addEventListener('pointerleave', endMove);
+      btn.addEventListener('pointercancel', endMove);
     });
 
-    const statusPill = document.getElementById('status-pill');
-    const dropBtn = document.getElementById('drop-btn');
+    // 키보드 방향키 지원
+    window.addEventListener('keydown', (e) => {
+      if (clawState !== 'IDLE') return;
+      if (e.key === 'ArrowUp') moveKeys.up = true;
+      if (e.key === 'ArrowDown') moveKeys.down = true;
+      if (e.key === 'ArrowLeft') moveKeys.left = true;
+      if (e.key === 'ArrowRight') moveKeys.right = true;
+      if (e.key === ' ') triggerDrop();
+    });
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowUp') moveKeys.up = false;
+      if (e.key === 'ArrowDown') moveKeys.down = false;
+      if (e.key === 'ArrowLeft') moveKeys.left = false;
+      if (e.key === 'ArrowRight') moveKeys.right = false;
+    });
 
-    function triggerClawDrop() {
+    /* =====================================================
+       DROP 버튼 및 인형뽑기 상태 머신 로직
+       ===================================================== */
+    function triggerDrop() {
       if (clawState !== 'IDLE') return;
 
-      if (clawX < -0.62 && clawZ > 0.35) {
-        statusPill.textContent = '⚠️ 배출구 위입니다! 상품 쪽으로 이동해주세요.';
+      // 배출구 바로 위에서는 뽑기 방지
+      if (clawX < -0.75 && clawZ > 0.45) {
+        statusPill.textContent = '⚠️ 배출구 위입니다! 상품이 있는 곳으로 이동해주세요.';
         return;
       }
 
-      sfx.drop();
-      didMissThisTurn = false;
+      sfx.playDrop();
       clawState = 'DESCENDING';
       dropBtn.disabled = true;
-      setClawOpenAngle(0.46);
-      statusPill.textContent = '집게가 내려갑니다...';
+      setClawOpenAngle(0.45); // 집게 활짝 열기
+      statusPill.textContent = '집게가 내려가는 중...';
     }
 
-    dropBtn.addEventListener('click', triggerClawDrop);
+    dropBtn.addEventListener('click', triggerDrop);
 
     function evaluateGrab() {
       let closest = null;
@@ -3289,160 +1386,128 @@
         }
       });
 
-      if (closest && minDist <= closest.userData.type.radius * 1.18) {
+      // 상품 반경 내로 조준했는지 판정
+      if (closest && minDist <= closest.userData.type.radius * 1.15) {
         grabbedPrize = closest;
         const type = grabbedPrize.userData.type;
 
-        const aimFactor = Math.max(0.55, 1 - minDist / (type.radius * 1.25));
-        const finalChance = getEffectiveGrabChance(type) * aimFactor;
+        // 중심을 얼마나 정확히 조준했는지에 따른 가중치 + 상품 고유 확률(복싱 글러브 < 식권 < 영양제 < 빅맥 < 기타)
+        const aimAccuracy = Math.max(0.4, 1 - minDist / (type.radius * 1.2));
+        const finalSuccessChance = type.grabChance * aimAccuracy;
 
-        if (Math.random() < finalChance) {
+        if (Math.random() < finalSuccessChance) {
           willSlipMidAir = false;
         } else {
+          // 실제 인형뽑기처럼 일단 집어 올리지만 올라가는 도중 미끄러져 떨어짐!
           willSlipMidAir = true;
-          slipHeight = 1.55 + Math.random() * 1.85;
+          slipHeight = 1.6 + Math.random() * 1.9;
         }
-        statusPill.textContent = `[${type.name}] 포착! 조심스럽게 들어 올리는 중...`;
+        statusPill.textContent = `[${type.name}] 포착! 들어 올리는 중...`;
       } else {
         grabbedPrize = null;
-        didMissThisTurn = true;
-        statusPill.textContent = '아깝다! 허공을 집어 행운 버프(+10%)가 발동됩니다!';
+        statusPill.textContent = '허공을 집었습니다! 다시 조준해보세요.';
       }
     }
 
     /* =====================================================
-       8. 보상 확정 (O / X) 및 최종 캡처 모달
+       보상 확인 (O / X) 및 최종 캡처 모달 제어
        ===================================================== */
-    let currentWonItem = null;
+    let currentWonPrize = null;
     const confirmModal = document.getElementById('confirm-modal');
     const finalModal = document.getElementById('final-modal');
 
-    function openConfirmModalByItem(itemObj) {
-      currentWonItem = itemObj;
-      sfx.win();
+    function showConfirmModal(prizeMesh) {
+      currentWonPrize = prizeMesh.userData.type;
+      sfx.playWin();
 
-      document.getElementById('picked-emoji').textContent = currentWonItem.emoji;
-      document.getElementById('picked-name').textContent = currentWonItem.name;
+      document.getElementById('picked-emoji').textContent = currentWonPrize.emoji;
+      document.getElementById('picked-name').textContent = currentWonPrize.name;
       document.getElementById('picked-tier').textContent =
-        `${currentWonItem.tierDesc} (현재 확률 ${getEffectiveProbPercent(currentWonItem)})`;
+        `${currentWonPrize.tierDesc} (확률 ${currentWonPrize.displayProb})`;
 
       confirmModal.classList.add('show');
     }
 
+    // O 버튼: 최종 캡처 화면으로 이동
     document.getElementById('btn-confirm-o').addEventListener('click', () => {
       confirmModal.classList.remove('show');
-      sfx.win();
+      sfx.playWin();
 
-      document.getElementById('final-emoji').textContent = currentWonItem.emoji;
-      document.getElementById('final-name').textContent = currentWonItem.name;
+      document.getElementById('final-emoji').textContent = currentWonPrize.emoji;
+      document.getElementById('final-name').textContent = currentWonPrize.name;
       document.getElementById('final-prob').textContent =
-        `당첨 확정! (누적 버프 +${luckBoostStack * 10}% 적용)`;
+        `획득 확률 ${currentWonPrize.displayProb} 돌파!`;
 
       finalModal.classList.add('show');
     });
 
+    // X 버튼: 보상 취소하고 다시 뽑기
     document.getElementById('btn-confirm-x').addEventListener('click', () => {
       confirmModal.classList.remove('show');
-      triggerProbabilityBoost('재도전 보너스 발동!');
-
-      if (activeGameMode === 'CLAW') {
-        spawnUniquePrizes();
-        resetClaw(`🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 더 잘 뽑힙니다!`);
-      } else {
-        slotStatusEl.textContent = `🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 희귀 선물 확률 UP!`;
-      }
+      sfx.playMove();
+      spawnPrizes();
+      resetClawToIdle('보상을 취소했습니다! 원하는 선물을 다시 뽑아보세요.');
     });
 
+    // 최종 화면에서 다시 해보기 버튼
     document.getElementById('replay-anyway-btn').addEventListener('click', () => {
       finalModal.classList.remove('show');
-      spawnUniquePrizes();
-      resetClaw('조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!');
-      openSelectScreen();
+      spawnPrizes();
+      resetClawToIdle('조이스틱으로 조준 후 DROP 버튼을 누르세요');
     });
 
-    function resetClaw(msg) {
+    function resetClawToIdle(msg) {
       clawState = 'IDLE';
       dropBtn.disabled = false;
-      setClawOpenAngle(0.36);
+      setClawOpenAngle(0.35);
       statusPill.textContent = msg;
     }
 
     /* =====================================================
-       9. 메인 애니메이션 루프 (쇼케이스 포커스 스케일링 + 인형뽑기 구동)
+       메인 애니메이션 루프
        ===================================================== */
-    function animate(now) {
+    function animate() {
       requestAnimationFrame(animate);
 
-      if (showcaseScreen.style.display === 'flex') {
-        scCurrentAngle += (scTargetAngle - scCurrentAngle) * 0.09;
-        carouselGroup.rotation.y = scCurrentAngle;
-
-        // 정면으로 선택된 상품은 1.0배로 선명하게 보여주고, 뒤쪽 대기 상품들은 0.62배로 줄여 시야 방해 방지
-        scItemNodes.forEach((node, idx) => {
-          const isSelected = idx === scCurrentIndex;
-          const targetScale = isSelected ? 1.02 : 0.62;
-          const curScale = node.holder.scale.x + (targetScale - node.holder.scale.x) * 0.12;
-          node.holder.scale.set(curScale, curScale, curScale);
-
-          node.prize3D.rotation.y += isSelected ? 0.022 : 0.01;
-          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.04;
-        });
-
-        scRenderer.render(scScene, scCamera);
-      }
+      const moveSpeed = 0.036;
 
       if (clawState === 'IDLE') {
-        let inputX = joyVec.x;
-        let inputY = joyVec.y;
-
-        if (moveKeys.left) inputX = -1;
-        if (moveKeys.right) inputX = 1;
-        if (moveKeys.up) inputY = -1;
-        if (moveKeys.down) inputY = 1;
-
-        if (Math.abs(inputX) > 0.05 || Math.abs(inputY) > 0.05) {
-          const speed = 0.035;
-          const cosT = Math.cos(camTheta);
-          const sinT = Math.sin(camTheta);
-          const worldDX = (inputX * cosT + inputY * sinT) * speed;
-          const worldDZ = (-inputX * sinT + inputY * cosT) * speed;
-
-          clawX = Math.max(-1.62, Math.min(1.62, clawX + worldDX));
-          clawZ = Math.max(-1.25, Math.min(1.25, clawZ + worldDZ));
-        }
+        if (moveKeys.left) clawX = Math.max(-1.75, clawX - moveSpeed);
+        if (moveKeys.right) clawX = Math.min(1.75, clawX + moveSpeed);
+        if (moveKeys.up) clawZ = Math.max(-1.35, clawZ - moveSpeed);
+        if (moveKeys.down) clawZ = Math.min(1.35, clawZ + moveSpeed);
       } else if (clawState === 'DESCENDING') {
         clawY -= 0.055;
-        if (clawY <= 0.68) {
-          clawY = 0.68;
+        if (clawY <= 0.72) {
+          clawY = 0.72;
           clawState = 'GRABBING';
-          setClawOpenAngle(0.06);
+          setClawOpenAngle(0.05); // 집게 오므리기
           evaluateGrab();
-          setTimeout(() => { clawState = 'ASCENDING'; }, 380);
+          setTimeout(() => {
+            clawState = 'ASCENDING';
+          }, 380);
         }
       } else if (clawState === 'ASCENDING') {
-        clawY += 0.044;
+        clawY += 0.045;
 
         if (grabbedPrize) {
-          const wobble = (Math.random() - 0.5) * 0.032;
-          grabbedPrize.position.set(clawX + wobble, clawY - 0.48, clawZ + wobble);
+          // 무거운 상품일수록 덜덜 떨리는 연출
+          const shake = (Math.random() - 0.5) * 0.035;
+          grabbedPrize.position.set(clawX + shake, clawY - 0.52, clawZ + shake);
 
+          // 확률 실패 시 공중에서 미끄러져 떨어짐
           if (willSlipMidAir && clawY >= slipHeight) {
-            sfx.slip();
-            const slipped = grabbedPrize;
+            sfx.playSlip();
+            const dropped = grabbedPrize;
             grabbedPrize = null;
             willSlipMidAir = false;
+            statusPill.textContent = `😱 앗! [${dropped.userData.type.name}] 무게 때문에 미끄러졌습니다!`;
             setClawOpenAngle(0.28);
-            triggerProbabilityBoost(`[${slipped.userData.type.name}] 미끄러짐!`);
-            statusPill.textContent = `😱 아깝다! 미끄러져서 뽑기 확률이 +10% 상승했습니다!`;
           }
         }
 
         if (clawY >= TOP_Y) {
           clawY = TOP_Y;
-          if (didMissThisTurn) {
-            didMissThisTurn = false;
-            triggerProbabilityBoost('허공 집기 보너스!');
-          }
           clawState = grabbedPrize ? 'RETURN_TO_CHUTE' : 'RESETTING';
         }
       } else if (clawState === 'RETURN_TO_CHUTE') {
@@ -3454,123 +1519,88 @@
           clawX += (dx / dist) * 0.045;
           clawZ += (dz / dist) * 0.045;
           if (grabbedPrize) {
-            grabbedPrize.position.set(clawX, clawY - 0.48, clawZ);
+            grabbedPrize.position.set(clawX, clawY - 0.52, clawZ);
           }
         } else {
           clawX = HOME_X;
           clawZ = HOME_Z;
           clawState = 'RELEASING';
-          setClawOpenAngle(0.46);
+          setClawOpenAngle(0.45);
 
           const wonMesh = grabbedPrize;
           grabbedPrize = null;
 
           setTimeout(() => {
-            if (wonMesh) openConfirmModalByItem(wonMesh.userData.type);
+            if (wonMesh) {
+              showConfirmModal(wonMesh);
+            }
             clawState = 'RESETTING';
-          }, 480);
+          }, 500);
         }
       } else if (clawState === 'RESETTING') {
-        const dx = 0.2 - clawX;
-        const dz = 0.0 - clawZ;
+        const dx = 0 - clawX;
+        const dz = 0 - clawZ;
         const dist = Math.hypot(dx, dz);
         if (dist > 0.06) {
-          clawX += (dx / dist) * 0.055;
-          clawZ += (dz / dist) * 0.055;
+          clawX += (dx / dist) * 0.06;
+          clawZ += (dz / dist) * 0.06;
         } else {
-          clawX = 0.2;
-          clawZ = 0.0;
-          const msg = luckBoostStack > 0
-            ? `🔥 현재 확률 +${luckBoostStack * 10}% 상승 적용 중! 다시 뽑아보세요!`
-            : '조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!';
-          resetClaw(msg);
+          clawX = 0;
+          clawZ = 0;
+          resetClawToIdle('조이스틱으로 조준 후 DROP 버튼을 누르세요');
         }
       }
 
+      // 떨어진 상품 중력 처리
       prizeMeshes.forEach((p) => {
         if (p !== grabbedPrize && p.position.y > p.userData.baseY) {
           p.position.y = Math.max(p.userData.baseY, p.position.y - 0.12);
         }
       });
 
-      gantryBar.position.x = clawX;
+      // 크레인 위치 및 줄 길이 동기화
       clawGroup.position.set(clawX, TOP_Y, clawZ);
       const dropDist = TOP_Y - clawY;
       clawHead.position.y = -dropDist;
-      ropeMesh.scale.y = Math.max(0.1, dropDist + 0.35);
-      ropeMesh.position.y = -(dropDist / 2) + 0.1;
+      ropeMesh.scale.y = Math.max(0.1, dropDist + 0.45);
+      ropeMesh.position.y = -(dropDist / 2) + 0.2;
 
-      targetRing.position.set(clawX, 0.01, clawZ);
+      // 바닥 레이저 가이드 업데이트
+      laserRing.position.set(clawX, 0.02, clawZ);
 
-      if (gameScreen.style.display === 'flex') {
-        renderer.render(scene, camera);
-      }
+      renderer.render(scene, camera);
     }
 
-    requestAnimationFrame(animate);
+    animate();
 
     /* =====================================================
-       10. 설정 & 확률표 모달 이벤트 연결
+       UI 이벤트 바인딩 (인트로 입장, 모달 열기/닫기, 리사이즈)
        ===================================================== */
-    const settingsModal = document.getElementById('settings-modal');
-    document.getElementById('settings-btn').addEventListener('click', () => {
-      sfx.click();
-      settingsModal.classList.add('show');
-    });
-    document.getElementById('close-settings-btn').addEventListener('click', () => {
-      settingsModal.classList.remove('show');
+    document.getElementById('start-game-btn').addEventListener('click', () => {
+      sfx.playIntroFanfare();
+      document.getElementById('intro-screen').style.display = 'none';
     });
 
-    const modeJoyBtn = document.getElementById('mode-joystick-btn');
-    const modeDpadBtn = document.getElementById('mode-dpad-btn');
-    const joyUI = document.getElementById('joystick-ui');
-    const dpadUI = document.getElementById('dpad-ui');
-
-    modeJoyBtn.addEventListener('click', () => {
-      sfx.click();
-      modeJoyBtn.classList.add('active');
-      modeDpadBtn.classList.remove('active');
-      joyUI.style.display = 'flex';
-      dpadUI.style.display = 'none';
+    document.getElementById('prob-btn').addEventListener('click', () => {
+      sfx.playMove();
+      document.getElementById('prob-modal').classList.add('show');
     });
 
-    modeDpadBtn.addEventListener('click', () => {
-      sfx.click();
-      modeDpadBtn.classList.add('active');
-      modeJoyBtn.classList.remove('active');
-      joyUI.style.display = 'none';
-      dpadUI.style.display = 'flex';
-    });
-
-    const toggleSoundBtn = document.getElementById('toggle-sound-btn');
-    toggleSoundBtn.addEventListener('click', () => {
-      sfx.enabled = !sfx.enabled;
-      toggleSoundBtn.textContent = sfx.enabled ? '켜짐 (ON)' : '꺼짐 (MUTE)';
-      toggleSoundBtn.classList.toggle('active', sfx.enabled);
-    });
-
-    document.getElementById('shuffle-prizes-btn').addEventListener('click', () => {
-      sfx.click();
-      spawnUniquePrizes();
-      settingsModal.classList.remove('show');
-    });
-
-    const probModal = document.getElementById('prob-modal');
-    document.getElementById('prob-btn-claw').addEventListener('click', () => {
-      sfx.click();
-      renderProbListModal();
-      probModal.classList.add('show');
-    });
-    document.getElementById('prob-btn-slot').addEventListener('click', () => {
-      sfx.click();
-      renderProbListModal();
-      probModal.classList.add('show');
-    });
     document.getElementById('close-prob-btn').addEventListener('click', () => {
-      probModal.classList.remove('show');
+      document.getElementById('prob-modal').classList.remove('show');
     });
 
-    window.addEventListener('resize', handleResize);
+    const soundBtn = document.getElementById('sound-btn');
+    soundBtn.addEventListener('click', () => {
+      sfx.enabled = !sfx.enabled;
+      soundBtn.textContent = sfx.enabled ? '🔊' : '🔇';
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
   </script>
 </body>
 </html>
