@@ -25,8 +25,17 @@
       background: #fff4ea;
     }
 
+    .screen-fade-in {
+      animation: screenAppear 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes screenAppear {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
     /* =====================================================
-       1. 인트로 화면: Y2K 병맛 중국산 VIP 앱 컨셉 + 3버튼
+       1. 인트로 화면: Y2K 병맛 중국산 VIP 앱 컨셉
        ===================================================== */
     #intro-screen {
       position: fixed;
@@ -36,7 +45,7 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 14px;
+      padding: 14px;
       background: repeating-conic-gradient(
         from 0deg,
         #ff0000 0deg 15deg,
@@ -48,7 +57,7 @@
       );
       animation: bgSpin 10s linear infinite;
       font-family: 'Gulim', '궁서', 'Comic Sans MS', sans-serif;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     @keyframes bgSpin {
@@ -86,7 +95,7 @@
       background: linear-gradient(180deg, #ff0000 0%, #8b0000 50%, #2a0000 100%);
       border: 6px outset #ffd700;
       border-radius: 18px;
-      padding: 16px 12px;
+      padding: 20px 14px;
       width: 100%;
       max-width: 400px;
       text-align: center;
@@ -103,7 +112,7 @@
       border: 3px double #000;
       font-size: 13px;
       transform: rotate(-3deg);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       animation: blink 0.4s infinite alternate;
     }
 
@@ -113,9 +122,9 @@
     }
 
     .y2k-title {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 900;
-      line-height: 1.2;
+      line-height: 1.25;
       color: #fff;
       text-shadow: 3px 3px 0 #ff00de, -3px -3px 0 #00ffff, 0 0 20px #ffff00;
       margin: 6px 0;
@@ -126,12 +135,12 @@
       display: inline-block;
       background: linear-gradient(90deg, #00ff00, #ffff00, #00ffff);
       color: #000;
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 900;
-      padding: 5px 14px;
+      padding: 6px 16px;
       border: 4px solid #ff0000;
       border-radius: 8px;
-      margin: 6px 0;
+      margin: 8px 0;
       box-shadow: 4px 4px 0 #000;
     }
 
@@ -141,23 +150,23 @@
       font-weight: bold;
       margin-top: 6px;
       text-shadow: 1px 1px 0 #000;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     .y2k-fu-grid {
       display: flex;
       justify-content: center;
       gap: 12px;
-      margin: 10px 0 4px;
+      margin: 12px 0 4px;
     }
 
     .y2k-fu {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: #ffd700;
       border: 3px solid #fff;
       color: #d60000;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -176,57 +185,26 @@
       50% { transform: rotate(225deg) scale(1.12); }
     }
 
-    /* 인트로 3개 선택 버튼 그룹 */
-    .y2k-btn-group {
+    .y2k-enter-btn {
       width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 6px 0;
-    }
-
-    .y2k-choice-btn {
-      width: 100%;
-      padding: 15px 12px;
-      font-size: 20px;
+      max-width: 390px;
+      padding: 19px 14px;
+      font-size: 22px;
       font-weight: 900;
-      border-radius: 40px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform 0.1s;
-    }
-
-    .y2k-choice-btn.btn-claw {
       color: #000;
-      background: linear-gradient(180deg, #ffff00 0%, #ff8800 55%, #ff0055 100%);
-      border: 5px outset #00ffff;
-      box-shadow: 0 0 20px #00ff00, inset 0 0 8px #fff;
+      background: linear-gradient(180deg, #ffff00 0%, #ff8800 50%, #ff0055 100%);
+      border: 6px outset #00ffff;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 25px #00ff00, inset 0 0 10px #fff;
       text-shadow: 1px 1px 0 #fff;
-      animation: pulseBtn 0.65s infinite alternate;
-    }
-
-    .y2k-choice-btn.btn-roulette {
-      color: #fff;
-      background: linear-gradient(180deg, #00ffcc 0%, #0066ff 55%, #9900ff 100%);
-      border: 5px outset #ffd700;
-      box-shadow: 0 0 20px #ff00ff, inset 0 0 8px #fff;
-      text-shadow: 2px 2px 0 #000;
-      animation: pulseBtn 0.65s infinite alternate-reverse;
-    }
-
-    .y2k-choice-btn.btn-refuse {
-      color: #ccc;
-      background: linear-gradient(180deg, #444 0%, #111 100%);
-      border: 4px ridge #777;
-      font-size: 16px;
-      padding: 12px;
-      text-shadow: 1px 1px 0 #000;
+      animation: pulseBtn 0.6s infinite alternate;
+      font-family: inherit;
     }
 
     @keyframes pulseBtn {
-      from { transform: scale(0.98); }
-      to { transform: scale(1.03); filter: brightness(1.12); }
+      from { transform: scale(0.97); }
+      to { transform: scale(1.03); filter: brightness(1.14); }
     }
 
     .floating-sticker {
@@ -243,7 +221,277 @@
     }
 
     /* =====================================================
-       2. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
+       2. 3D 선물 라인업 쇼케이스 화면 (디리링~ 회전 등장)
+       ===================================================== */
+    #showcase-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at 50% 35%, #fffdf9 0%, #ffe6cf 55%, #ffbe94 100%);
+      color: #4a2511;
+      padding: 14px;
+    }
+
+    .showcase-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 250, 244, 0.9);
+      border: 3px solid #ff8c61;
+      border-radius: 20px;
+      padding: 10px 14px;
+      box-shadow: 0 6px 0 #e06338, 0 8px 18px rgba(180, 75, 35, 0.15);
+      z-index: 10;
+    }
+
+    .showcase-skip-btn {
+      padding: 7px 13px;
+      border-radius: 99px;
+      background: #ffedd9;
+      border: 2px solid #f4a261;
+      color: #7c3517;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    #showcase-canvas-wrap {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .showcase-roll-banner {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #ff7b47, #ffb703);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 6px 18px;
+      border-radius: 99px;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 15px rgba(255, 123, 71, 0.35);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .showcase-card-panel {
+      position: relative;
+      z-index: 15;
+      background: linear-gradient(180deg, #fffdf9 0%, #fff1e2 100%);
+      border: 3px solid #ff9f68;
+      border-radius: 26px;
+      padding: 16px 16px 18px;
+      box-shadow: 0 8px 0 #d96b38, 0 14px 30px rgba(92, 42, 12, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .showcase-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .nav-arrow-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffd166 0%, #f4a261 100%);
+      border: 2.5px solid #fff;
+      color: #4a2511;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #c96e2c;
+      flex-shrink: 0;
+      transition: transform 0.1s;
+    }
+
+    .nav-arrow-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #c96e2c;
+    }
+
+    .showcase-item-info {
+      flex: 1;
+      text-align: center;
+    }
+
+    .showcase-item-counter {
+      font-size: 11px;
+      font-weight: 900;
+      color: #e05a2b;
+      letter-spacing: 1px;
+    }
+
+    .showcase-item-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #3d1e0d;
+      margin: 2px 0 4px;
+    }
+
+    .showcase-item-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffe3c4;
+      border: 1.5px solid #ffb076;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #9c3d14;
+    }
+
+    .showcase-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .showcase-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f5cba7;
+      transition: all 0.25s;
+    }
+
+    .showcase-dot.active {
+      width: 22px;
+      border-radius: 99px;
+      background: #ff6b35;
+    }
+
+    .showcase-next-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 18px;
+      border: 2.5px solid #fff3b0;
+      background: linear-gradient(180deg, #ff8c42 0%, #e04d19 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #9e3109, 0 8px 20px rgba(224, 77, 25, 0.35);
+      transition: transform 0.1s;
+    }
+
+    .showcase-next-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #9e3109;
+    }
+
+    /* =====================================================
+       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
+       ===================================================== */
+    #select-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 170;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 16px 24px;
+      background: radial-gradient(circle at 50% 25%, #fff9f2 0%, #ffd8b5 55%, #ff9f68 100%);
+      color: #3d1e0d;
+    }
+
+    .select-header-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fffdf9;
+      border: 4px solid #ff7b47;
+      border-radius: 26px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 8px 0 #d9531e, 0 14px 30px rgba(180, 60, 20, 0.2);
+    }
+
+    .select-options-wrap {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mode-select-card {
+      width: 100%;
+      padding: 18px 18px;
+      border-radius: 24px;
+      border: 3px solid #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      transition: transform 0.12s;
+    }
+
+    .mode-select-card:active {
+      transform: translateY(4px);
+    }
+
+    .mode-select-card.card-claw {
+      background: linear-gradient(135deg, #ff8c42 0%, #ff3c6f 100%);
+      color: #fff;
+      box-shadow: 0 7px 0 #b81d47, 0 12px 25px rgba(255, 60, 111, 0.35);
+    }
+
+    .mode-select-card.card-slot {
+      background: linear-gradient(135deg, #f59e0b 0%, #b91c1c 100%);
+      color: #fff;
+      box-shadow: 0 7px 0 #7f1d1d, 0 12px 25px rgba(185, 28, 28, 0.4);
+    }
+
+    .mode-select-card.card-refuse {
+      background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
+      color: #cbd5e1;
+      padding: 14px 18px;
+      box-shadow: 0 5px 0 #0f172a;
+    }
+
+    .mode-card-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mode-card-icon {
+      font-size: 36px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+    }
+
+    .mode-card-title {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .mode-card-desc {
+      font-size: 12px;
+      opacity: 0.92;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* =====================================================
+       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
        ===================================================== */
     #sg-screen {
       position: fixed;
@@ -274,7 +522,94 @@
     }
 
     /* =====================================================
-       3. 인형뽑기 화면: 따뜻한 하이엔드 3D 아케이드 스튜디오
+       5. 확률 +10% 상승 화려한 버프 토스트 팝업 & 상단 뱃지
+       ===================================================== */
+    #boost-banner-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      pointer-events: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #boost-banner-overlay.show {
+      display: flex;
+    }
+
+    .boost-popup-card {
+      background: linear-gradient(135deg, #fffbeb 0%, #fde047 45%, #f59e0b 100%);
+      border: 4px solid #ffffff;
+      border-radius: 28px;
+      padding: 20px 24px;
+      text-align: center;
+      color: #451a03;
+      box-shadow:
+        0 0 0 5px #ea580c,
+        0 0 50px rgba(251, 191, 36, 0.95),
+        0 20px 40px rgba(0, 0, 0, 0.5);
+      animation: boostExplosion 1.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes boostExplosion {
+      0% { opacity: 0; transform: scale(0.3) rotate(-8deg); }
+      18% { opacity: 1; transform: scale(1.12) rotate(3deg); }
+      30% { transform: scale(0.96) rotate(-1deg); }
+      45% { transform: scale(1.03) rotate(0deg); }
+      80% { opacity: 1; transform: scale(1) translateY(0); }
+      100% { opacity: 0; transform: scale(0.88) translateY(-30px); }
+    }
+
+    .boost-popup-tag {
+      display: inline-block;
+      background: #dc2626;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 6px;
+    }
+
+    .boost-popup-main {
+      font-size: 25px;
+      font-weight: 900;
+      color: #7c2d12;
+      text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+      line-height: 1.25;
+    }
+
+    .boost-popup-sub {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #9a3412;
+    }
+
+    .luck-buff-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(90deg, #ef4444, #f59e0b);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      animation: buffPulse 1s infinite alternate;
+    }
+
+    @keyframes buffPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); filter: brightness(1.1); }
+    }
+
+    /* =====================================================
+       6. 인형뽑기 화면: 따뜻한 하이엔드 3D 아케이드 스튜디오
        ===================================================== */
     #game-screen {
       position: fixed;
@@ -304,6 +639,7 @@
     .brand-box {
       display: flex;
       flex-direction: column;
+      gap: 2px;
     }
 
     .brand-sub {
@@ -317,6 +653,10 @@
       font-size: 16px;
       font-weight: 900;
       color: #4a2511;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .top-btn-group {
@@ -361,7 +701,7 @@
       pointer-events: auto;
       padding: 6px 16px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       border: 2px solid #ffb085;
       font-size: 13px;
       font-weight: 800;
@@ -378,7 +718,7 @@
     .cam-chip {
       padding: 5px 11px;
       border-radius: 99px;
-      background: rgba(255, 250, 244, 0.85);
+      background: rgba(255, 250, 244, 0.88);
       border: 1.5px solid #f4a261;
       color: #6b3419;
       font-size: 11px;
@@ -409,7 +749,7 @@
       bottom: 8px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(74, 37, 17, 0.65);
+      background: rgba(74, 37, 17, 0.68);
       color: #fff9f2;
       font-size: 11px;
       font-weight: 700;
@@ -601,27 +941,27 @@
     }
 
     /* =====================================================
-       4. 카지노 룰렛 화면: 럭셔리 골드 & 벨벳 카지노 테마
+       7. VIP 배팅 머신 (슬롯머신) 화면: 라스베이거스 골드 & 네온 캐비닛
        ===================================================== */
-    #roulette-screen {
+    #slot-screen {
       position: fixed;
       inset: 0;
       display: none;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      background: radial-gradient(circle at 50% 42%, #7f1d1d 0%, #3b0711 60%, #140206 100%);
+      background: radial-gradient(circle at 50% 35%, #581c87 0%, #311042 48%, #13071e 100%);
       color: #fef3c7;
       z-index: 15;
-      padding-bottom: 18px;
+      padding: 10px 12px 16px;
     }
 
     .casino-header {
-      width: calc(100% - 24px);
-      margin-top: 10px;
+      width: 100%;
+      max-width: 420px;
       padding: 10px 14px;
-      background: linear-gradient(180deg, #450a0a 0%, #260404 100%);
-      border: 3px solid #f59e0b;
+      background: linear-gradient(180deg, #4c1d95 0%, #2e1065 100%);
+      border: 3px solid #fbbf24;
       border-radius: 22px;
       display: flex;
       align-items: center;
@@ -629,125 +969,347 @@
       box-shadow: 0 6px 0 #92400e, 0 10px 25px rgba(0,0,0,0.6);
     }
 
-    .casino-status {
-      margin-top: 6px;
-      padding: 7px 18px;
+    .slot-status-pill {
+      padding: 7px 16px;
       border-radius: 99px;
-      background: rgba(0, 0, 0, 0.55);
-      border: 1.5px solid #fbbf24;
+      background: rgba(15, 23, 42, 0.78);
+      border: 2px solid #fbbf24;
       color: #fde68a;
       font-size: 13px;
       font-weight: 800;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.45);
+      max-width: 400px;
+      width: 100%;
     }
 
-    .wheel-stage {
+    /* 배팅 머신 본체 + 우측 레버 래퍼 */
+    .slot-machine-stage {
       position: relative;
+      width: 100%;
+      max-width: 410px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 4px 0;
     }
 
-    /* 상단 황금 포인터(플래퍼) */
-    .wheel-pointer {
+    .slot-cabinet {
+      width: 100%;
+      background: linear-gradient(180deg, #fde047 0%, #f59e0b 25%, #b45309 75%, #78350f 100%);
+      border: 4px solid #fffbeb;
+      border-radius: 32px;
+      padding: 14px 12px 18px;
+      box-shadow:
+        0 12px 0 #451a03,
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        inset 0 3px 6px rgba(255, 255, 255, 0.85);
+      position: relative;
+    }
+
+    /* 상단 네온 전광판 아치 */
+    .slot-marquee-box {
+      background: linear-gradient(180deg, #1e1b4b 0%, #090d16 100%);
+      border: 3px solid #fde047;
+      border-radius: 20px;
+      padding: 8px 10px;
+      text-align: center;
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 18px rgba(236, 72, 153, 0.55), 0 4px 10px rgba(0,0,0,0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slot-bulbs-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 6px;
+      margin-bottom: 4px;
+    }
+
+    .slot-bulb {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fde047;
+      box-shadow: 0 0 8px #fde047, 0 0 14px #f59e0b;
+      animation: bulbChase 0.6s infinite alternate;
+    }
+
+    .slot-bulb:nth-child(even) {
+      animation-delay: 0.3s;
+      background: #f43f5e;
+      box-shadow: 0 0 8px #f43f5e, 0 0 14px #e11d48;
+    }
+
+    @keyframes bulbChase {
+      from { opacity: 0.35; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1.15); }
+    }
+
+    .slot-marquee-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 0 10px #f43f5e, 0 0 20px #f59e0b;
+    }
+
+    .slot-marquee-sub {
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-top: 2px;
+    }
+
+    /* 3개 원통 릴 윈도우 프레임 */
+    .slot-window-frame {
+      position: relative;
+      background: #090d16;
+      border: 5px solid #451a03;
+      border-radius: 22px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      box-shadow:
+        inset 0 8px 18px rgba(0,0,0,0.9),
+        0 2px 0 rgba(255,255,255,0.6);
+    }
+
+    /* 중앙 당첨 페이라인 표시선 */
+    .payline-bar {
       position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      width: 0;
-      height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-top: 38px solid #fbbf24;
-      filter: drop-shadow(0 5px 6px rgba(0,0,0,0.75));
-      transform-origin: 50% 6px;
-      transition: transform 0.05s ease-out;
+      left: -6px;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 108px;
+      border-top: 3px solid rgba(250, 204, 21, 0.9);
+      border-bottom: 3px solid rgba(250, 204, 21, 0.9);
+      background: linear-gradient(90deg, rgba(250,204,21,0.12), rgba(255,255,255,0.04), rgba(250,204,21,0.12));
+      pointer-events: none;
+      z-index: 12;
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.45);
     }
 
-    .wheel-pointer::after {
+    .payline-badge-left, .payline-badge-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #dc2626;
+      border: 2px solid #fef08a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 3px 6px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+    .payline-badge-left { left: -10px; }
+    .payline-badge-right { right: -10px; }
+
+    /* 개별 릴 드럼 창 (높이 240px, 중앙 1칸 높이 104px) */
+    .reel-drum {
+      position: relative;
+      height: 232px;
+      background: #fffdf9;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
+    }
+
+    /* 3번째 릴 긴장감(스포트라이트) 테두리 효과 */
+    .reel-drum.tension-glow {
+      box-shadow: 0 0 22px #f43f5e, inset 0 0 18px #f59e0b;
+      border: 2px solid #fde047;
+    }
+
+    /* 원통형 입체 음영 & 유리 광택 오버레이 */
+    .reel-drum::after {
       content: '';
       position: absolute;
-      top: -42px;
-      left: -10px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #fffbeb 0%, #f59e0b 80%);
-      border: 2px solid #78350f;
-    }
-
-    .wheel-outer-rim {
-      width: min(84vw, 350px);
-      height: min(84vw, 350px);
-      border-radius: 50%;
-      padding: 12px;
-      background: conic-gradient(
-        #fbbf24, #b45309, #fde68a, #92400e, #fbbf24, #b45309, #fde68a, #92400e, #fbbf24
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 12, 22, 0.72) 0%,
+        rgba(10, 12, 22, 0.18) 22%,
+        rgba(255, 255, 255, 0.15) 46%,
+        rgba(255, 255, 255, 0) 54%,
+        rgba(10, 12, 22, 0.18) 78%,
+        rgba(10, 12, 22, 0.72) 100%
       );
-      box-shadow:
-        0 0 0 5px #451a03,
-        0 16px 40px rgba(0, 0, 0, 0.75),
-        inset 0 0 18px rgba(0,0,0,0.65);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    #roulette-canvas {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      display: block;
-    }
-
-    .wheel-center-cap {
-      position: absolute;
-      width: 66px;
-      height: 66px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #fffbeb 0%, #fbbf24 45%, #b45309 90%);
-      border: 4px solid #fff;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: 900;
-      color: #451a03;
       pointer-events: none;
+      z-index: 8;
     }
 
-    .casino-spin-btn {
-      width: calc(100% - 40px);
-      max-width: 340px;
-      padding: 18px 20px;
+    .reel-strip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      will-change: transform;
+    }
+
+    .reel-strip.spinning-blur {
+      filter: blur(1.4px);
+    }
+
+    .slot-cell {
+      height: 104px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1.5px dashed #e2e8f0;
+      padding: 4px;
+      background: radial-gradient(circle, #ffffff 0%, #fff7ed 100%);
+    }
+
+    .slot-cell-emoji {
+      font-size: 44px;
+      line-height: 1;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
+    }
+
+    .slot-cell-name {
+      font-size: 12px;
+      font-weight: 900;
+      color: #1e293b;
+      margin-top: 4px;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .slot-cell-prob {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 6px;
       border-radius: 99px;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    /* 캐비닛 하단 배팅 정보 바 */
+    .slot-info-bar {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .slot-lcd-box {
+      background: #140726;
+      border: 2px solid #fbbf24;
+      border-radius: 12px;
+      padding: 6px 4px;
+      text-align: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    .slot-lcd-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: #a78bfa;
+      letter-spacing: 0.5px;
+    }
+
+    .slot-lcd-val {
+      font-size: 14px;
+      font-weight: 900;
+      color: #fde047;
+      margin-top: 1px;
+    }
+
+    /* 하단 배팅 컨트롤 영역 (대형 SPIN 버튼 + 우측 당기는 레버) */
+    .slot-control-deck {
+      width: 100%;
+      max-width: 410px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slot-spin-btn {
+      flex: 1;
+      padding: 18px 16px;
+      border-radius: 24px;
       border: 3px solid #fef08a;
-      background: linear-gradient(180deg, #fde047 0%, #f59e0b 55%, #b45309 100%);
-      color: #3b0711;
-      font-size: 22px;
+      background: linear-gradient(180deg, #ff4d6d 0%, #e11d48 50%, #9f1239 100%);
+      color: #fff;
+      font-size: 21px;
       font-weight: 900;
       letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow: 0 8px 0 #78350f, 0 12px 30px rgba(245, 158, 11, 0.45);
-      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow:
+        0 8px 0 #4c0519,
+        0 12px 30px rgba(225, 29, 72, 0.55),
+        inset 0 3px 6px rgba(255, 255, 255, 0.5);
+      transition: transform 0.08s, box-shadow 0.08s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .casino-spin-btn:active:not(:disabled) {
+    .slot-spin-btn span {
+      font-size: 11px;
+      color: #fde047;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .slot-spin-btn:active:not(:disabled) {
       transform: translateY(5px);
-      box-shadow: 0 3px 0 #78350f, 0 6px 15px rgba(245, 158, 11, 0.35);
+      box-shadow: 0 3px 0 #4c0519, 0 6px 15px rgba(225, 29, 72, 0.4);
     }
 
-    .casino-spin-btn:disabled {
+    .slot-spin-btn:disabled {
       filter: grayscale(0.5) brightness(0.8);
       cursor: not-allowed;
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #333;
+    }
+
+    /* 당기는 슬롯 레버 버튼 */
+    .slot-lever-box {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
+      border: 3px solid #fbbf24;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 7px 0 #090d16, 0 10px 20px rgba(0,0,0,0.5);
+      position: relative;
+      transition: transform 0.15s;
+    }
+
+    .slot-lever-ball {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b 60%, #b45309 100%);
+      border: 2px solid #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .slot-lever-box.pulled .slot-lever-ball {
+      transform: translateY(18px) scale(0.9);
+    }
+
+    .slot-lever-label {
+      font-size: 10px;
+      font-weight: 900;
+      color: #fde68a;
+      margin-top: 5px;
     }
 
     /* =====================================================
-       5. 모달 공통 (확률표 ? / 설정 ⚙️ / 보상 확정 O X / 캡처 티켓)
+       8. 모달 공통 (확률표 ? / 설정 ⚙️ / 보상 확정 O X / 캡처 티켓)
        ===================================================== */
     .modal-overlay {
       position: fixed;
@@ -844,6 +1406,7 @@
       border-radius: 99px;
       background: #ff7b47;
       color: #fff;
+      text-align: right;
     }
 
     .setting-row {
@@ -953,7 +1516,7 @@
     }
 
     .ox-btn span {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
     }
 
@@ -1014,7 +1577,7 @@
 <body>
 
   <!-- =====================================================
-       1. 인트로 화면 (Y2K 병맛 대륙풍 + 3가지 옵션 선택)
+       1. 인트로 화면 (Y2K 병맛 대륙풍 생일 축하 화면)
        ===================================================== -->
   <div id="intro-screen">
     <div class="floating-sticker" style="top:10%; left:6%;">🐉</div>
@@ -1032,7 +1595,7 @@
       <div class="y2k-date">2026년 10월 14일</div>
       <div class="y2k-sub">
         ★ 대륙의 기운을 담은 초호화 생일 선물 ★<br>
-        원하는 방식을 직접 선택하십시오!!
+        생일자 본인이 직접 선물을 뽑으십시오!!
       </div>
       <div class="y2k-fu-grid">
         <div class="y2k-fu"><span>福</span></div>
@@ -1041,18 +1604,9 @@
       </div>
     </div>
 
-    <!-- 요청 반영: 3가지 선택 버튼 -->
-    <div class="y2k-btn-group">
-      <button class="y2k-choice-btn btn-claw" id="choose-claw-btn">
-        🕹️ 인형뽑기
-      </button>
-      <button class="y2k-choice-btn btn-roulette" id="choose-roulette-btn">
-        🎰 카지노 룰렛
-      </button>
-      <button class="y2k-choice-btn btn-refuse" id="choose-refuse-btn">
-        🚫 생일 선물 안받음
-      </button>
-    </div>
+    <button class="y2k-enter-btn" id="enter-showcase-btn">
+      🎁 뽑을 수 있는 선물 확인하기 🎁
+    </button>
 
     <div class="y2k-marquee" style="border-color:#00ffff;">
       <span>※주의※ 심장이 약하신 분은 복싱 글러브 당첨 시 기절할 수 있습니다 ★ 한성우 협찬 공식 인증 앱 ★</span>
@@ -1060,23 +1614,126 @@
   </div>
 
   <!-- =====================================================
-       2. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
+       2. 3D 선물 라인업 쇼케이스 화면 (디리링~ 회전 등장 & 스와이프)
+       ===================================================== -->
+  <div id="showcase-screen">
+    <div class="showcase-top-bar">
+      <div>
+        <div style="font-size:10px; font-weight:900; color:#e05a2b;">JISUNG'S BIRTHDAY PRIZE LINEUP</div>
+        <div style="font-size:16px; font-weight:900; color:#4a2511;">✨ 유지성님이 뽑을 수 있는 상품 ✨</div>
+      </div>
+      <button class="showcase-skip-btn" id="skip-to-select-btn">건너뛰기 ⏭️</button>
+    </div>
+
+    <div id="showcase-canvas-wrap">
+      <div class="showcase-roll-banner" id="showcase-banner">
+        🎵 좌우로 넘기면서 3D 선물을 확인해보세요!
+      </div>
+    </div>
+
+    <div class="showcase-card-panel">
+      <div class="showcase-nav-row">
+        <button class="nav-arrow-btn" id="sc-prev-btn">◀</button>
+        <div class="showcase-item-info">
+          <div class="showcase-item-counter" id="sc-item-counter">PRIZE 1 / 8</div>
+          <div class="showcase-item-title" id="sc-item-title">🥊 복싱 글러브</div>
+          <div class="showcase-item-meta" id="sc-item-meta">극악 난이도 · 기본 확률 1.5%</div>
+        </div>
+        <button class="nav-arrow-btn" id="sc-next-btn">▶</button>
+      </div>
+
+      <div class="showcase-dots" id="sc-dots"></div>
+
+      <button class="showcase-next-btn" id="go-select-screen-btn">
+        게임 선택하러 가기 ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       3. 게임 모드 선택 화면 (인형뽑기 / 배팅 머신 / 안받음)
+       ===================================================== -->
+  <div id="select-screen">
+    <div class="select-header-card">
+      <div style="font-size:11px; font-weight:900; color:#e05a2b; letter-spacing:1px;">2026. 10. 14 HAPPY BIRTHDAY</div>
+      <div style="font-size:24px; font-weight:900; margin-top:4px;">어떤 기계로 뽑으시겠어요?</div>
+      <div style="font-size:13px; color:#8c5233; font-weight:700; margin-top:6px;">
+        안 뽑힐 때마다 <strong style="color:#d9381e;">확률 +10% 상승 버프</strong>가 발동됩니다!
+      </div>
+    </div>
+
+    <div class="select-options-wrap">
+      <button class="mode-select-card card-claw" id="choose-claw-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon">🕹️</span>
+          <div>
+            <div class="mode-card-title">3D 인형뽑기</div>
+            <div class="mode-card-desc">투명 유리천장 360° 시점 조절 & 아케이드 조이스틱</div>
+          </div>
+        </div>
+        <span style="font-size:22px; font-weight:900;">➔</span>
+      </button>
+
+      <button class="mode-select-card card-slot" id="choose-slot-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon">🎰</span>
+          <div>
+            <div class="mode-card-title">VIP 배팅 머신</div>
+            <div class="mode-card-desc">띠링띠링~ 3릴 잭팟 슬롯! 레버를 당겨 한방 승부!</div>
+          </div>
+        </div>
+        <span style="font-size:22px; font-weight:900;">➔</span>
+      </button>
+
+      <button class="mode-select-card card-refuse" id="choose-refuse-btn">
+        <div class="mode-card-left">
+          <span class="mode-card-icon" style="font-size:26px;">🚫</span>
+          <div>
+            <div class="mode-card-title" style="font-size:17px;">생일 선물 안받음</div>
+            <div class="mode-card-desc">선물 없이 쿨하게 앱 종료하기</div>
+          </div>
+        </div>
+        <span style="font-size:18px; font-weight:900;">✕</span>
+      </button>
+    </div>
+
+    <button class="showcase-skip-btn" id="back-to-showcase-btn" style="padding:10px 18px; font-size:13px;">
+      🎁 3D 선물 라인업 다시 보기
+    </button>
+  </div>
+
+  <!-- =====================================================
+       4. '생일 선물 안받음' 클릭 시 나오는 'ㅅㄱ~' 종료 화면
        ===================================================== -->
   <div id="sg-screen">
     <div class="sg-text">ㅅㄱ~</div>
   </div>
 
   <!-- =====================================================
-       3. 인형뽑기 게임 화면 (3D 토이 아케이드)
+       5. 확률 +10% 상승 화려한 버프 팝업 오버레이
+       ===================================================== -->
+  <div id="boost-banner-overlay">
+    <div class="boost-popup-card" id="boost-popup-card">
+      <div class="boost-popup-tag">🔥 LUCKY FEVER BUFF 🔥</div>
+      <div class="boost-popup-main">확률 +10% 상승!!</div>
+      <div class="boost-popup-sub" id="boost-popup-sub">현재 누적 확률 버프: +10% UP!</div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       6. 인형뽑기 게임 화면 (천장 투명 유리 + 3D 토이 아케이드)
        ===================================================== -->
   <div id="game-screen">
     <header class="arcade-header">
       <div class="brand-box">
         <span class="brand-sub">HAPPY BIRTHDAY JISUNG · 2026.10.14</span>
-        <span class="brand-title">🎪 지성 기프트 아케이드</span>
+        <div class="brand-title">
+          <span>🎪 지성 기프트 아케이드</span>
+          <span class="luck-buff-pill" id="claw-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
+        </div>
       </div>
       <div class="top-btn-group">
-        <button class="circle-ui-btn" id="claw-home-btn" title="처음 메뉴로">🏠</button>
+        <button class="circle-ui-btn" id="claw-home-btn" title="게임 선택 화면으로">🏠</button>
         <button class="circle-ui-btn" id="settings-btn" title="조작 설정">⚙️</button>
         <button class="circle-ui-btn" id="prob-btn-claw" title="확률 및 상품 안내">?</button>
       </div>
@@ -1087,7 +1744,7 @@
       <div class="cam-preset-bar">
         <button class="cam-chip active" data-view="front">정면 뷰</button>
         <button class="cam-chip" data-view="side">측면 뷰</button>
-        <button class="cam-chip" data-view="top">위에서 조준</button>
+        <button class="cam-chip" data-view="top">위에서 조준(유리천장)</button>
         <button class="cam-chip" data-view="iso">대각선 뷰</button>
       </div>
     </div>
@@ -1131,39 +1788,92 @@
   </div>
 
   <!-- =====================================================
-       4. 카지노 룰렛 화면
+       7. VIP 배팅 머신 (슬롯머신) 화면
        ===================================================== -->
-  <div id="roulette-screen">
+  <div id="slot-screen">
     <header class="casino-header">
       <div class="brand-box">
-        <span class="brand-sub" style="color:#fbbf24;">VIP CASINO ROULETTE · 2026.10.14</span>
-        <span class="brand-title" style="color:#fffbeb;">🎰 지성 로얄 카지노 룰렛</span>
+        <span class="brand-sub" style="color:#fbbf24;">VIP VEGAS BETTING MACHINE · 2026.10.14</span>
+        <div class="brand-title" style="color:#fffbeb;">
+          <span>🎰 지성 로얄 배팅 머신</span>
+          <span class="luck-buff-pill" id="slot-buff-badge" style="display:none;">🔥 확률 +0% UP</span>
+        </div>
       </div>
       <div class="top-btn-group">
-        <button class="circle-ui-btn" id="roulette-home-btn" title="처음 메뉴로">🏠</button>
-        <button class="circle-ui-btn" id="prob-btn-roulette" title="확률 및 상품 안내">?</button>
+        <button class="circle-ui-btn" id="slot-home-btn" title="게임 선택 화면으로">🏠</button>
+        <button class="circle-ui-btn" id="prob-btn-slot" title="확률 및 상품 안내">?</button>
       </div>
     </header>
 
-    <div class="casino-status" id="roulette-status">
-      확률에 따라 칸 넓이가 다릅니다! SPIN 버튼을 눌러주세요!
+    <div class="slot-status-pill" id="slot-status">
+      3개의 릴이 똑같이 맞춰지면 해당 상품 당첨! (빗나가면 확률 +10% 상승!)
     </div>
 
-    <div class="wheel-stage">
-      <div class="wheel-pointer" id="wheel-pointer"></div>
-      <div class="wheel-outer-rim">
-        <canvas id="roulette-canvas" width="680" height="680"></canvas>
-        <div class="wheel-center-cap">VIP</div>
+    <!-- 슬롯머신 캐비닛 본체 -->
+    <div class="slot-machine-stage">
+      <div class="slot-cabinet">
+        <div class="slot-marquee-box">
+          <div class="slot-bulbs-row">
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+            <div class="slot-bulb"></div><div class="slot-bulb"></div><div class="slot-bulb"></div>
+          </div>
+          <div class="slot-marquee-title">777 BIRTHDAY JACKPOT 777</div>
+          <div class="slot-marquee-sub">★ 중앙 라인에 같은 선물 3개가 모이면 즉시 당첨 ★</div>
+        </div>
+
+        <!-- 3개 원통 릴 창 -->
+        <div class="slot-window-frame">
+          <div class="payline-bar">
+            <span class="payline-badge-left">PAY ▶</span>
+            <span class="payline-badge-right">◀ WIN</span>
+          </div>
+
+          <div class="reel-drum" id="reel-drum-0">
+            <div class="reel-strip" id="reel-strip-0"></div>
+          </div>
+          <div class="reel-drum" id="reel-drum-1">
+            <div class="reel-strip" id="reel-strip-1"></div>
+          </div>
+          <div class="reel-drum" id="reel-drum-2">
+            <div class="reel-strip" id="reel-strip-2"></div>
+          </div>
+        </div>
+
+        <!-- 하단 디지털 계기판 -->
+        <div class="slot-info-bar">
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">BET CREDIT</div>
+            <div class="slot-lcd-val">FREE ∞</div>
+          </div>
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">LUCK BUFF</div>
+            <div class="slot-lcd-val" id="slot-lcd-buff">+0%</div>
+          </div>
+          <div class="slot-lcd-box">
+            <div class="slot-lcd-label">WIN RATE</div>
+            <div class="slot-lcd-val" id="slot-lcd-winrate">45%</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <button class="casino-spin-btn" id="spin-wheel-btn">
-      🎰 SPIN! (룰렛 돌리기)
-    </button>
+    <!-- 배팅 버튼 & 당기는 레버 -->
+    <div class="slot-control-deck">
+      <button class="slot-spin-btn" id="slot-spin-btn">
+        🎰 BET & SPIN!
+        <span>배팅 머신 돌리기 (띠링띠링~)</span>
+      </button>
+      <div class="slot-lever-box" id="slot-lever-btn" title="레버 당기기">
+        <div class="slot-lever-ball"></div>
+        <div class="slot-lever-label">PULL!</div>
+      </div>
+    </div>
   </div>
 
   <!-- =====================================================
-       5. [⚙️] 설정 모달
+       8. [⚙️] 설정 모달
        ===================================================== -->
   <div class="modal-overlay" id="settings-modal">
     <div class="warm-modal">
@@ -1193,24 +1903,23 @@
   </div>
 
   <!-- =====================================================
-       6. [?] 상품별 확률 안내 모달
+       9. [?] 상품별 확률 안내 모달 (실시간 상승 확률 반영)
        ===================================================== -->
   <div class="modal-overlay" id="prob-modal">
     <div class="warm-modal">
       <div class="modal-header">
-        <div class="modal-title">📊 상품 크기 & 획득 확률표</div>
+        <div class="modal-title">📊 상품 크기 & 실시간 확률표</div>
         <button class="circle-ui-btn" id="close-prob-btn" style="width:34px; height:34px; font-size:14px;">✕</button>
       </div>
-      <p style="font-size:12px; color:#7c3f1c; line-height:1.5; font-weight:600;">
-        인형뽑기와 카지노 룰렛 모두 아래의 <strong>8가지 동일 상품과 확률</strong>로 설정되어 있습니다!<br>
-        (복싱 글러브 &lt; 10,000원 미만 음식 선택권 &lt; 영양제 &lt; 빅맥 &lt; 하모니카, 초코에몽, 바나나우유, 마이쭈)
+      <p style="font-size:12px; color:#7c3f1c; line-height:1.5; font-weight:600;" id="prob-modal-desc">
+        안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!
       </p>
       <div class="prob-list" id="prob-list-container"></div>
     </div>
   </div>
 
   <!-- =====================================================
-       7. 보상 확정 (O / X) 모달
+       10. 보상 확정 (O / X) 모달
        ===================================================== -->
   <div class="modal-overlay" id="confirm-modal">
     <div class="warm-modal">
@@ -1233,14 +1942,14 @@
         </button>
         <button class="ox-btn btn-x" id="btn-confirm-x">
           X
-          <span>다시 게임하기</span>
+          <span>다시 하기 (확률 +10% UP!)</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- =====================================================
-       8. 최종 캡처 인증 화면 모달 (O 선택 시)
+       11. 최종 캡처 인증 화면 모달 (O 선택 시)
        ===================================================== -->
   <div class="modal-overlay" id="final-modal">
     <div class="warm-modal">
@@ -1269,19 +1978,20 @@
       </div>
 
       <button class="mode-btn" id="replay-anyway-btn" style="width:100%; margin-top:12px; padding:12px; font-size:13px;">
-        🔄 처음 화면으로 돌아가기
+        🔄 게임 선택 화면으로 돌아가기
       </button>
     </div>
   </div>
 
   <script>
     /* =====================================================
-       1. 사운드 효과음 신디사이저 (Web Audio API)
+       1. 사운드 효과음 신디사이저 ('띠링띠링~' 배팅 머신 벨 사운드 포함)
        ===================================================== */
     class ArcadeSound {
       constructor() {
         this.ctx = null;
         this.enabled = true;
+        this.chimeIdx = 0;
       }
       init() {
         if (!this.ctx) {
@@ -1304,17 +2014,49 @@
         osc.start();
         osc.stop(this.ctx.currentTime + duration);
       }
+      // 쇼케이스 입장 시 '디리링 디리링~' 실로폰 아르페지오
+      diriring() {
+        const melody = [
+          { f: 587.33, t: 0 },
+          { f: 739.99, t: 90 },
+          { f: 880.00, t: 180 },
+          { f: 1174.66, t: 270 },
+          { f: 659.25, t: 480 },
+          { f: 830.61, t: 570 },
+          { f: 987.77, t: 660 },
+          { f: 1318.51, t: 750 }
+        ];
+        melody.forEach((n) => {
+          setTimeout(() => this.tone(n.f, 'triangle', 0.24, 0.13), n.t);
+        });
+      }
+      // 배팅 머신 돌아갈 때 '띠링띠링~' 카지노 벨 사운드
+      slotDdiring() {
+        const bells = [1046.5, 1318.5, 1567.98, 2093.0];
+        const f = bells[this.chimeIdx % bells.length];
+        this.chimeIdx++;
+        this.tone(f, 'triangle', 0.075, 0.085);
+      }
+      // 각 릴이 멈출 때 '철컥! 띵~!' 사운드
+      reelLock(reelIndex) {
+        const lockFreqs = [523.25, 659.25, 783.99];
+        this.tone(160, 'square', 0.06, 0.12);
+        setTimeout(() => {
+          this.tone(lockFreqs[reelIndex] || 784, 'triangle', 0.22, 0.16);
+        }, 35);
+      }
       fanfare() {
         [523, 659, 784, 1046, 784, 1046].forEach((n, i) => {
           setTimeout(() => this.tone(n, 'triangle', 0.2, 0.12), i * 105);
         });
       }
-      click() {
-        this.tone(580, 'sine', 0.06, 0.06);
+      boostUp() {
+        [440, 554, 659, 880, 1108, 1318].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'sine', 0.18, 0.14), i * 65);
+        });
       }
-      tick() {
-        // 룰렛 핀 튕기는 소리
-        this.tone(920, 'triangle', 0.035, 0.08);
+      click() {
+        this.tone(620, 'sine', 0.06, 0.06);
       }
       drop() {
         this.tone(520, 'triangle', 0.18, 0.12);
@@ -1325,8 +2067,8 @@
         setTimeout(() => this.tone(175, 'sawtooth', 0.3, 0.1), 150);
       }
       win() {
-        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((n, i) => {
-          setTimeout(() => this.tone(n, 'triangle', 0.26, 0.14), i * 110);
+        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((n, i) => {
+          setTimeout(() => this.tone(n, 'triangle', 0.26, 0.15), i * 95);
         });
       }
       bye() {
@@ -1337,7 +2079,7 @@
     const sfx = new ArcadeSound();
 
     /* =====================================================
-       2. 8종 고유 상품 데이터 (인형뽑기 & 카지노 룰렛 공통)
+       2. 8종 상품 데이터 및 실시간 확률 +10% 상승(버프) 시스템
        순서: 복싱 글러브 < 10000원 미만 음식 선택권 < 영양제 < 빅맥 < 하모니카, 초코에몽, 바나나우유, 마이쭈
        ===================================================== */
     const PRIZE_LIST = [
@@ -1347,10 +2089,10 @@
         shortLabel: '복싱 글러브',
         emoji: '🥊',
         radius: 0.52,
-        grabChance: 0.03,
-        weight: 1.5,
-        displayProb: '1.5%',
-        wheelColor: '#dc2626',
+        baseGrabChance: 0.03,
+        baseWeight: 1.5,
+        isRare: true,
+        badgeColor: '#dc2626',
         tierDesc: '극악 난이도 · 특대형 헤비급'
       },
       {
@@ -1359,10 +2101,10 @@
         shortLabel: '1만원 식권',
         emoji: '🎫',
         radius: 0.46,
-        grabChance: 0.07,
-        weight: 4.5,
-        displayProb: '4.5%',
-        wheelColor: '#f59e0b',
+        baseGrabChance: 0.07,
+        baseWeight: 4.5,
+        isRare: true,
+        badgeColor: '#f59e0b',
         tierDesc: '최상 난이도 · 대형 황금 티켓'
       },
       {
@@ -1371,10 +2113,10 @@
         shortLabel: '영양제',
         emoji: '💊',
         radius: 0.41,
-        grabChance: 0.13,
-        weight: 8.0,
-        displayProb: '8.0%',
-        wheelColor: '#10b981',
+        baseGrabChance: 0.13,
+        baseWeight: 8.0,
+        isRare: true,
+        badgeColor: '#10b981',
         tierDesc: '상급 난이도 · 묵직한 영양제 통'
       },
       {
@@ -1383,10 +2125,10 @@
         shortLabel: '빅맥',
         emoji: '🍔',
         radius: 0.38,
-        grabChance: 0.20,
-        weight: 12.0,
-        displayProb: '12.0%',
-        wheelColor: '#ea580c',
+        baseGrabChance: 0.20,
+        baseWeight: 12.0,
+        isRare: true,
+        badgeColor: '#ea580c',
         tierDesc: '중상 난이도 · 더블 패티 버거'
       },
       {
@@ -1395,10 +2137,10 @@
         shortLabel: '하모니카',
         emoji: '🎶',
         radius: 0.33,
-        grabChance: 0.36,
-        weight: 18.0,
-        displayProb: '18.0%',
-        wheelColor: '#6366f1',
+        baseGrabChance: 0.36,
+        baseWeight: 18.0,
+        isRare: false,
+        badgeColor: '#6366f1',
         tierDesc: '보통 난이도 · 클래식 하모니카'
       },
       {
@@ -1407,10 +2149,10 @@
         shortLabel: '초코에몽',
         emoji: '🧃',
         radius: 0.32,
-        grabChance: 0.39,
-        weight: 18.5,
-        displayProb: '18.5%',
-        wheelColor: '#78350f',
+        baseGrabChance: 0.39,
+        baseWeight: 18.5,
+        isRare: false,
+        badgeColor: '#78350f',
         tierDesc: '보통 난이도 · 진한 초코 드링크'
       },
       {
@@ -1419,10 +2161,10 @@
         shortLabel: '바나나우유',
         emoji: '🍌',
         radius: 0.32,
-        grabChance: 0.39,
-        weight: 18.5,
-        displayProb: '18.5%',
-        wheelColor: '#eab308',
+        baseGrabChance: 0.39,
+        baseWeight: 18.5,
+        isRare: false,
+        badgeColor: '#ca8a04',
         tierDesc: '보통 난이도 · 달콤 단지우유'
       },
       {
@@ -1431,458 +2173,110 @@
         shortLabel: '마이쭈',
         emoji: '🍬',
         radius: 0.30,
-        grabChance: 0.44,
-        weight: 19.0,
-        displayProb: '19.0%',
-        wheelColor: '#ec4899',
+        baseGrabChance: 0.44,
+        baseWeight: 19.0,
+        isRare: false,
+        badgeColor: '#ec4899',
         tierDesc: '쉬움 난이도 · 쫄깃 딸기 마이쭈'
       }
     ];
 
-    // 확률표 모달 채우기
-    const probContainer = document.getElementById('prob-list-container');
-    PRIZE_LIST.forEach((p) => {
-      const row = document.createElement('div');
-      row.className = 'prob-item';
-      row.innerHTML = `
-        <div class="prob-left">
-          <div class="prob-emoji">${p.emoji}</div>
-          <div>
-            <div class="prob-name">${p.name}</div>
-            <div class="prob-desc">${p.tierDesc}</div>
+    let luckBoostStack = 0;
+
+    function getEffectiveGrabChance(item) {
+      return Math.min(0.95, item.baseGrabChance + luckBoostStack * 0.10);
+    }
+
+    function getEffectiveWeight(item) {
+      if (luckBoostStack === 0) return item.baseWeight;
+      if (item.isRare) {
+        return item.baseWeight * (1 + luckBoostStack * 0.38);
+      } else {
+        return Math.max(4, item.baseWeight * Math.pow(0.91, luckBoostStack));
+      }
+    }
+
+    function getEffectiveProbPercent(item) {
+      const totalW = PRIZE_LIST.reduce((acc, p) => acc + getEffectiveWeight(p), 0);
+      return ((getEffectiveWeight(item) / totalW) * 100).toFixed(1) + '%';
+    }
+
+    // 배팅 머신 3개 일치(잭팟) 성공률: 기본 45%, 실패할 때마다 +15%p씩 상승 (최대 98%)
+    function getSlotHitChance() {
+      return Math.min(0.98, 0.45 + luckBoostStack * 0.15);
+    }
+
+    function updateSlotDashboard() {
+      const boostPct = luckBoostStack * 10;
+      document.getElementById('slot-lcd-buff').textContent = `+${boostPct}%`;
+      document.getElementById('slot-lcd-winrate').textContent = `${Math.round(getSlotHitChance() * 100)}%`;
+    }
+
+    function renderProbListModal() {
+      const probContainer = document.getElementById('prob-list-container');
+      probContainer.innerHTML = '';
+      const boostPct = luckBoostStack * 10;
+
+      document.getElementById('prob-modal-desc').innerHTML =
+        boostPct > 0
+          ? `🔥 <strong>현재 행운 버프 +${boostPct}% 적용 중!</strong><br>집게 그립력, 배팅 머신 당첨률(${Math.round(getSlotHitChance() * 100)}%), 상위 희귀 선물 출현율이 모두 크게 상승했습니다!`
+          : `안 뽑히거나 재도전할 때마다 <strong>행운 버프(+10%)</strong>가 누적되어 희귀 상품 당첨 확률과 집게 힘이 실제로 상승합니다!`;
+
+      PRIZE_LIST.forEach((p) => {
+        const curProb = getEffectiveProbPercent(p);
+        const grabPct = Math.round(getEffectiveGrabChance(p) * 100);
+        const row = document.createElement('div');
+        row.className = 'prob-item';
+        row.innerHTML = `
+          <div class="prob-left">
+            <div class="prob-emoji">${p.emoji}</div>
+            <div>
+              <div class="prob-name">${p.name}</div>
+              <div class="prob-desc">${p.tierDesc} · 인형뽑기 그립 ${grabPct}%</div>
+            </div>
           </div>
-        </div>
-        <div class="prob-badge">${p.displayProb}</div>
-      `;
-      probContainer.appendChild(row);
-    });
-
-    /* =====================================================
-       3. 화면 전환 관리 (인트로 ↔ 인형뽑기 / 카지노 룰렛 / ㅅㄱ~)
-       ===================================================== */
-    let activeGameMode = 'CLAW'; // 'CLAW' or 'ROULETTE'
-    const introScreen = document.getElementById('intro-screen');
-    const gameScreen = document.getElementById('game-screen');
-    const rouletteScreen = document.getElementById('roulette-screen');
-    const sgScreen = document.getElementById('sg-screen');
-
-    // 1) 인형뽑기 선택
-    document.getElementById('choose-claw-btn').addEventListener('click', () => {
-      sfx.fanfare();
-      activeGameMode = 'CLAW';
-      introScreen.style.display = 'none';
-      rouletteScreen.style.display = 'none';
-      gameScreen.style.display = 'flex';
-      handleResize();
-    });
-
-    // 2) 카지노 룰렛 선택
-    document.getElementById('choose-roulette-btn').addEventListener('click', () => {
-      sfx.fanfare();
-      activeGameMode = 'ROULETTE';
-      introScreen.style.display = 'none';
-      gameScreen.style.display = 'none';
-      rouletteScreen.style.display = 'flex';
-      drawRouletteWheel(wheelRotation);
-    });
-
-    // 3) 생일 선물 안받음 선택 -> 'ㅅㄱ~' 출력 후 종료
-    document.getElementById('choose-refuse-btn').addEventListener('click', () => {
-      sfx.bye();
-      introScreen.style.display = 'none';
-      gameScreen.style.display = 'none';
-      rouletteScreen.style.display = 'none';
-      sgScreen.classList.add('show');
-    });
-
-    // 홈 버튼 (처음 화면으로 복귀)
-    function goHomeMenu() {
-      sfx.click();
-      gameScreen.style.display = 'none';
-      rouletteScreen.style.display = 'none';
-      introScreen.style.display = 'flex';
-    }
-    document.getElementById('claw-home-btn').addEventListener('click', goHomeMenu);
-    document.getElementById('roulette-home-btn').addEventListener('click', goHomeMenu);
-
-    /* =====================================================
-       4. 카지노 룰렛 게임 구현 (확률 비례 부채꼴 + 회전 물리 + 핀 튕김)
-       ===================================================== */
-    const rCanvas = document.getElementById('roulette-canvas');
-    const rCtx = rCanvas.getContext('2d');
-    const pointerEl = document.getElementById('wheel-pointer');
-    const spinBtn = document.getElementById('spin-wheel-btn');
-    const rouletteStatus = document.getElementById('roulette-status');
-
-    // 확률 가중치에 따른 각 슬라이스 시작/끝 각도 계산 (전체 2π)
-    const totalWeight = PRIZE_LIST.reduce((acc, item) => acc + item.weight, 0);
-    let accumAngle = 0;
-    const wheelSlices = PRIZE_LIST.map((item) => {
-      const sliceAngle = (item.weight / totalWeight) * (Math.PI * 2);
-      const slice = {
-        item,
-        startAngle: accumAngle,
-        endAngle: accumAngle + sliceAngle,
-        midAngle: accumAngle + sliceAngle / 2
-      };
-      accumAngle += sliceAngle;
-      return slice;
-    });
-
-    let wheelRotation = 0; // 라디안
-    let isSpinning = false;
-    let lastSliceIdx = -1;
-
-    function drawRouletteWheel(rot) {
-      const w = rCanvas.width;
-      const h = rCanvas.height;
-      const cx = w / 2;
-      const cy = h / 2;
-      const r = cx - 10;
-
-      rCtx.clearRect(0, 0, w, h);
-
-      wheelSlices.forEach((s) => {
-        const start = s.startAngle + rot;
-        const end = s.endAngle + rot;
-        const mid = s.midAngle + rot;
-
-        // 부채꼴 채우기
-        rCtx.beginPath();
-        rCtx.moveTo(cx, cy);
-        rCtx.arc(cx, cy, r, start, end);
-        rCtx.closePath();
-        rCtx.fillStyle = s.item.wheelColor;
-        rCtx.fill();
-
-        // 황금 구분선
-        rCtx.lineWidth = 3;
-        rCtx.strokeStyle = '#fde68a';
-        rCtx.stroke();
-
-        // 가장자리 핀(Peg) 그리기
-        const pegX = cx + Math.cos(start) * (r - 12);
-        const pegY = cy + Math.sin(start) * (r - 12);
-        rCtx.beginPath();
-        rCtx.arc(pegX, pegY, 6, 0, Math.PI * 2);
-        rCtx.fillStyle = '#fffbeb';
-        rCtx.fill();
-        rCtx.lineWidth = 2;
-        rCtx.strokeStyle = '#78350f';
-        rCtx.stroke();
-
-        // 텍스트 & 이모지 렌더링
-        rCtx.save();
-        rCtx.translate(cx, cy);
-        rCtx.rotate(mid);
-        rCtx.textAlign = 'right';
-        rCtx.textBaseline = 'middle';
-
-        // 복싱 글러브처럼 좁은 칸은 폰트 크기 자동 조절
-        const isNarrow = s.item.weight < 3;
-        const isMedium = s.item.weight < 6;
-
-        rCtx.fillStyle = '#ffffff';
-        rCtx.shadowColor = 'rgba(0,0,0,0.65)';
-        rCtx.shadowBlur = 4;
-
-        if (isNarrow) {
-          rCtx.font = 'bold 16px Pretendard, sans-serif';
-          rCtx.fillText(`${s.item.emoji} ${s.item.shortLabel}`, r - 28, 0);
-        } else if (isMedium) {
-          rCtx.font = 'bold 21px Pretendard, sans-serif';
-          rCtx.fillText(`${s.item.emoji} ${s.item.shortLabel}`, r - 30, 0);
-        } else {
-          rCtx.font = 'bold 26px Pretendard, sans-serif';
-          rCtx.fillText(`${s.item.emoji} ${s.item.shortLabel}`, r - 34, -10);
-          rCtx.font = 'bold 17px Pretendard, sans-serif';
-          rCtx.fillStyle = '#fef08a';
-          rCtx.fillText(s.item.displayProb, r - 36, 16);
-        }
-
-        rCtx.restore();
+          <div class="prob-badge">${curProb}</div>
+        `;
+        probContainer.appendChild(row);
       });
     }
+    renderProbListModal();
 
-    // 현재 상단 포인터(12시 방향 = -π/2 = 3π/2)가 가리키는 슬라이스 인덱스 구하기
-    function getPointerSliceIndex(rot) {
-      const pointerAngle = (Math.PI * 1.5 - (rot % (Math.PI * 2)) + Math.PI * 4) % (Math.PI * 2);
-      for (let i = 0; i < wheelSlices.length; i++) {
-        if (pointerAngle >= wheelSlices[i].startAngle && pointerAngle < wheelSlices[i].endAngle) {
-          return i;
-        }
-      }
-      return wheelSlices.length - 1;
+    let boostTimer = null;
+    function triggerProbabilityBoost(reasonText = '') {
+      luckBoostStack++;
+      const totalBoost = luckBoostStack * 10;
+      sfx.boostUp();
+
+      const clawBadge = document.getElementById('claw-buff-badge');
+      const slotBadge = document.getElementById('slot-buff-badge');
+      clawBadge.style.display = 'inline-flex';
+      slotBadge.style.display = 'inline-flex';
+      clawBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
+      slotBadge.textContent = `🔥 확률 +${totalBoost}% UP`;
+
+      const overlay = document.getElementById('boost-banner-overlay');
+      const card = document.getElementById('boost-popup-card');
+      const sub = document.getElementById('boost-popup-sub');
+
+      sub.textContent = `${reasonText ? reasonText + ' · ' : ''}현재 누적 확률 버프 +${totalBoost}% UP!`;
+
+      overlay.classList.remove('show');
+      void card.offsetWidth;
+      overlay.classList.add('show');
+
+      if (boostTimer) clearTimeout(boostTimer);
+      boostTimer = setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 1950);
+
+      updateSlotDashboard();
+      renderProbListModal();
     }
-
-    drawRouletteWheel(wheelRotation);
-
-    // 룰렛 돌리기 이벤트
-    spinBtn.addEventListener('click', () => {
-      if (isSpinning) return;
-      isSpinning = true;
-      spinBtn.disabled = true;
-      rouletteStatus.textContent = '🔥 룰렛이 돌아갑니다! 과연 어떤 선물이 나올까요?!';
-
-      // 1) 설정된 확률 가중치에 따라 당첨 슬라이스 추첨
-      let rand = Math.random() * totalWeight;
-      let chosenSlice = wheelSlices[wheelSlices.length - 1];
-      for (const s of wheelSlices) {
-        if (rand < s.item.weight) {
-          chosenSlice = s;
-          break;
-        }
-        rand -= s.item.weight;
-      }
-
-      // 2) 선택된 슬라이스 내부의 랜덤 각도가 12시 포인터(1.5 * π)에 오도록 목표 회전각 설정
-      const margin = (chosenSlice.endAngle - chosenSlice.startAngle) * 0.18;
-      const targetAngleInSlice =
-        chosenSlice.startAngle +
-        margin +
-        Math.random() * (chosenSlice.endAngle - chosenSlice.startAngle - margin * 2);
-
-      const extraSpins = (7 + Math.floor(Math.random() * 3)) * Math.PI * 2; // 최소 7~9바퀴 회전
-      const currentMod = wheelRotation % (Math.PI * 2);
-      let targetMod = (Math.PI * 1.5 - targetAngleInSlice + Math.PI * 4) % (Math.PI * 2);
-      let delta = targetMod - currentMod;
-      if (delta < 0) delta += Math.PI * 2;
-
-      const startRot = wheelRotation;
-      const totalDelta = extraSpins + delta;
-      const duration = 5400; // 5.4초 동안 드라마틱하게 감속
-      const startTime = performance.now();
-
-      function animateWheel(now) {
-        const elapsed = now - startTime;
-        const t = Math.min(1, elapsed / duration);
-        // 부드럽고 긴장감 넘치는 Ease-Out Quintic 감속 곡선
-        const easeOut = 1 - Math.pow(1 - t, 4.5);
-
-        wheelRotation = startRot + totalDelta * easeOut;
-        drawRouletteWheel(wheelRotation);
-
-        // 칸이 바뀔 때마다 포인터 튕김 애니메이션 & '틱' 효과음
-        const curIdx = getPointerSliceIndex(wheelRotation);
-        if (curIdx !== lastSliceIdx) {
-          lastSliceIdx = curIdx;
-          sfx.tick();
-          pointerEl.style.transform = 'translateX(-50%) rotate(-24deg)';
-          setTimeout(() => {
-            pointerEl.style.transform = 'translateX(-50%) rotate(0deg)';
-          }, 55);
-        }
-
-        if (t < 1) {
-          requestAnimationFrame(animateWheel);
-        } else {
-          isSpinning = false;
-          spinBtn.disabled = false;
-          const wonItem = chosenSlice.item;
-          rouletteStatus.textContent = `🎉 축하합니다! [${wonItem.name}] 당첨!`;
-          setTimeout(() => {
-            openConfirmModalByItem(wonItem);
-          }, 420);
-        }
-      }
-
-      requestAnimationFrame(animateWheel);
-    });
 
     /* =====================================================
-       5. Three.js 3D 인형뽑기 (360도 회전 + 8종 입체 상품)
+       3. 공통 3D 입체 상품 모델 생성기 (쇼케이스 & 인형뽑기 겸용)
        ===================================================== */
-    const container = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    container.appendChild(renderer.domElement);
-
-    function handleResize() {
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || window.innerHeight * 0.6;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    }
-
-    const hemiLight = new THREE.HemisphereLight(0xfff8f0, 0xf4a261, 0.85);
-    scene.add(hemiLight);
-
-    const sunLight = new THREE.DirectionalLight(0xfff3e0, 0.95);
-    sunLight.position.set(5, 10, 6);
-    sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 1024;
-    sunLight.shadow.mapSize.height = 1024;
-    sunLight.shadow.bias = -0.001;
-    scene.add(sunLight);
-
-    const warmPoint1 = new THREE.PointLight(0xffb703, 0.7, 12);
-    warmPoint1.position.set(-2.2, 3.8, 2.0);
-    scene.add(warmPoint1);
-
-    const warmPoint2 = new THREE.PointLight(0xff7b47, 0.6, 12);
-    warmPoint2.position.set(2.2, 3.8, -2.0);
-    scene.add(warmPoint2);
-
-    let camTheta = 0;
-    let camPhi = 1.18;
-    let camRadius = 7.4;
-    const camTarget = new THREE.Vector3(0, 1.45, 0);
-
-    function updateOrbitCamera() {
-      const sinPhi = Math.sin(camPhi);
-      camera.position.x = camTarget.x + camRadius * sinPhi * Math.sin(camTheta);
-      camera.position.y = camTarget.y + camRadius * Math.cos(camPhi);
-      camera.position.z = camTarget.z + camRadius * sinPhi * Math.cos(camTheta);
-      camera.lookAt(camTarget);
-    }
-    updateOrbitCamera();
-
-    let isDraggingCam = false;
-    let prevPointer = { x: 0, y: 0 };
-
-    container.addEventListener('pointerdown', (e) => {
-      isDraggingCam = true;
-      prevPointer = { x: e.clientX, y: e.clientY };
-      document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
-    });
-
-    window.addEventListener('pointermove', (e) => {
-      if (!isDraggingCam) return;
-      const dx = e.clientX - prevPointer.x;
-      const dy = e.clientY - prevPointer.y;
-      prevPointer = { x: e.clientX, y: e.clientY };
-
-      camTheta -= dx * 0.0085;
-      camPhi = Math.max(0.28, Math.min(1.48, camPhi - dy * 0.007));
-      updateOrbitCamera();
-    });
-
-    window.addEventListener('pointerup', () => {
-      isDraggingCam = false;
-    });
-
-    document.querySelectorAll('.cam-chip').forEach((chip) => {
-      chip.addEventListener('click', () => {
-        sfx.click();
-        document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
-        chip.classList.add('active');
-        const view = chip.dataset.view;
-        if (view === 'front') { camTheta = 0; camPhi = 1.18; camRadius = 7.4; }
-        else if (view === 'side') { camTheta = Math.PI / 2; camPhi = 1.18; camRadius = 7.4; }
-        else if (view === 'top') { camTheta = 0; camPhi = 0.32; camRadius = 7.6; }
-        else if (view === 'iso') { camTheta = 0.68; camPhi = 1.02; camRadius = 7.6; }
-        updateOrbitCamera();
-      });
-    });
-
-    // 아케이드 머신 본체
-    const machineGroup = new THREE.Group();
-    scene.add(machineGroup);
-
-    const lowerCabinet = new THREE.Mesh(
-      new THREE.BoxGeometry(4.3, 1.8, 3.5),
-      new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.35 })
-    );
-    lowerCabinet.position.y = -1.05;
-    lowerCabinet.receiveShadow = true;
-    machineGroup.add(lowerCabinet);
-
-    const frontPanel = new THREE.Mesh(
-      new THREE.BoxGeometry(3.8, 1.3, 0.08),
-      new THREE.MeshStandardMaterial({ color: 0xfff5e6, roughness: 0.4 })
-    );
-    frontPanel.position.set(0, -1.05, 1.74);
-    machineGroup.add(frontPanel);
-
-    const doorFrame = new THREE.Mesh(
-      new THREE.BoxGeometry(1.1, 0.85, 0.14),
-      new THREE.MeshStandardMaterial({ color: 0x4a2511, roughness: 0.5 })
-    );
-    doorFrame.position.set(-1.18, -1.1, 1.75);
-    machineGroup.add(doorFrame);
-
-    const playFloor = new THREE.Mesh(
-      new THREE.BoxGeometry(4.2, 0.28, 3.4),
-      new THREE.MeshStandardMaterial({ color: 0xfff3e0, roughness: 0.4 })
-    );
-    playFloor.position.y = -0.14;
-    playFloor.receiveShadow = true;
-    machineGroup.add(playFloor);
-
-    const HOME_X = -1.25;
-    const HOME_Z = 0.95;
-
-    const chuteHole = new THREE.Mesh(
-      new THREE.BoxGeometry(1.05, 0.3, 1.0),
-      new THREE.MeshBasicMaterial({ color: 0x2b1408 })
-    );
-    chuteHole.position.set(HOME_X, -0.12, HOME_Z);
-    machineGroup.add(chuteHole);
-
-    const guardMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffb703,
-      transparent: true,
-      opacity: 0.42,
-      roughness: 0.1
-    });
-    const guardRight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.78, 1.05), guardMat);
-    guardRight.position.set(-0.7, 0.39, HOME_Z);
-    machineGroup.add(guardRight);
-
-    const guardBack = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.78, 0.08), guardMat);
-    guardBack.position.set(HOME_X, 0.39, 0.42);
-    machineGroup.add(guardBack);
-
-    const glassMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.14,
-      roughness: 0.05
-    });
-    const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
-    frontGlass.position.set(0, 2.05, 1.68);
-    machineGroup.add(frontGlass);
-
-    const backGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
-    backGlass.position.set(0, 2.05, -1.68);
-    backGlass.rotation.y = Math.PI;
-    machineGroup.add(backGlass);
-
-    const pillarGeo = new THREE.CylinderGeometry(0.08, 0.08, 4.2, 16);
-    const pillarMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
-    [
-      [-2.02, 2.1, -1.62],
-      [2.02, 2.1, -1.62],
-      [-2.02, 2.1, 1.62],
-      [2.02, 2.1, 1.62]
-    ].forEach(([x, y, z]) => {
-      const p = new THREE.Mesh(pillarGeo, pillarMat);
-      p.position.set(x, y, z);
-      machineGroup.add(p);
-    });
-
-    const roofBase = new THREE.Mesh(
-      new THREE.BoxGeometry(4.36, 0.42, 3.56),
-      new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.3 })
-    );
-    roofBase.position.y = 4.3;
-    machineGroup.add(roofBase);
-
-    const roofTop = new THREE.Mesh(
-      new THREE.BoxGeometry(4.0, 0.28, 3.2),
-      new THREE.MeshStandardMaterial({ color: 0xfff5e6, roughness: 0.35 })
-    );
-    roofTop.position.y = 4.62;
-    machineGroup.add(roofTop);
-
-    // 8종 3D 입체 상품 생성
     function makeLabelCanvas(title, sub, bgHex, textHex = '#ffffff') {
       const cvs = document.createElement('canvas');
       cvs.width = 256;
@@ -1903,28 +2297,30 @@
       return new THREE.CanvasTexture(cvs);
     }
 
-    function createCustom3DPrize(item) {
+    function createCustom3DPrize(item, includeShell = true) {
       const root = new THREE.Group();
 
-      const shell = new THREE.Mesh(
-        new THREE.SphereGeometry(item.radius, 24, 20),
-        new THREE.MeshPhysicalMaterial({
-          color: 0xffffff,
-          transparent: true,
-          opacity: 0.22,
-          roughness: 0.1
-        })
-      );
-      root.add(shell);
+      if (includeShell) {
+        const shell = new THREE.Mesh(
+          new THREE.SphereGeometry(item.radius, 24, 20),
+          new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.20,
+            roughness: 0.08
+          })
+        );
+        root.add(shell);
+      }
 
       const model = new THREE.Group();
 
       if (item.id === 'glove') {
-        const redMat = new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.3, metalness: 0.1 });
+        const redMat = new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.28, metalness: 0.1 });
         const cuffMat = new THREE.MeshStandardMaterial({ color: 0xfefae0, roughness: 0.4 });
         const goldMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.5, roughness: 0.2 });
 
-        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.32, 20, 18), redMat);
+        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.32, 22, 18), redMat);
         fist.scale.set(1.0, 1.15, 0.85);
         fist.position.y = 0.08;
         model.add(fist);
@@ -1952,7 +2348,7 @@
           new THREE.BoxGeometry(0.62, 0.38, 0.12),
           [cardMat, cardMat, cardMat, cardMat, faceMat, faceMat]
         );
-        ticket.rotation.x = -0.35;
+        ticket.rotation.x = -0.25;
         model.add(ticket);
 
       } else if (item.id === 'vitamin') {
@@ -2072,6 +2468,616 @@
       return root;
     }
 
+    /* =====================================================
+       4. 3D 선물 쇼케이스 캐러셀 구현 (디리링~ 한바퀴 굴러 등장)
+       ===================================================== */
+    const scWrap = document.getElementById('showcase-canvas-wrap');
+    const scScene = new THREE.Scene();
+    const scCamera = new THREE.PerspectiveCamera(38, 1, 0.1, 50);
+    scCamera.position.set(0, 0.65, 3.6);
+    scCamera.lookAt(0, 0.05, 0);
+
+    const scRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    scRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    scRenderer.outputEncoding = THREE.sRGBEncoding;
+    scWrap.appendChild(scRenderer.domElement);
+
+    scScene.add(new THREE.HemisphereLight(0xfffdf9, 0xf4a261, 0.95));
+    const scDirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    scDirLight.position.set(3, 6, 5);
+    scScene.add(scDirLight);
+
+    const carouselGroup = new THREE.Group();
+    scScene.add(carouselGroup);
+
+    const CAROUSEL_RADIUS = 1.85;
+    const scItemNodes = [];
+    let scCurrentIndex = 0;
+    let scTargetAngle = 0;
+    let scCurrentAngle = Math.PI * 2.5;
+
+    const scDotsEl = document.getElementById('sc-dots');
+    PRIZE_LIST.forEach((item, idx) => {
+      const angle = (idx / PRIZE_LIST.length) * Math.PI * 2;
+      const holder = new THREE.Group();
+      holder.position.set(Math.sin(angle) * CAROUSEL_RADIUS, 0, Math.cos(angle) * CAROUSEL_RADIUS);
+
+      const ped = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.45, 0.52, 0.08, 24),
+        new THREE.MeshStandardMaterial({ color: 0xffedd8, metalness: 0.2, roughness: 0.3 })
+      );
+      ped.position.y = -0.45;
+      holder.add(ped);
+
+      const pedRim = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.48, 0.48, 0.03, 24),
+        new THREE.MeshStandardMaterial({ color: 0xff8c42, metalness: 0.4, roughness: 0.2 })
+      );
+      pedRim.position.y = -0.40;
+      holder.add(pedRim);
+
+      const prize3D = createCustom3DPrize(item, false);
+      prize3D.scale.set(1.35, 1.35, 1.35);
+      holder.add(prize3D);
+
+      carouselGroup.add(holder);
+      scItemNodes.push({ holder, prize3D, item });
+
+      const dot = document.createElement('div');
+      dot.className = 'showcase-dot' + (idx === 0 ? ' active' : '');
+      scDotsEl.appendChild(dot);
+    });
+
+    function updateShowcaseUI(index) {
+      const item = PRIZE_LIST[index];
+      document.getElementById('sc-item-counter').textContent = `PRIZE ${index + 1} / ${PRIZE_LIST.length}`;
+      document.getElementById('sc-item-title').textContent = `${item.emoji} ${item.name}`;
+      document.getElementById('sc-item-meta').textContent =
+        `${item.tierDesc} · 현재 확률 ${getEffectiveProbPercent(item)}`;
+
+      Array.from(scDotsEl.children).forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+      });
+    }
+
+    function moveShowcaseTo(newIndex) {
+      const count = PRIZE_LIST.length;
+      scCurrentIndex = (newIndex + count) % count;
+      const stepAngle = (Math.PI * 2) / count;
+      const desiredAngle = -scCurrentIndex * stepAngle;
+
+      let diff = (desiredAngle - scTargetAngle) % (Math.PI * 2);
+      if (diff > Math.PI) diff -= Math.PI * 2;
+      if (diff < -Math.PI) diff += Math.PI * 2;
+      scTargetAngle += diff;
+
+      sfx.click();
+      updateShowcaseUI(scCurrentIndex);
+    }
+
+    document.getElementById('sc-prev-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex - 1));
+    document.getElementById('sc-next-btn').addEventListener('click', () => moveShowcaseTo(scCurrentIndex + 1));
+
+    let scSwipeStartX = null;
+    scWrap.addEventListener('pointerdown', (e) => {
+      scSwipeStartX = e.clientX;
+    });
+    scWrap.addEventListener('pointerup', (e) => {
+      if (scSwipeStartX === null) return;
+      const dx = e.clientX - scSwipeStartX;
+      if (dx < -35) moveShowcaseTo(scCurrentIndex + 1);
+      else if (dx > 35) moveShowcaseTo(scCurrentIndex - 1);
+      scSwipeStartX = null;
+    });
+
+    function resizeShowcase() {
+      const w = scWrap.clientWidth || window.innerWidth;
+      const h = scWrap.clientHeight || window.innerHeight * 0.55;
+      scCamera.aspect = w / h;
+      scCamera.updateProjectionMatrix();
+      scRenderer.setSize(w, h);
+    }
+
+    /* =====================================================
+       5. 화면 흐름 제어 (인트로 ➔ 3D 쇼케이스 ➔ 3버튼 선택 ➔ 게임)
+       ===================================================== */
+    let activeGameMode = 'CLAW'; // 'CLAW' or 'SLOT'
+    const introScreen = document.getElementById('intro-screen');
+    const showcaseScreen = document.getElementById('showcase-screen');
+    const selectScreen = document.getElementById('select-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const slotScreen = document.getElementById('slot-screen');
+    const sgScreen = document.getElementById('sg-screen');
+
+    function openShowcaseScreen() {
+      introScreen.style.display = 'none';
+      selectScreen.style.display = 'none';
+      showcaseScreen.style.display = 'flex';
+      showcaseScreen.classList.add('screen-fade-in');
+      resizeShowcase();
+
+      sfx.diriring();
+      scCurrentIndex = 0;
+      scTargetAngle = 0;
+      scCurrentAngle = Math.PI * 2.25;
+      updateShowcaseUI(0);
+    }
+
+    function openSelectScreen() {
+      sfx.click();
+      showcaseScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      selectScreen.style.display = 'flex';
+      selectScreen.classList.add('screen-fade-in');
+    }
+
+    document.getElementById('enter-showcase-btn').addEventListener('click', openShowcaseScreen);
+    document.getElementById('skip-to-select-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('go-select-screen-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('back-to-showcase-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('back-to-showcase-btn').onclick = openShowcaseScreen;
+
+    // 1) 인형뽑기 선택
+    document.getElementById('choose-claw-btn').addEventListener('click', () => {
+      sfx.fanfare();
+      activeGameMode = 'CLAW';
+      selectScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      gameScreen.style.display = 'flex';
+      gameScreen.classList.add('screen-fade-in');
+      handleResize();
+    });
+
+    // 2) VIP 배팅 머신 선택
+    document.getElementById('choose-slot-btn').addEventListener('click', () => {
+      sfx.fanfare();
+      activeGameMode = 'SLOT';
+      selectScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'flex';
+      slotScreen.classList.add('screen-fade-in');
+      updateSlotDashboard();
+    });
+
+    // 3) 생일 선물 안받음 -> 'ㅅㄱ~'
+    document.getElementById('choose-refuse-btn').addEventListener('click', () => {
+      sfx.bye();
+      selectScreen.style.display = 'none';
+      gameScreen.style.display = 'none';
+      slotScreen.style.display = 'none';
+      sgScreen.classList.add('show');
+    });
+
+    document.getElementById('claw-home-btn').addEventListener('click', openSelectScreen);
+    document.getElementById('slot-home-btn').addEventListener('click', openSelectScreen);
+
+    /* =====================================================
+       6. VIP 배팅 머신 (3릴 슬롯머신) 엔진 & 띠링띠링 사운드
+       ===================================================== */
+    const CELL_HEIGHT = 104;     // 한 칸 높이(px)
+    const DRUM_CENTER_OFFSET = 64; // 드럼 창(232px) 정중앙에 셀(104px)이 오도록 하는 오프셋: (232 - 104)/2 = 64px
+    const REPEAT_SETS = 9;       // 릴이 길게 회전할 수 있도록 8종 상품을 9세트 반복 배치 (총 72칸)
+
+    const reelStrips = [
+      document.getElementById('reel-strip-0'),
+      document.getElementById('reel-strip-1'),
+      document.getElementById('reel-strip-2')
+    ];
+    const reelDrums = [
+      document.getElementById('reel-drum-0'),
+      document.getElementById('reel-drum-1'),
+      document.getElementById('reel-drum-2')
+    ];
+    const slotSpinBtn = document.getElementById('slot-spin-btn');
+    const slotLeverBtn = document.getElementById('slot-lever-btn');
+    const slotStatusEl = document.getElementById('slot-status');
+
+    let isSlotSpinning = false;
+    let currentReelIndices = [0, 1, 2]; // 현재 각 릴이 가리키는 상품 인덱스(0~7)
+
+    function buildSlotReels() {
+      reelStrips.forEach((strip, rIdx) => {
+        strip.innerHTML = '';
+        for (let s = 0; s < REPEAT_SETS; s++) {
+          PRIZE_LIST.forEach((item) => {
+            const cell = document.createElement('div');
+            cell.className = 'slot-cell';
+            cell.innerHTML = `
+              <div class="slot-cell-emoji">${item.emoji}</div>
+              <div class="slot-cell-name">${item.shortLabel}</div>
+              <div class="slot-cell-prob" style="background:${item.badgeColor};">${getEffectiveProbPercent(item)}</div>
+            `;
+            strip.appendChild(cell);
+          });
+        }
+        // 초기 위치 세팅 (세트 1 기준)
+        const initCellIndex = 8 + currentReelIndices[rIdx];
+        const initY = DRUM_CENTER_OFFSET - initCellIndex * CELL_HEIGHT;
+        strip.style.transform = `translate3d(0, ${initY}px, 0)`;
+      });
+    }
+    buildSlotReels();
+
+    // 가중치 기반 상품 1개 추첨 함수
+    function pickWeightedPrize() {
+      const totalW = PRIZE_LIST.reduce((acc, item) => acc + getEffectiveWeight(item), 0);
+      let r = Math.random() * totalW;
+      for (let i = 0; i < PRIZE_LIST.length; i++) {
+        const w = getEffectiveWeight(PRIZE_LIST[i]);
+        if (r < w) return i;
+        r -= w;
+      }
+      return PRIZE_LIST.length - 1;
+    }
+
+    // 탄성 바운스 감속 커브 (멈출 때 살짝 내려갔다 튕겨 올라오며 철컥! 고정)
+    function slotEaseOutBack(t) {
+      const c1 = 1.45;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function startSlotSpin() {
+      if (isSlotSpinning) return;
+      isSlotSpinning = true;
+      slotSpinBtn.disabled = true;
+
+      // 레버 당김 애니메이션
+      slotLeverBtn.classList.add('pulled');
+      setTimeout(() => slotLeverBtn.classList.remove('pulled'), 380);
+
+      // 최신 확률 배지 반영을 위해 릴 셀 텍스트 갱신
+      buildSlotReels();
+
+      // 이번 배팅에서 3개가 일치(당첨)할지, 아깝게 빗나갈지(Near-Miss) 결정
+      const isWin = Math.random() < getSlotHitChance();
+      const mainPrizeIdx = pickWeightedPrize();
+      let targetIndices = [0, 0, 0];
+      let isNearMiss = false;
+
+      if (isWin) {
+        // 3개 릴 모두 동일한 당첨 상품으로 정렬!
+        targetIndices = [mainPrizeIdx, mainPrizeIdx, mainPrizeIdx];
+      } else {
+        // 80% 확률로 1·2번 릴이 같고 3번 릴만 한 칸 빗나가는 쫄깃한 Near-Miss 연출!
+        if (Math.random() < 0.8) {
+          isNearMiss = true;
+          const offIdx = (mainPrizeIdx + (Math.random() < 0.5 ? 1 : PRIZE_LIST.length - 1)) % PRIZE_LIST.length;
+          targetIndices = [mainPrizeIdx, mainPrizeIdx, offIdx];
+        } else {
+          const idx1 = pickWeightedPrize();
+          const idx2 = (idx1 + 2) % PRIZE_LIST.length;
+          const idx3 = (idx1 + 5) % PRIZE_LIST.length;
+          targetIndices = [idx1, idx2, idx3];
+        }
+      }
+
+      slotStatusEl.textContent = '🎵 띠링띠링~ 배팅 머신이 회전합니다!!';
+      sfx.drop();
+
+      // 각 릴의 시작 셀 번호(세트 1)와 도착 셀 번호(세트 5~7) 설정
+      const reelConfigs = [0, 1, 2].map((rIdx) => {
+        const startCell = 8 + currentReelIndices[rIdx];
+        const targetSet = 5 + rIdx; // 릴마다 회전 바퀴 수를 늘려 순차 정지
+        const endCell = targetSet * 8 + targetIndices[rIdx];
+        const startY = DRUM_CENTER_OFFSET - startCell * CELL_HEIGHT;
+        const endY = DRUM_CENTER_OFFSET - endCell * CELL_HEIGHT;
+        const duration = rIdx === 0 ? 1850 : rIdx === 1 ? 2750 : (isWin || isNearMiss ? 4100 : 3450);
+
+        reelStrips[rIdx].classList.add('spinning-blur');
+        return {
+          rIdx,
+          startY,
+          endY,
+          duration,
+          locked: false,
+          lastSoundCell: startCell
+        };
+      });
+
+      const startTime = performance.now();
+
+      function animateReels(now) {
+        const elapsed = now - startTime;
+        let allLocked = true;
+
+        reelConfigs.forEach((cfg) => {
+          if (cfg.locked) return;
+          allLocked = false;
+
+          const t = Math.min(1, elapsed / cfg.duration);
+
+          // 2번 릴이 멈춘 직후 1·2번이 같으면 3번 릴에 긴장감 스포트라이트 점등!
+          if (cfg.rIdx === 2 && elapsed > 2780 && (isWin || isNearMiss)) {
+            reelDrums[2].classList.add('tension-glow');
+            const teaseName = PRIZE_LIST[targetIndices[0]].name;
+            slotStatusEl.textContent = `🔥 [${teaseName}] 2개 일치!! 마지막 3번째 릴 과연?!`;
+          }
+
+          let curY;
+          if (t < 0.08) {
+            // 초반 살짝 위로 감기는 반동 연출
+            const pullT = t / 0.08;
+            curY = cfg.startY + Math.sin(pullT * Math.PI) * 22;
+          } else {
+            const spinT = (t - 0.08) / 0.92;
+            const eased = slotEaseOutBack(spinT);
+            curY = cfg.startY + (cfg.endY - cfg.startY) * eased;
+          }
+
+          reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${curY}px, 0)`;
+
+          // 칸이 지나갈 때마다 '띠링띠링~' 벨 사운드 재생 (0번 또는 가장 늦게 도는 릴 기준)
+          const currentCellFloat = (DRUM_CENTER_OFFSET - curY) / CELL_HEIGHT;
+          const currentCellInt = Math.floor(currentCellFloat);
+          if (currentCellInt !== cfg.lastSoundCell) {
+            cfg.lastSoundCell = currentCellInt;
+            // 너무 소리가 겹치지 않도록 현재 회전 중인 첫 번째 활성 릴에서만 띠링띠링 사운드 발생
+            const firstActiveReel = reelConfigs.find((rc) => !rc.locked);
+            if (firstActiveReel && firstActiveReel.rIdx === cfg.rIdx) {
+              sfx.slotDdiring();
+            }
+          }
+
+          if (t >= 1) {
+            cfg.locked = true;
+            reelStrips[cfg.rIdx].classList.remove('spinning-blur');
+            reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${cfg.endY}px, 0)`;
+            sfx.reelLock(cfg.rIdx);
+          }
+        });
+
+        if (!allLocked) {
+          requestAnimationFrame(animateReels);
+        } else {
+          // 모든 릴 정지 완료
+          reelDrums[2].classList.remove('tension-glow');
+          currentReelIndices = [...targetIndices];
+          isSlotSpinning = false;
+          slotSpinBtn.disabled = false;
+
+          if (isWin) {
+            const wonItem = PRIZE_LIST[mainPrizeIdx];
+            slotStatusEl.textContent = `🎉 777 JACKPOT!! [${wonItem.name}] 3개 일치 당첨!!`;
+            setTimeout(() => {
+              openConfirmModalByItem(wonItem);
+            }, 480);
+          } else {
+            // 아깝게 빗나갔을 때 즉시 화려한 '확률 +10% 상승!!' 발동!
+            const missReason = isNearMiss
+              ? `아깝다! [${PRIZE_LIST[mainPrizeIdx].shortLabel}] 한 칸 차이!`
+              : '배팅 머신 꽝 보너스!';
+            triggerProbabilityBoost(missReason);
+            slotStatusEl.textContent = `😱 아깝게 빗나갔습니다! 뽑기 확률이 +10% 상승했습니다!`;
+          }
+        }
+      }
+
+      requestAnimationFrame(animateReels);
+    }
+
+    slotSpinBtn.addEventListener('click', startSlotSpin);
+    slotLeverBtn.addEventListener('click', startSlotSpin);
+
+    /* =====================================================
+       7. Three.js 3D 인형뽑기 (상단 투명 강화유리 천장 + 360도 회전)
+       ===================================================== */
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    container.appendChild(renderer.domElement);
+
+    function handleResize() {
+      const w = container.clientWidth || window.innerWidth;
+      const h = container.clientHeight || window.innerHeight * 0.6;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      resizeShowcase();
+    }
+
+    const hemiLight = new THREE.HemisphereLight(0xfff8f0, 0xf4a261, 0.88);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfff3e0, 0.95);
+    sunLight.position.set(5, 10, 6);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    sunLight.shadow.bias = -0.001;
+    scene.add(sunLight);
+
+    const warmPoint1 = new THREE.PointLight(0xffb703, 0.7, 12);
+    warmPoint1.position.set(-2.2, 3.8, 2.0);
+    scene.add(warmPoint1);
+
+    const warmPoint2 = new THREE.PointLight(0xff7b47, 0.6, 12);
+    warmPoint2.position.set(2.2, 3.8, -2.0);
+    scene.add(warmPoint2);
+
+    let camTheta = 0;
+    let camPhi = 1.18;
+    let camRadius = 7.4;
+    const camTarget = new THREE.Vector3(0, 1.45, 0);
+
+    function updateOrbitCamera() {
+      const sinPhi = Math.sin(camPhi);
+      camera.position.x = camTarget.x + camRadius * sinPhi * Math.sin(camTheta);
+      camera.position.y = camTarget.y + camRadius * Math.cos(camPhi);
+      camera.position.z = camTarget.z + camRadius * sinPhi * Math.cos(camTheta);
+      camera.lookAt(camTarget);
+    }
+    updateOrbitCamera();
+
+    let isDraggingCam = false;
+    let prevPointer = { x: 0, y: 0 };
+
+    container.addEventListener('pointerdown', (e) => {
+      isDraggingCam = true;
+      prevPointer = { x: e.clientX, y: e.clientY };
+      document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingCam) return;
+      const dx = e.clientX - prevPointer.x;
+      const dy = e.clientY - prevPointer.y;
+      prevPointer = { x: e.clientX, y: e.clientY };
+
+      camTheta -= dx * 0.0085;
+      camPhi = Math.max(0.18, Math.min(1.48, camPhi - dy * 0.007));
+      updateOrbitCamera();
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDraggingCam = false;
+    });
+
+    document.querySelectorAll('.cam-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        sfx.click();
+        document.querySelectorAll('.cam-chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        const view = chip.dataset.view;
+        if (view === 'front') { camTheta = 0; camPhi = 1.18; camRadius = 7.4; }
+        else if (view === 'side') { camTheta = Math.PI / 2; camPhi = 1.18; camRadius = 7.4; }
+        else if (view === 'top') { camTheta = 0; camPhi = 0.22; camRadius = 7.4; }
+        else if (view === 'iso') { camTheta = 0.68; camPhi = 1.02; camRadius = 7.6; }
+        updateOrbitCamera();
+      });
+    });
+
+    // 아케이드 머신 본체
+    const machineGroup = new THREE.Group();
+    scene.add(machineGroup);
+
+    const lowerCabinet = new THREE.Mesh(
+      new THREE.BoxGeometry(4.3, 1.8, 3.5),
+      new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.35 })
+    );
+    lowerCabinet.position.y = -1.05;
+    lowerCabinet.receiveShadow = true;
+    machineGroup.add(lowerCabinet);
+
+    const frontPanel = new THREE.Mesh(
+      new THREE.BoxGeometry(3.8, 1.3, 0.08),
+      new THREE.MeshStandardMaterial({ color: 0xfff5e6, roughness: 0.4 })
+    );
+    frontPanel.position.set(0, -1.05, 1.74);
+    machineGroup.add(frontPanel);
+
+    const doorFrame = new THREE.Mesh(
+      new THREE.BoxGeometry(1.1, 0.85, 0.14),
+      new THREE.MeshStandardMaterial({ color: 0x4a2511, roughness: 0.5 })
+    );
+    doorFrame.position.set(-1.18, -1.1, 1.75);
+    machineGroup.add(doorFrame);
+
+    const playFloor = new THREE.Mesh(
+      new THREE.BoxGeometry(4.2, 0.28, 3.4),
+      new THREE.MeshStandardMaterial({ color: 0xfff3e0, roughness: 0.4 })
+    );
+    playFloor.position.y = -0.14;
+    playFloor.receiveShadow = true;
+    machineGroup.add(playFloor);
+
+    const HOME_X = -1.25;
+    const HOME_Z = 0.95;
+
+    const chuteHole = new THREE.Mesh(
+      new THREE.BoxGeometry(1.05, 0.3, 1.0),
+      new THREE.MeshBasicMaterial({ color: 0x2b1408 })
+    );
+    chuteHole.position.set(HOME_X, -0.12, HOME_Z);
+    machineGroup.add(chuteHole);
+
+    const guardMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffb703,
+      transparent: true,
+      opacity: 0.42,
+      roughness: 0.1
+    });
+    const guardRight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.78, 1.05), guardMat);
+    guardRight.position.set(-0.7, 0.39, HOME_Z);
+    machineGroup.add(guardRight);
+
+    const guardBack = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.78, 0.08), guardMat);
+    guardBack.position.set(HOME_X, 0.39, 0.42);
+    machineGroup.add(guardBack);
+
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.14,
+      roughness: 0.05
+    });
+    const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
+    frontGlass.position.set(0, 2.05, 1.68);
+    machineGroup.add(frontGlass);
+
+    const backGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.1, 4.1), glassMat);
+    backGlass.position.set(0, 2.05, -1.68);
+    backGlass.rotation.y = Math.PI;
+    machineGroup.add(backGlass);
+
+    const pillarGeo = new THREE.CylinderGeometry(0.08, 0.08, 4.2, 16);
+    const pillarMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
+    [
+      [-2.02, 2.1, -1.62],
+      [2.02, 2.1, -1.62],
+      [-2.02, 2.1, 1.62],
+      [2.02, 2.1, 1.62]
+    ].forEach(([x, y, z]) => {
+      const p = new THREE.Mesh(pillarGeo, pillarMat);
+      p.position.set(x, y, z);
+      machineGroup.add(p);
+    });
+
+    // 상단 천장 프레임은 유지하고 중앙 덮개는 투명 강화유리 적용
+    const roofFrameMat = new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.3 });
+    const roofGoldTrimMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
+
+    [-1.65, 1.65].forEach((zPos) => {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(4.36, 0.28, 0.24), roofFrameMat);
+      bar.position.set(0, 4.3, zPos);
+      machineGroup.add(bar);
+
+      const trim = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.08, 0.26), roofGoldTrimMat);
+      trim.position.set(0, 4.46, zPos);
+      machineGroup.add(trim);
+    });
+
+    [-2.06, 2.06].forEach((xPos) => {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.28, 3.06), roofFrameMat);
+      bar.position.set(xPos, 4.3, 0);
+      machineGroup.add(bar);
+
+      const trim = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 3.1), roofGoldTrimMat);
+      trim.position.set(xPos, 4.46, 0);
+      machineGroup.add(trim);
+    });
+
+    const topGlassRoof = new THREE.Mesh(
+      new THREE.BoxGeometry(3.9, 0.06, 3.08),
+      new THREE.MeshPhysicalMaterial({
+        color: 0xe0f2fe,
+        transparent: true,
+        opacity: 0.18,
+        roughness: 0.05,
+        metalness: 0.1
+      })
+    );
+    topGlassRoof.position.set(0, 4.38, 0);
+    machineGroup.add(topGlassRoof);
+
+    // 8종 상품 스폰
     const prizeMeshes = [];
 
     function spawnUniquePrizes() {
@@ -2090,7 +3096,7 @@
       ].sort(() => Math.random() - 0.5);
 
       PRIZE_LIST.forEach((item, idx) => {
-        const meshGroup = createCustom3DPrize(item);
+        const meshGroup = createCustom3DPrize(item, true);
         const slot = slots[idx];
         const jitterX = (Math.random() - 0.5) * 0.22;
         const jitterZ = (Math.random() - 0.5) * 0.22;
@@ -2118,6 +3124,7 @@
     let grabbedPrize = null;
     let willSlipMidAir = false;
     let slipHeight = 2.2;
+    let didMissThisTurn = false;
 
     const gantryBar = new THREE.Mesh(
       new THREE.CylinderGeometry(0.04, 0.04, 3.4, 12),
@@ -2285,6 +3292,7 @@
       }
 
       sfx.drop();
+      didMissThisTurn = false;
       clawState = 'DESCENDING';
       dropBtn.disabled = true;
       setClawOpenAngle(0.46);
@@ -2305,12 +3313,12 @@
         }
       });
 
-      if (closest && minDist <= closest.userData.type.radius * 1.15) {
+      if (closest && minDist <= closest.userData.type.radius * 1.18) {
         grabbedPrize = closest;
         const type = grabbedPrize.userData.type;
 
-        const aimFactor = Math.max(0.45, 1 - minDist / (type.radius * 1.2));
-        const finalChance = type.grabChance * aimFactor;
+        const aimFactor = Math.max(0.55, 1 - minDist / (type.radius * 1.25));
+        const finalChance = getEffectiveGrabChance(type) * aimFactor;
 
         if (Math.random() < finalChance) {
           willSlipMidAir = false;
@@ -2321,12 +3329,13 @@
         statusPill.textContent = `[${type.name}] 포착! 조심스럽게 들어 올리는 중...`;
       } else {
         grabbedPrize = null;
-        statusPill.textContent = '아깝다! 조금 옆을 집었어요. 화면을 돌려 각도를 맞춰보세요!';
+        didMissThisTurn = true;
+        statusPill.textContent = '아깝다! 허공을 집어 행운 버프(+10%)가 발동됩니다!';
       }
     }
 
     /* =====================================================
-       6. 보상 확정 (O / X) 및 최종 캡처 모달 (인형뽑기 & 룰렛 공통)
+       8. 보상 확정 (O / X) 및 최종 캡처 모달 (X 선택 시에도 확률 +10% 상승!)
        ===================================================== */
     let currentWonItem = null;
     const confirmModal = document.getElementById('confirm-modal');
@@ -2339,12 +3348,11 @@
       document.getElementById('picked-emoji').textContent = currentWonItem.emoji;
       document.getElementById('picked-name').textContent = currentWonItem.name;
       document.getElementById('picked-tier').textContent =
-        `${currentWonItem.tierDesc} (확률 ${currentWonItem.displayProb})`;
+        `${currentWonItem.tierDesc} (현재 확률 ${getEffectiveProbPercent(currentWonItem)})`;
 
       confirmModal.classList.add('show');
     }
 
-    // O 클릭 -> 최종 캡처 화면
     document.getElementById('btn-confirm-o').addEventListener('click', () => {
       confirmModal.classList.remove('show');
       sfx.win();
@@ -2352,20 +3360,21 @@
       document.getElementById('final-emoji').textContent = currentWonItem.emoji;
       document.getElementById('final-name').textContent = currentWonItem.name;
       document.getElementById('final-prob').textContent =
-        `획득 확률 ${currentWonItem.displayProb} 돌파!`;
+        `당첨 확정! (누적 버프 +${luckBoostStack * 10}% 적용)`;
 
       finalModal.classList.add('show');
     });
 
-    // X 클릭 -> 방금 플레이하던 게임(인형뽑기 or 카지노 룰렛)으로 복귀하여 재도전
+    // X 클릭 -> 보상 포기 시 확률 +10% 상승 버프 발동 후 재도전!
     document.getElementById('btn-confirm-x').addEventListener('click', () => {
       confirmModal.classList.remove('show');
-      sfx.click();
+      triggerProbabilityBoost('재도전 보너스 발동!');
+
       if (activeGameMode === 'CLAW') {
         spawnUniquePrizes();
-        resetClaw('보상을 취소하고 상품을 다시 넣었습니다! 원하는 선물을 뽑아보세요.');
+        resetClaw(`🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 더 잘 뽑힙니다!`);
       } else {
-        rouletteStatus.textContent = '보상을 취소했습니다! SPIN 버튼을 눌러 다시 돌려보세요!';
+        slotStatusEl.textContent = `🔥 확률 +10% 상승! (누적 +${luckBoostStack * 10}%) 희귀 선물 확률 UP!`;
       }
     });
 
@@ -2373,7 +3382,7 @@
       finalModal.classList.remove('show');
       spawnUniquePrizes();
       resetClaw('조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!');
-      goHomeMenu();
+      openSelectScreen();
     });
 
     function resetClaw(msg) {
@@ -2384,10 +3393,22 @@
     }
 
     /* =====================================================
-       7. 메인 3D 애니메이션 루프
+       9. 메인 애니메이션 루프 (쇼케이스 3D + 인형뽑기 3D 동시 구동)
        ===================================================== */
-    function animate() {
+    function animate(now) {
       requestAnimationFrame(animate);
+
+      if (showcaseScreen.style.display === 'flex') {
+        scCurrentAngle += (scTargetAngle - scCurrentAngle) * 0.09;
+        carouselGroup.rotation.y = scCurrentAngle;
+
+        scItemNodes.forEach((node, idx) => {
+          node.prize3D.rotation.y += 0.018;
+          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.06;
+        });
+
+        scRenderer.render(scScene, scCamera);
+      }
 
       if (clawState === 'IDLE') {
         let inputX = joyVec.x;
@@ -2429,13 +3450,18 @@
             const slipped = grabbedPrize;
             grabbedPrize = null;
             willSlipMidAir = false;
-            statusPill.textContent = `😱 앗! [${slipped.userData.type.name}] 무게 때문에 미끄러져 떨어졌습니다!`;
             setClawOpenAngle(0.28);
+            triggerProbabilityBoost(`[${slipped.userData.type.name}] 미끄러짐!`);
+            statusPill.textContent = `😱 아깝다! 미끄러져서 뽑기 확률이 +10% 상승했습니다!`;
           }
         }
 
         if (clawY >= TOP_Y) {
           clawY = TOP_Y;
+          if (didMissThisTurn) {
+            didMissThisTurn = false;
+            triggerProbabilityBoost('허공 집기 보너스!');
+          }
           clawState = grabbedPrize ? 'RETURN_TO_CHUTE' : 'RESETTING';
         }
       } else if (clawState === 'RETURN_TO_CHUTE') {
@@ -2473,7 +3499,10 @@
         } else {
           clawX = 0.2;
           clawZ = 0.0;
-          resetClaw('조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!');
+          const msg = luckBoostStack > 0
+            ? `🔥 현재 확률 +${luckBoostStack * 10}% 상승 적용 중! 다시 뽑아보세요!`
+            : '조이스틱으로 조준하고 PUSH 버튼을 눌러 뽑으세요!';
+          resetClaw(msg);
         }
       }
 
@@ -2492,13 +3521,15 @@
 
       targetRing.position.set(clawX, 0.01, clawZ);
 
-      renderer.render(scene, camera);
+      if (gameScreen.style.display === 'flex') {
+        renderer.render(scene, camera);
+      }
     }
 
-    animate();
+    requestAnimationFrame(animate);
 
     /* =====================================================
-       8. 설정 & 확률표 모달 이벤트 연결
+       10. 설정 & 확률표 모달 이벤트 연결
        ===================================================== */
     const settingsModal = document.getElementById('settings-modal');
     document.getElementById('settings-btn').addEventListener('click', () => {
@@ -2546,10 +3577,12 @@
     const probModal = document.getElementById('prob-modal');
     document.getElementById('prob-btn-claw').addEventListener('click', () => {
       sfx.click();
+      renderProbListModal();
       probModal.classList.add('show');
     });
-    document.getElementById('prob-btn-roulette').addEventListener('click', () => {
+    document.getElementById('prob-btn-slot').addEventListener('click', () => {
       sfx.click();
+      renderProbListModal();
       probModal.classList.add('show');
     });
     document.getElementById('close-prob-btn').addEventListener('click', () => {
