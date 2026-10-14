@@ -221,7 +221,7 @@
     }
 
     /* =====================================================
-       2. 3D 선물 라인업 쇼케이스 화면 (디리링~ 회전 등장)
+       2. 3D 선물 라인업 쇼케이스 화면 (UI/UX 개선 완료)
        ===================================================== */
     #showcase-screen {
       position: fixed;
@@ -230,89 +230,94 @@
       display: none;
       flex-direction: column;
       justify-content: space-between;
-      background: radial-gradient(circle at 50% 35%, #fffdf9 0%, #ffe6cf 55%, #ffbe94 100%);
-      color: #4a2511;
-      padding: 14px;
-    }
-
-    .showcase-top-bar {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: rgba(255, 250, 244, 0.9);
-      border: 3px solid #ff8c61;
-      border-radius: 20px;
+      background: radial-gradient(circle at 50% 42%, #fffdf9 0%, #ffe8d1 52%, #ffc599 100%);
+      color: #4a2511;
+      padding: 12px 14px 14px;
+    }
+
+    /* 깔끔한 중앙 정렬 헤더 (건너뛰기 버튼 및 하단 중복 배너 제거) */
+    .showcase-top-bar {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      background: rgba(255, 252, 247, 0.92);
+      border: 2.5px solid #ff9466;
+      border-radius: 22px;
       padding: 10px 14px;
-      box-shadow: 0 6px 0 #e06338, 0 8px 18px rgba(180, 75, 35, 0.15);
+      box-shadow: 0 5px 0 #e06338, 0 8px 18px rgba(180, 75, 35, 0.12);
       z-index: 10;
+      flex-shrink: 0;
     }
 
-    .showcase-skip-btn {
-      padding: 7px 13px;
+    .showcase-top-sub {
+      font-size: 10px;
+      font-weight: 900;
+      color: #e05a2b;
+      letter-spacing: 1.2px;
+    }
+
+    .showcase-top-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #4a2511;
+      margin-top: 2px;
+    }
+
+    .showcase-top-hint {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 3px 12px;
       border-radius: 99px;
-      background: #ffedd9;
-      border: 2px solid #f4a261;
-      color: #7c3517;
-      font-size: 12px;
+      background: #fff0e0;
+      color: #9c4119;
+      font-size: 11px;
       font-weight: 800;
-      cursor: pointer;
     }
 
+    /* 3D 쇼케이스 무대 영역 (가리는 요소 없이 탁 트인 뷰포트) */
     #showcase-canvas-wrap {
       position: relative;
       flex: 1;
       width: 100%;
+      min-height: 220px;
       overflow: hidden;
       cursor: grab;
       touch-action: none;
     }
 
-    .showcase-roll-banner {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, #ff7b47, #ffb703);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 900;
-      padding: 6px 18px;
-      border-radius: 99px;
-      border: 2px solid #fff;
-      box-shadow: 0 4px 15px rgba(255, 123, 71, 0.35);
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 15;
-    }
-
+    /* 컴팩트하고 세련된 하단 정보 & 이동 패널 */
     .showcase-card-panel {
+      width: 100%;
+      max-width: 420px;
       position: relative;
       z-index: 15;
-      background: linear-gradient(180deg, #fffdf9 0%, #fff1e2 100%);
+      background: rgba(255, 252, 248, 0.95);
       border: 3px solid #ff9f68;
-      border-radius: 26px;
-      padding: 16px 16px 18px;
-      box-shadow: 0 8px 0 #d96b38, 0 14px 30px rgba(92, 42, 12, 0.22);
+      border-radius: 24px;
+      padding: 12px 14px 14px;
+      box-shadow: 0 7px 0 #d96b38, 0 12px 26px rgba(92, 42, 12, 0.18);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
     .showcase-nav-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
     }
 
     .nav-arrow-btn {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: linear-gradient(180deg, #ffd166 0%, #f4a261 100%);
       border: 2.5px solid #fff;
       color: #4a2511;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 900;
       cursor: pointer;
       box-shadow: 0 4px 0 #c96e2c;
@@ -328,6 +333,7 @@
     .showcase-item-info {
       flex: 1;
       text-align: center;
+      min-width: 0;
     }
 
     .showcase-item-counter {
@@ -338,23 +344,25 @@
     }
 
     .showcase-item-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 900;
       color: #3d1e0d;
       margin: 2px 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .showcase-item-meta {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #ffe3c4;
+      display: inline-block;
+      background: #ffe8cf;
       border: 1.5px solid #ffb076;
       padding: 4px 12px;
       border-radius: 99px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 800;
       color: #9c3d14;
+      line-height: 1.3;
     }
 
     .showcase-dots {
@@ -364,36 +372,47 @@
     }
 
     .showcase-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #f5cba7;
       transition: all 0.25s;
     }
 
     .showcase-dot.active {
-      width: 22px;
+      width: 20px;
       border-radius: 99px;
       background: #ff6b35;
     }
 
     .showcase-next-btn {
       width: 100%;
-      padding: 15px;
-      border-radius: 18px;
-      border: 2.5px solid #fff3b0;
+      padding: 14px;
+      border-radius: 16px;
+      border: 2px solid #fff3b0;
       background: linear-gradient(180deg, #ff8c42 0%, #e04d19 100%);
       color: #fff;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 6px 0 #9e3109, 0 8px 20px rgba(224, 77, 25, 0.35);
+      box-shadow: 0 5px 0 #9e3109, 0 8px 18px rgba(224, 77, 25, 0.3);
       transition: transform 0.1s;
     }
 
     .showcase-next-btn:active {
       transform: translateY(4px);
-      box-shadow: 0 2px 0 #9e3109;
+      box-shadow: 0 1px 0 #9e3109;
+    }
+
+    .showcase-skip-btn {
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: #ffedd9;
+      border: 2px solid #f4a261;
+      color: #7c3517;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
     }
 
     /* =====================================================
@@ -941,7 +960,7 @@
     }
 
     /* =====================================================
-       7. VIP 배팅 머신 (슬롯머신) 화면: 라스베이거스 골드 & 네온 캐비닛
+       7. VIP 배팅 머신 (슬롯머신) 화면
        ===================================================== */
     #slot-screen {
       position: fixed;
@@ -983,7 +1002,6 @@
       width: 100%;
     }
 
-    /* 배팅 머신 본체 + 우측 레버 래퍼 */
     .slot-machine-stage {
       position: relative;
       width: 100%;
@@ -1006,7 +1024,6 @@
       position: relative;
     }
 
-    /* 상단 네온 전광판 아치 */
     .slot-marquee-box {
       background: linear-gradient(180deg, #1e1b4b 0%, #090d16 100%);
       border: 3px solid #fde047;
@@ -1061,7 +1078,6 @@
       margin-top: 2px;
     }
 
-    /* 3개 원통 릴 윈도우 프레임 */
     .slot-window-frame {
       position: relative;
       background: #090d16;
@@ -1076,7 +1092,6 @@
         0 2px 0 rgba(255,255,255,0.6);
     }
 
-    /* 중앙 당첨 페이라인 표시선 */
     .payline-bar {
       position: absolute;
       left: -6px;
@@ -1108,7 +1123,6 @@
     .payline-badge-left { left: -10px; }
     .payline-badge-right { right: -10px; }
 
-    /* 개별 릴 드럼 창 (높이 240px, 중앙 1칸 높이 104px) */
     .reel-drum {
       position: relative;
       height: 232px;
@@ -1118,13 +1132,11 @@
       box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
     }
 
-    /* 3번째 릴 긴장감(스포트라이트) 테두리 효과 */
     .reel-drum.tension-glow {
       box-shadow: 0 0 22px #f43f5e, inset 0 0 18px #f59e0b;
       border: 2px solid #fde047;
     }
 
-    /* 원통형 입체 음영 & 유리 광택 오버레이 */
     .reel-drum::after {
       content: '';
       position: absolute;
@@ -1189,7 +1201,6 @@
       margin-top: 2px;
     }
 
-    /* 캐비닛 하단 배팅 정보 바 */
     .slot-info-bar {
       margin-top: 12px;
       display: grid;
@@ -1220,7 +1231,6 @@
       margin-top: 1px;
     }
 
-    /* 하단 배팅 컨트롤 영역 (대형 SPIN 버튼 + 우측 당기는 레버) */
     .slot-control-deck {
       width: 100%;
       max-width: 410px;
@@ -1270,7 +1280,6 @@
       box-shadow: 0 3px 0 #333;
     }
 
-    /* 당기는 슬롯 레버 버튼 */
     .slot-lever-box {
       width: 78px;
       height: 78px;
@@ -1614,22 +1623,16 @@
   </div>
 
   <!-- =====================================================
-       2. 3D 선물 라인업 쇼케이스 화면 (디리링~ 회전 등장 & 스와이프)
+       2. 3D 선물 라인업 쇼케이스 화면 (UI/UX 및 3D 비율 완벽 개선)
        ===================================================== -->
   <div id="showcase-screen">
     <div class="showcase-top-bar">
-      <div>
-        <div style="font-size:10px; font-weight:900; color:#e05a2b;">JISUNG'S BIRTHDAY PRIZE LINEUP</div>
-        <div style="font-size:16px; font-weight:900; color:#4a2511;">✨ 유지성님이 뽑을 수 있는 상품 ✨</div>
-      </div>
-      <button class="showcase-skip-btn" id="skip-to-select-btn">건너뛰기 ⏭️</button>
+      <div class="showcase-top-sub">JISUNG'S BIRTHDAY PRIZE LINEUP</div>
+      <div class="showcase-top-title">✨ 유지성님이 뽑을 수 있는 상품 ✨</div>
+      <div class="showcase-top-hint">👆 좌우로 스와이프하여 8가지 3D 선물을 둘러보세요</div>
     </div>
 
-    <div id="showcase-canvas-wrap">
-      <div class="showcase-roll-banner" id="showcase-banner">
-        🎵 좌우로 넘기면서 3D 선물을 확인해보세요!
-      </div>
-    </div>
+    <div id="showcase-canvas-wrap"></div>
 
     <div class="showcase-card-panel">
       <div class="showcase-nav-row">
@@ -1637,7 +1640,7 @@
         <div class="showcase-item-info">
           <div class="showcase-item-counter" id="sc-item-counter">PRIZE 1 / 8</div>
           <div class="showcase-item-title" id="sc-item-title">🥊 복싱 글러브</div>
-          <div class="showcase-item-meta" id="sc-item-meta">극악 난이도 · 기본 확률 1.5%</div>
+          <div class="showcase-item-meta" id="sc-item-meta">극악 난이도 · 특대형 헤비급 · 현재 확률 1.5%</div>
         </div>
         <button class="nav-arrow-btn" id="sc-next-btn">▶</button>
       </div>
@@ -1809,7 +1812,6 @@
       3개의 릴이 똑같이 맞춰지면 해당 상품 당첨! (빗나가면 확률 +10% 상승!)
     </div>
 
-    <!-- 슬롯머신 캐비닛 본체 -->
     <div class="slot-machine-stage">
       <div class="slot-cabinet">
         <div class="slot-marquee-box">
@@ -1823,7 +1825,6 @@
           <div class="slot-marquee-sub">★ 중앙 라인에 같은 선물 3개가 모이면 즉시 당첨 ★</div>
         </div>
 
-        <!-- 3개 원통 릴 창 -->
         <div class="slot-window-frame">
           <div class="payline-bar">
             <span class="payline-badge-left">PAY ▶</span>
@@ -1841,7 +1842,6 @@
           </div>
         </div>
 
-        <!-- 하단 디지털 계기판 -->
         <div class="slot-info-bar">
           <div class="slot-lcd-box">
             <div class="slot-lcd-label">BET CREDIT</div>
@@ -1859,7 +1859,6 @@
       </div>
     </div>
 
-    <!-- 배팅 버튼 & 당기는 레버 -->
     <div class="slot-control-deck">
       <button class="slot-spin-btn" id="slot-spin-btn">
         🎰 BET & SPIN!
@@ -2014,7 +2013,6 @@
         osc.start();
         osc.stop(this.ctx.currentTime + duration);
       }
-      // 쇼케이스 입장 시 '디리링 디리링~' 실로폰 아르페지오
       diriring() {
         const melody = [
           { f: 587.33, t: 0 },
@@ -2030,14 +2028,12 @@
           setTimeout(() => this.tone(n.f, 'triangle', 0.24, 0.13), n.t);
         });
       }
-      // 배팅 머신 돌아갈 때 '띠링띠링~' 카지노 벨 사운드
       slotDdiring() {
         const bells = [1046.5, 1318.5, 1567.98, 2093.0];
         const f = bells[this.chimeIdx % bells.length];
         this.chimeIdx++;
         this.tone(f, 'triangle', 0.075, 0.085);
       }
-      // 각 릴이 멈출 때 '철컥! 띵~!' 사운드
       reelLock(reelIndex) {
         const lockFreqs = [523.25, 659.25, 783.99];
         this.tone(160, 'square', 0.06, 0.12);
@@ -2080,7 +2076,6 @@
 
     /* =====================================================
        2. 8종 상품 데이터 및 실시간 확률 +10% 상승(버프) 시스템
-       순서: 복싱 글러브 < 10000원 미만 음식 선택권 < 영양제 < 빅맥 < 하모니카, 초코에몽, 바나나우유, 마이쭈
        ===================================================== */
     const PRIZE_LIST = [
       {
@@ -2201,7 +2196,6 @@
       return ((getEffectiveWeight(item) / totalW) * 100).toFixed(1) + '%';
     }
 
-    // 배팅 머신 3개 일치(잭팟) 성공률: 기본 45%, 실패할 때마다 +15%p씩 상승 (최대 98%)
     function getSlotHitChance() {
       return Math.min(0.98, 0.45 + luckBoostStack * 0.15);
     }
@@ -2275,7 +2269,7 @@
     }
 
     /* =====================================================
-       3. 공통 3D 입체 상품 모델 생성기 (쇼케이스 & 인형뽑기 겸용)
+       3. 공통 3D 입체 상품 모델 생성기 (복싱 글러브 등 디테일 강화)
        ===================================================== */
     function makeLabelCanvas(title, sub, bgHex, textHex = '#ffffff') {
       const cvs = document.createElement('canvas');
@@ -2316,27 +2310,28 @@
       const model = new THREE.Group();
 
       if (item.id === 'glove') {
-        const redMat = new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.28, metalness: 0.1 });
-        const cuffMat = new THREE.MeshStandardMaterial({ color: 0xfefae0, roughness: 0.4 });
-        const goldMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.5, roughness: 0.2 });
+        const redMat = new THREE.MeshStandardMaterial({ color: 0xd90429, roughness: 0.35, metalness: 0.08 });
+        const cuffMat = new THREE.MeshStandardMaterial({ color: 0xfff8eb, roughness: 0.4 });
+        const goldLabelTex = makeLabelCanvas('CHAMP', 'PRO GLOVE', '#f59e0b', '#ffffff');
+        const goldMat = new THREE.MeshStandardMaterial({ map: goldLabelTex, metalness: 0.3, roughness: 0.25 });
 
-        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.32, 22, 18), redMat);
-        fist.scale.set(1.0, 1.15, 0.85);
+        const fist = new THREE.Mesh(new THREE.SphereGeometry(0.28, 22, 18), redMat);
+        fist.scale.set(1.0, 1.12, 0.86);
         fist.position.y = 0.08;
         model.add(fist);
 
-        const thumb = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 14), redMat);
-        thumb.scale.set(0.85, 1.25, 0.85);
-        thumb.position.set(0.24, 0.05, 0.1);
-        thumb.rotation.z = -0.35;
+        const thumb = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 14), redMat);
+        thumb.scale.set(0.85, 1.22, 0.85);
+        thumb.position.set(0.22, 0.05, 0.09);
+        thumb.rotation.z = -0.38;
         model.add(thumb);
 
-        const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.2, 0.22, 18), cuffMat);
-        cuff.position.y = -0.22;
+        const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.20, 20), cuffMat);
+        cuff.position.y = -0.19;
         model.add(cuff);
 
-        const strap = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.07, 18), goldMat);
-        strap.position.y = -0.18;
+        const strap = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.09, 20), goldMat);
+        strap.position.y = -0.17;
         model.add(strap);
 
       } else if (item.id === 'food_voucher') {
@@ -2345,25 +2340,25 @@
         const faceMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.2 });
 
         const ticket = new THREE.Mesh(
-          new THREE.BoxGeometry(0.62, 0.38, 0.12),
+          new THREE.BoxGeometry(0.60, 0.36, 0.11),
           [cardMat, cardMat, cardMat, cardMat, faceMat, faceMat]
         );
-        ticket.rotation.x = -0.25;
+        ticket.rotation.x = -0.22;
         model.add(ticket);
 
       } else if (item.id === 'vitamin') {
         const tex = makeLabelCanvas('VITA+', '고농축 영양제', '#10b981', '#ffffff');
         const body = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.21, 0.21, 0.44, 22),
+          new THREE.CylinderGeometry(0.20, 0.20, 0.42, 22),
           new THREE.MeshStandardMaterial({ map: tex, roughness: 0.25 })
         );
         model.add(body);
 
         const cap = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.18, 0.18, 0.12, 20),
+          new THREE.CylinderGeometry(0.17, 0.17, 0.11, 20),
           new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 })
         );
-        cap.position.y = 0.26;
+        cap.position.y = 0.25;
         model.add(cap);
 
       } else if (item.id === 'bigmac') {
@@ -2372,47 +2367,47 @@
         const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.3 });
         const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x65a30d, roughness: 0.5 });
 
-        const bBun = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.23, 0.08, 20), bunMat);
-        bBun.position.y = -0.18;
+        const bBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.22, 0.08, 20), bunMat);
+        bBun.position.y = -0.17;
         model.add(bBun);
 
-        const patty1 = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.06, 20), pattyMat);
-        patty1.position.y = -0.11;
+        const patty1 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
+        patty1.position.y = -0.10;
         model.add(patty1);
 
-        const cheese = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.02, 0.42), cheeseMat);
-        cheese.position.y = -0.07;
+        const cheese = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.02, 0.40), cheeseMat);
+        cheese.position.y = -0.06;
         cheese.rotation.y = 0.4;
         model.add(cheese);
 
-        const midBun = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), bunMat);
-        midBun.position.y = -0.02;
+        const midBun = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.06, 20), bunMat);
+        midBun.position.y = -0.01;
         model.add(midBun);
 
-        const lettuce = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.04, 14), lettuceMat);
-        lettuce.position.y = 0.03;
+        const lettuce = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.04, 14), lettuceMat);
+        lettuce.position.y = 0.04;
         model.add(lettuce);
 
-        const patty2 = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.06, 20), pattyMat);
-        patty2.position.y = 0.08;
+        const patty2 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 20), pattyMat);
+        patty2.position.y = 0.09;
         model.add(patty2);
 
-        const topBun = new THREE.Mesh(new THREE.SphereGeometry(0.25, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), bunMat);
-        topBun.position.y = 0.11;
+        const topBun = new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), bunMat);
+        topBun.position.y = 0.12;
         model.add(topBun);
 
       } else if (item.id === 'harmonica') {
         const chrome = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.8, roughness: 0.2 });
         const wood = new THREE.MeshStandardMaterial({ color: 0x9a3412, roughness: 0.5 });
 
-        const core = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.1, 0.18), wood);
+        const core = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.1, 0.18), wood);
         model.add(core);
 
-        const topPlate = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.04, 0.16), chrome);
+        const topPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
         topPlate.position.y = 0.07;
         model.add(topPlate);
 
-        const botPlate = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.04, 0.16), chrome);
+        const botPlate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.04, 0.16), chrome);
         botPlate.position.y = -0.07;
         model.add(botPlate);
 
@@ -2422,7 +2417,7 @@
         const frontMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.3 });
 
         const pack = new THREE.Mesh(
-          new THREE.BoxGeometry(0.26, 0.42, 0.18),
+          new THREE.BoxGeometry(0.26, 0.40, 0.18),
           [sideMat, sideMat, sideMat, sideMat, frontMat, frontMat]
         );
         model.add(pack);
@@ -2431,7 +2426,7 @@
           new THREE.CylinderGeometry(0.015, 0.015, 0.16, 8),
           new THREE.MeshStandardMaterial({ color: 0x38bdf8 })
         );
-        straw.position.set(0.06, 0.25, 0);
+        straw.position.set(0.06, 0.24, 0);
         straw.rotation.z = -0.25;
         model.add(straw);
 
@@ -2439,16 +2434,16 @@
         const yellowMat = new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.25 });
         const greenMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.3 });
 
-        const lowerJar = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.17, 0.22, 20), yellowMat);
+        const lowerJar = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.16, 0.21, 20), yellowMat);
         lowerJar.position.y = -0.09;
         model.add(lowerJar);
 
-        const upperJar = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 0.18, 20), yellowMat);
-        upperJar.position.y = 0.10;
+        const upperJar = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.21, 0.17, 20), yellowMat);
+        upperJar.position.y = 0.09;
         model.add(upperJar);
 
-        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.05, 20), greenMat);
-        cap.position.y = 0.21;
+        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.05, 20), greenMat);
+        cap.position.y = 0.20;
         model.add(cap);
 
       } else if (item.id === 'mychew') {
@@ -2457,7 +2452,7 @@
         const faceMat = new THREE.MeshStandardMaterial({ map: tex });
 
         const stick = new THREE.Mesh(
-          new THREE.BoxGeometry(0.44, 0.18, 0.16),
+          new THREE.BoxGeometry(0.42, 0.18, 0.16),
           [pinkMat, pinkMat, faceMat, faceMat, faceMat, faceMat]
         );
         stick.rotation.z = 0.25;
@@ -2469,13 +2464,15 @@
     }
 
     /* =====================================================
-       4. 3D 선물 쇼케이스 캐러셀 구현 (디리링~ 한바퀴 굴러 등장)
+       4. 3D 선물 쇼케이스 캐러셀 구현 (카메라 거리 & 포커스 스케일링 최적화)
        ===================================================== */
     const scWrap = document.getElementById('showcase-canvas-wrap');
     const scScene = new THREE.Scene();
-    const scCamera = new THREE.PerspectiveCamera(38, 1, 0.1, 50);
-    scCamera.position.set(0, 0.65, 3.6);
-    scCamera.lookAt(0, 0.05, 0);
+
+    // ★ 카메라 거리를 z=5.0으로 넓혀 3D 상품과 받침대가 하단 카드에 절대 가리지 않고 한눈에 들어오도록 개선 ★
+    const scCamera = new THREE.PerspectiveCamera(36, 1, 0.1, 50);
+    scCamera.position.set(0, 0.72, 5.05);
+    scCamera.lookAt(0, -0.04, 0);
 
     const scRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     scRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2483,14 +2480,15 @@
     scWrap.appendChild(scRenderer.domElement);
 
     scScene.add(new THREE.HemisphereLight(0xfffdf9, 0xf4a261, 0.95));
-    const scDirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-    scDirLight.position.set(3, 6, 5);
+    const scDirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+    scDirLight.position.set(4, 7, 5);
     scScene.add(scDirLight);
 
     const carouselGroup = new THREE.Group();
+    carouselGroup.position.y = 0.04;
     scScene.add(carouselGroup);
 
-    const CAROUSEL_RADIUS = 1.85;
+    const CAROUSEL_RADIUS = 1.95;
     const scItemNodes = [];
     let scCurrentIndex = 0;
     let scTargetAngle = 0;
@@ -2502,26 +2500,26 @@
       const holder = new THREE.Group();
       holder.position.set(Math.sin(angle) * CAROUSEL_RADIUS, 0, Math.cos(angle) * CAROUSEL_RADIUS);
 
+      // 고급스러운 2단 원형 전시 받침대
       const ped = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.45, 0.52, 0.08, 24),
-        new THREE.MeshStandardMaterial({ color: 0xffedd8, metalness: 0.2, roughness: 0.3 })
+        new THREE.CylinderGeometry(0.42, 0.48, 0.08, 28),
+        new THREE.MeshStandardMaterial({ color: 0xfff3e0, metalness: 0.15, roughness: 0.3 })
       );
-      ped.position.y = -0.45;
+      ped.position.y = -0.38;
       holder.add(ped);
 
       const pedRim = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.48, 0.48, 0.03, 24),
-        new THREE.MeshStandardMaterial({ color: 0xff8c42, metalness: 0.4, roughness: 0.2 })
+        new THREE.CylinderGeometry(0.45, 0.45, 0.03, 28),
+        new THREE.MeshStandardMaterial({ color: 0xff8c42, metalness: 0.4, roughness: 0.25 })
       );
-      pedRim.position.y = -0.40;
+      pedRim.position.y = -0.33;
       holder.add(pedRim);
 
       const prize3D = createCustom3DPrize(item, false);
-      prize3D.scale.set(1.35, 1.35, 1.35);
       holder.add(prize3D);
 
       carouselGroup.add(holder);
-      scItemNodes.push({ holder, prize3D, item });
+      scItemNodes.push({ holder, prize3D, item, baseAngle: angle });
 
       const dot = document.createElement('div');
       dot.className = 'showcase-dot' + (idx === 0 ? ' active' : '');
@@ -2565,15 +2563,17 @@
     scWrap.addEventListener('pointerup', (e) => {
       if (scSwipeStartX === null) return;
       const dx = e.clientX - scSwipeStartX;
-      if (dx < -35) moveShowcaseTo(scCurrentIndex + 1);
-      else if (dx > 35) moveShowcaseTo(scCurrentIndex - 1);
+      if (dx < -30) moveShowcaseTo(scCurrentIndex + 1);
+      else if (dx > 30) moveShowcaseTo(scCurrentIndex - 1);
       scSwipeStartX = null;
     });
 
     function resizeShowcase() {
       const w = scWrap.clientWidth || window.innerWidth;
-      const h = scWrap.clientHeight || window.innerHeight * 0.55;
+      const h = scWrap.clientHeight || window.innerHeight * 0.52;
       scCamera.aspect = w / h;
+      // 모바일 세로 화면 비율에 맞춰 카메라 거리 자동 보정 (가림 현상 원천 차단)
+      scCamera.position.z = w / h < 0.85 ? 5.25 : 4.75;
       scCamera.updateProjectionMatrix();
       scRenderer.setSize(w, h);
     }
@@ -2581,7 +2581,7 @@
     /* =====================================================
        5. 화면 흐름 제어 (인트로 ➔ 3D 쇼케이스 ➔ 3버튼 선택 ➔ 게임)
        ===================================================== */
-    let activeGameMode = 'CLAW'; // 'CLAW' or 'SLOT'
+    let activeGameMode = 'CLAW';
     const introScreen = document.getElementById('intro-screen');
     const showcaseScreen = document.getElementById('showcase-screen');
     const selectScreen = document.getElementById('select-screen');
@@ -2613,12 +2613,9 @@
     }
 
     document.getElementById('enter-showcase-btn').addEventListener('click', openShowcaseScreen);
-    document.getElementById('skip-to-select-btn').addEventListener('click', openSelectScreen);
     document.getElementById('go-select-screen-btn').addEventListener('click', openSelectScreen);
-    document.getElementById('back-to-showcase-btn').addEventListener('click', openSelectScreen);
-    document.getElementById('back-to-showcase-btn').onclick = openShowcaseScreen;
+    document.getElementById('back-to-showcase-btn').addEventListener('click', openShowcaseScreen);
 
-    // 1) 인형뽑기 선택
     document.getElementById('choose-claw-btn').addEventListener('click', () => {
       sfx.fanfare();
       activeGameMode = 'CLAW';
@@ -2629,7 +2626,6 @@
       handleResize();
     });
 
-    // 2) VIP 배팅 머신 선택
     document.getElementById('choose-slot-btn').addEventListener('click', () => {
       sfx.fanfare();
       activeGameMode = 'SLOT';
@@ -2640,7 +2636,6 @@
       updateSlotDashboard();
     });
 
-    // 3) 생일 선물 안받음 -> 'ㅅㄱ~'
     document.getElementById('choose-refuse-btn').addEventListener('click', () => {
       sfx.bye();
       selectScreen.style.display = 'none';
@@ -2655,9 +2650,9 @@
     /* =====================================================
        6. VIP 배팅 머신 (3릴 슬롯머신) 엔진 & 띠링띠링 사운드
        ===================================================== */
-    const CELL_HEIGHT = 104;     // 한 칸 높이(px)
-    const DRUM_CENTER_OFFSET = 64; // 드럼 창(232px) 정중앙에 셀(104px)이 오도록 하는 오프셋: (232 - 104)/2 = 64px
-    const REPEAT_SETS = 9;       // 릴이 길게 회전할 수 있도록 8종 상품을 9세트 반복 배치 (총 72칸)
+    const CELL_HEIGHT = 104;
+    const DRUM_CENTER_OFFSET = 64;
+    const REPEAT_SETS = 9;
 
     const reelStrips = [
       document.getElementById('reel-strip-0'),
@@ -2674,7 +2669,7 @@
     const slotStatusEl = document.getElementById('slot-status');
 
     let isSlotSpinning = false;
-    let currentReelIndices = [0, 1, 2]; // 현재 각 릴이 가리키는 상품 인덱스(0~7)
+    let currentReelIndices = [0, 1, 2];
 
     function buildSlotReels() {
       reelStrips.forEach((strip, rIdx) => {
@@ -2691,7 +2686,6 @@
             strip.appendChild(cell);
           });
         }
-        // 초기 위치 세팅 (세트 1 기준)
         const initCellIndex = 8 + currentReelIndices[rIdx];
         const initY = DRUM_CENTER_OFFSET - initCellIndex * CELL_HEIGHT;
         strip.style.transform = `translate3d(0, ${initY}px, 0)`;
@@ -2699,7 +2693,6 @@
     }
     buildSlotReels();
 
-    // 가중치 기반 상품 1개 추첨 함수
     function pickWeightedPrize() {
       const totalW = PRIZE_LIST.reduce((acc, item) => acc + getEffectiveWeight(item), 0);
       let r = Math.random() * totalW;
@@ -2711,7 +2704,6 @@
       return PRIZE_LIST.length - 1;
     }
 
-    // 탄성 바운스 감속 커브 (멈출 때 살짝 내려갔다 튕겨 올라오며 철컥! 고정)
     function slotEaseOutBack(t) {
       const c1 = 1.45;
       const c3 = c1 + 1;
@@ -2723,24 +2715,19 @@
       isSlotSpinning = true;
       slotSpinBtn.disabled = true;
 
-      // 레버 당김 애니메이션
       slotLeverBtn.classList.add('pulled');
       setTimeout(() => slotLeverBtn.classList.remove('pulled'), 380);
 
-      // 최신 확률 배지 반영을 위해 릴 셀 텍스트 갱신
       buildSlotReels();
 
-      // 이번 배팅에서 3개가 일치(당첨)할지, 아깝게 빗나갈지(Near-Miss) 결정
       const isWin = Math.random() < getSlotHitChance();
       const mainPrizeIdx = pickWeightedPrize();
       let targetIndices = [0, 0, 0];
       let isNearMiss = false;
 
       if (isWin) {
-        // 3개 릴 모두 동일한 당첨 상품으로 정렬!
         targetIndices = [mainPrizeIdx, mainPrizeIdx, mainPrizeIdx];
       } else {
-        // 80% 확률로 1·2번 릴이 같고 3번 릴만 한 칸 빗나가는 쫄깃한 Near-Miss 연출!
         if (Math.random() < 0.8) {
           isNearMiss = true;
           const offIdx = (mainPrizeIdx + (Math.random() < 0.5 ? 1 : PRIZE_LIST.length - 1)) % PRIZE_LIST.length;
@@ -2756,10 +2743,9 @@
       slotStatusEl.textContent = '🎵 띠링띠링~ 배팅 머신이 회전합니다!!';
       sfx.drop();
 
-      // 각 릴의 시작 셀 번호(세트 1)와 도착 셀 번호(세트 5~7) 설정
       const reelConfigs = [0, 1, 2].map((rIdx) => {
         const startCell = 8 + currentReelIndices[rIdx];
-        const targetSet = 5 + rIdx; // 릴마다 회전 바퀴 수를 늘려 순차 정지
+        const targetSet = 5 + rIdx;
         const endCell = targetSet * 8 + targetIndices[rIdx];
         const startY = DRUM_CENTER_OFFSET - startCell * CELL_HEIGHT;
         const endY = DRUM_CENTER_OFFSET - endCell * CELL_HEIGHT;
@@ -2788,7 +2774,6 @@
 
           const t = Math.min(1, elapsed / cfg.duration);
 
-          // 2번 릴이 멈춘 직후 1·2번이 같으면 3번 릴에 긴장감 스포트라이트 점등!
           if (cfg.rIdx === 2 && elapsed > 2780 && (isWin || isNearMiss)) {
             reelDrums[2].classList.add('tension-glow');
             const teaseName = PRIZE_LIST[targetIndices[0]].name;
@@ -2797,7 +2782,6 @@
 
           let curY;
           if (t < 0.08) {
-            // 초반 살짝 위로 감기는 반동 연출
             const pullT = t / 0.08;
             curY = cfg.startY + Math.sin(pullT * Math.PI) * 22;
           } else {
@@ -2808,12 +2792,10 @@
 
           reelStrips[cfg.rIdx].style.transform = `translate3d(0, ${curY}px, 0)`;
 
-          // 칸이 지나갈 때마다 '띠링띠링~' 벨 사운드 재생 (0번 또는 가장 늦게 도는 릴 기준)
           const currentCellFloat = (DRUM_CENTER_OFFSET - curY) / CELL_HEIGHT;
           const currentCellInt = Math.floor(currentCellFloat);
           if (currentCellInt !== cfg.lastSoundCell) {
             cfg.lastSoundCell = currentCellInt;
-            // 너무 소리가 겹치지 않도록 현재 회전 중인 첫 번째 활성 릴에서만 띠링띠링 사운드 발생
             const firstActiveReel = reelConfigs.find((rc) => !rc.locked);
             if (firstActiveReel && firstActiveReel.rIdx === cfg.rIdx) {
               sfx.slotDdiring();
@@ -2831,7 +2813,6 @@
         if (!allLocked) {
           requestAnimationFrame(animateReels);
         } else {
-          // 모든 릴 정지 완료
           reelDrums[2].classList.remove('tension-glow');
           currentReelIndices = [...targetIndices];
           isSlotSpinning = false;
@@ -2844,7 +2825,6 @@
               openConfirmModalByItem(wonItem);
             }, 480);
           } else {
-            // 아깝게 빗나갔을 때 즉시 화려한 '확률 +10% 상승!!' 발동!
             const missReason = isNearMiss
               ? `아깝다! [${PRIZE_LIST[mainPrizeIdx].shortLabel}] 한 칸 차이!`
               : '배팅 머신 꽝 보너스!';
@@ -2954,7 +2934,6 @@
       });
     });
 
-    // 아케이드 머신 본체
     const machineGroup = new THREE.Group();
     scene.add(machineGroup);
 
@@ -3040,7 +3019,6 @@
       machineGroup.add(p);
     });
 
-    // 상단 천장 프레임은 유지하고 중앙 덮개는 투명 강화유리 적용
     const roofFrameMat = new THREE.MeshStandardMaterial({ color: 0xff8c61, roughness: 0.3 });
     const roofGoldTrimMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.4, roughness: 0.25 });
 
@@ -3077,7 +3055,6 @@
     topGlassRoof.position.set(0, 4.38, 0);
     machineGroup.add(topGlassRoof);
 
-    // 8종 상품 스폰
     const prizeMeshes = [];
 
     function spawnUniquePrizes() {
@@ -3199,7 +3176,6 @@
     targetRing.position.set(clawX, 0.01, clawZ);
     scene.add(targetRing);
 
-    // 조이스틱 조작
     let joyVec = { x: 0, y: 0 };
     const joyPad = document.getElementById('joystick-pad');
     const joyBall = document.getElementById('joystick-ball');
@@ -3335,7 +3311,7 @@
     }
 
     /* =====================================================
-       8. 보상 확정 (O / X) 및 최종 캡처 모달 (X 선택 시에도 확률 +10% 상승!)
+       8. 보상 확정 (O / X) 및 최종 캡처 모달
        ===================================================== */
     let currentWonItem = null;
     const confirmModal = document.getElementById('confirm-modal');
@@ -3365,7 +3341,6 @@
       finalModal.classList.add('show');
     });
 
-    // X 클릭 -> 보상 포기 시 확률 +10% 상승 버프 발동 후 재도전!
     document.getElementById('btn-confirm-x').addEventListener('click', () => {
       confirmModal.classList.remove('show');
       triggerProbabilityBoost('재도전 보너스 발동!');
@@ -3393,7 +3368,7 @@
     }
 
     /* =====================================================
-       9. 메인 애니메이션 루프 (쇼케이스 3D + 인형뽑기 3D 동시 구동)
+       9. 메인 애니메이션 루프 (쇼케이스 포커스 스케일링 + 인형뽑기 구동)
        ===================================================== */
     function animate(now) {
       requestAnimationFrame(animate);
@@ -3402,9 +3377,15 @@
         scCurrentAngle += (scTargetAngle - scCurrentAngle) * 0.09;
         carouselGroup.rotation.y = scCurrentAngle;
 
+        // 정면으로 선택된 상품은 1.0배로 선명하게 보여주고, 뒤쪽 대기 상품들은 0.62배로 줄여 시야 방해 방지
         scItemNodes.forEach((node, idx) => {
-          node.prize3D.rotation.y += 0.018;
-          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.06;
+          const isSelected = idx === scCurrentIndex;
+          const targetScale = isSelected ? 1.02 : 0.62;
+          const curScale = node.holder.scale.x + (targetScale - node.holder.scale.x) * 0.12;
+          node.holder.scale.set(curScale, curScale, curScale);
+
+          node.prize3D.rotation.y += isSelected ? 0.022 : 0.01;
+          node.prize3D.position.y = Math.sin(now * 0.003 + idx) * 0.04;
         });
 
         scRenderer.render(scScene, scCamera);
