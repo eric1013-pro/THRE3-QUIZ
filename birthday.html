@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>★경축★ 유지성님 탄신일 선물 뽑기</title>
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0b10;
+    }
+
+    /* =====================================================
+       1. 인트로 화면: Y2K 병맛 중국산 VIP 앱 컨셉
+       ===================================================== */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: repeating-conic-gradient(
+        from 0deg,
+        #ff0000 0deg 15deg,
+        #ffff00 15deg 30deg,
+        #00ff00 30deg 45deg,
+        #00ffff 45deg 60deg,
+        #0000ff 60deg 75deg,
+        #ff00ff 75deg 90deg
+      );
+      animation: bgSpin 10s linear infinite;
+      font-family: 'Gulim', '궁서', 'Comic Sans MS', sans-serif;
+      overflow: hidden;
+    }
+
+    @keyframes bgSpin {
+      0% { filter: hue-rotate(0deg) contrast(150%); }
+      50% { filter: hue-rotate(180deg) contrast(200%); }
+      100% { filter: hue-rotate(360deg) contrast(150%); }
+    }
+
+    .y2k-marquee {
+      width: 100%;
+      background: #000;
+      border: 4px ridge #ffd700;
+      color: #00ff00;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 6px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      box-shadow: 0 0 15px #ff00ff;
+    }
+
+    .y2k-marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 9s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .y2k-card {
+      background: linear-gradient(180deg, #ff0000 0%, #8b0000 50%, #2a0000 100%);
+      border: 6px outset #ffd700;
+      border-radius: 18px;
+      padding: 20px 14px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px #ffff00, inset 0 0 20px #ff00ff;
+      position: relative;
+    }
+
+    .y2k-badge {
+      display: inline-block;
+      background: #ffff00;
+      color: #ff0000;
+      font-weight: 900;
+      padding: 4px 12px;
+      border: 3px double #000;
+      font-size: 14px;
+      transform: rotate(-3deg);
+      margin-bottom: 10px;
+      animation: blink 0.4s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 1; transform: scale(1) rotate(-3deg); }
+      to { opacity: 0.7; transform: scale(1.08) rotate(3deg); }
+    }
+
+    .y2k-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 
+        3px 3px 0 #ff00de,
+        -3px -3px 0 #00ffff,
+        0 0 20px #ffff00;
+      margin: 8px 0;
+      word-break: keep-all;
+    }
+
+    .y2k-date {
+      display: inline-block;
+      background: linear-gradient(90deg, #00ff00, #ffff00, #00ffff);
+      color: #000;
+      font-size: 22px;
+      font-weight: 900;
+      padding: 6px 16px;
+      border: 4px solid #ff0000;
+      border-radius: 8px;
+      margin: 10px 0;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .y2k-sub {
+      color: #ffd700;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 8px;
+      text-shadow: 1px 1px 0 #000;
+      line-height: 1.4;
+    }
+
+    .y2k-fu-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 14px 0 6px;
+    }
+
+    .y2k-fu {
+      width: 52px;
+      height: 52px;
+      background: #ffd700;
+      border: 3px solid #fff;
+      color: #d60000;
+      font-size: 28px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px #ff0;
+      animation: spinFu 3s ease-in-out infinite;
+    }
+
+    .y2k-fu span {
+      transform: rotate(135deg); /* 역복(倒福) 패러디 */
+    }
+
+    @keyframes spinFu {
+      0%, 100% { transform: rotate(45deg) scale(1); }
+      50% { transform: rotate(225deg) scale(1.15); }
+    }
+
+    .y2k-btn {
+      width: 100%;
+      max-width: 380px;
+      padding: 18px 12px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #000;
+      background: linear-gradient(180deg, #ffff00 0%, #ff8800 50%, #ff0055 100%);
+      border: 6px outset #00ffff;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 25px #00ff00, inset 0 0 10px #fff;
+      text-shadow: 1px 1px 0 #fff;
+      animation: pulseBtn 0.6s infinite alternate;
+      font-family: inherit;
+    }
+
+    @keyframes pulseBtn {
+      from { transform: scale(0.97); }
+      to { transform: scale(1.04); filter: brightness(1.2); }
+    }
+
+    .floating-sticker {
+      position: absolute;
+      font-size: 28px;
+      pointer-events: none;
+      animation: floatAround 4s linear infinite;
+    }
+
+    @keyframes floatAround {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    /* =====================================================
+       2. 본 게임 화면: 하이엔드 글래스모피즘 3D 인형뽑기
+       ===================================================== */
+    #game-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #090d16 55%, #05070b 100%);
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    /* 오로라 배경 빛 번짐 */
+    .ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 { width: 280px; height: 280px; background: #6366f1; top: -60px; left: -60px; }
+    .glow-2 { width: 320px; height: 320px; background: #ec4899; bottom: 80px; right: -80px; }
+
+    /* 상단 글래스 헤더 */
+    .glass-header {
+      position: relative;
+      z-index: 20;
+      margin: 12px 14px 0;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-sub {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+
+    .header-main {
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* 상태 토스트 바 */
+    #status-pill {
+      position: relative;
+      z-index: 20;
+      align-self: center;
+      margin-top: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 13px;
+      color: #e2e8f0;
+      font-weight: 500;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      transition: all 0.25s ease;
+    }
+
+    /* 3D 캔버스 영역 */
+    #canvas-container {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    /* 하단 글래스 컨트롤 독 */
+    .glass-controls {
+      position: relative;
+      z-index: 20;
+      margin: 0 14px 14px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    /* 방향키 패드 (D-Pad) */
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 46px);
+      grid-template-rows: repeat(2, 46px);
+      gap: 6px;
+    }
+
+    .dpad-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 4px 10px rgba(0,0,0,0.25);
+      transition: transform 0.1s, background 0.15s;
+    }
+
+    .dpad-btn:active, .dpad-btn.active {
+      background: rgba(99, 102, 241, 0.55);
+      border-color: rgba(165, 180, 252, 0.8);
+      transform: scale(0.92);
+    }
+
+    /* 우측 액션 버튼 영역 */
+    .action-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cam-btn {
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .drop-btn {
+      padding: 16px 12px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(236, 72, 153, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4), inset 0 1px 2px rgba(255,255,255,0.4);
+      transition: transform 0.15s, opacity 0.2s;
+    }
+
+    .drop-btn:active {
+      transform: scale(0.95);
+    }
+
+    .drop-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* =====================================================
+       3. 모달 공통 (확률표 ? 모달 / 보상 확정 O X / 최종 캡처)
+       ===================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(4, 6, 12, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .glass-modal {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(25, 30, 48, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      padding: 22px 20px;
+      color: #fff;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2);
+      max-height: 88dvh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .prob-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .prob-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .prob-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prob-emoji {
+      font-size: 22px;
+    }
+
+    .prob-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .prob-desc {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .prob-badge {
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      color: #c7d2fe;
+    }
+
+    /* 보상 확정 (O / X) 스타일 */
+    .reward-preview-box {
+      text-align: center;
+      padding: 22px 12px;
+      margin: 12px 0 18px;
+      border-radius: 22px;
+      background: radial-gradient(circle, rgba(99,102,241,0.28) 0%, rgba(15,23,42,0.5) 100%);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .reward-big-emoji {
+      font-size: 68px;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+      display: inline-block;
+      animation: bounceItem 1.4s ease-in-out infinite;
+    }
+
+    @keyframes bounceItem {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .reward-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .reward-tier {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #f472b6;
+      font-weight: 700;
+    }
+
+    .confirm-question {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #f8fafc;
+    }
+
+    .ox-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .ox-btn {
+      padding: 18px;
+      border-radius: 20px;
+      font-size: 30px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: transform 0.15s;
+    }
+
+    .ox-btn span {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .ox-btn.btn-o {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.85), rgba(5, 150, 105, 0.85));
+      border: 1px solid rgba(110, 231, 183, 0.5);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+    }
+
+    .ox-btn.btn-x {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.85), rgba(185, 28, 28, 0.85));
+      border: 1px solid rgba(252, 165, 165, 0.5);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35);
+    }
+
+    .ox-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* 최종 캡처 티켓 화면 */
+    .capture-ticket {
+      background: linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .capture-notice {
+      margin-top: 18px;
+      padding: 16px 14px;
+      border-radius: 16px;
+      background: rgba(99, 102, 241, 0.22);
+      border: 1px solid rgba(165, 180, 252, 0.45);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .capture-notice strong {
+      color: #fde047;
+      font-size: 16px;
+    }
+
+    .ticket-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,0.2);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       1. 인트로 화면 (Y2K 병맛 대륙풍 생일 축하 화면)
+       ===================================================== -->
+  <div id="intro-screen">
+    <div class="floating-sticker" style="top:12%; left:8%;">🐉</div>
+    <div class="floating-sticker" style="top:18%; right:8%; animation-delay:1s;">🎂</div>
+    <div class="floating-sticker" style="bottom:22%; left:10%; animation-delay:0.5s;">💰</div>
+    <div class="floating-sticker" style="bottom:25%; right:10%; animation-delay:1.5s;">🎆</div>
+
+    <div class="y2k-marquee">
+      <span>★경축★ 2026년 10월 14일 우주대스타 유지성님 탄신일 기념 VIP 전산망 무료 개방!! 100% 당첨 보장 황금 인형뽑기 가동중 ★축하합니다★</span>
+    </div>
+
+    <div class="y2k-card">
+      <div class="y2k-badge">👑 VIP 생일 특별판 v99.9 👑</div>
+      <div class="y2k-title">유지성님<br>생일 축하드립니다!</div>
+      <div class="y2k-date">2026년 10월 14일</div>
+      <div class="y2k-sub">
+        ★ 대륙의 기운을 담은 초호화 선물 뽑기 ★<br>
+        생일자 본인이 직접 선물을 뽑으십시오!!
+      </div>
+      <div class="y2k-fu-grid">
+        <div class="y2k-fu"><span>福</span></div>
+        <div class="y2k-fu"><span>祝</span></div>
+        <div class="y2k-fu"><span>壽</span></div>
+      </div>
+    </div>
+
+    <button class="y2k-btn" id="start-game-btn">
+      🎁 선물 뽑으러 입장하기 🎁<br>
+      <span style="font-size:13px; color:#fff; text-shadow:1px 1px 0 #000;">(클릭 시 초고화질 3D 그래픽 가동)</span>
+    </button>
+
+    <div class="y2k-marquee" style="border-color:#00ffff;">
+      <span>※주의※ 심장이 약하신 분은 복싱 글러브 당첨 시 기절할 수 있습니다 ★ 한성우 협찬 공식 인증 앱 ★</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       2. 본 게임 화면 (글래스모피즘 + 3D 크레인 게임)
+       ===================================================== -->
+  <div id="game-screen">
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- 상단 글래스 헤더 -->
+    <header class="glass-header">
+      <div class="header-title-wrap">
+        <span class="header-sub">JISUNG'S 2026.10.14 EDITION</span>
+        <span class="header-main">3D 프리즘 크레인</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="sound-btn" title="사운드 켜기/끄기">🔊</button>
+        <button class="icon-btn" id="prob-btn" title="확률 및 상품 정보">?</button>
+      </div>
+    </header>
+
+    <!-- 현재 상태 표시 바 -->
+    <div id="status-pill">조이스틱으로 조준 후 DROP 버튼을 누르세요</div>
+
+    <!-- 3D 캔버스 컨테이너 -->
+    <div id="canvas-container"></div>
+
+    <!-- 하단 글래스 컨트롤러 -->
+    <div class="glass-controls">
+      <div class="dpad">
+        <div></div>
+        <button class="dpad-btn" data-dir="up">▲</button>
+        <div></div>
+        <button class="dpad-btn" data-dir="left">◀</button>
+        <button class="dpad-btn" data-dir="down">▼</button>
+        <button class="dpad-btn" data-dir="right">▶</button>
+      </div>
+
+      <div class="action-area">
+        <button class="cam-btn" id="cam-toggle-btn">🎥 시점 전환 (정면 / 위에서 조준)</button>
+        <button class="drop-btn" id="drop-btn">DROP (뽑기)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       3. [?] 상품 확률 및 난이도 안내 모달
+       ===================================================== -->
+  <div class="modal-overlay" id="prob-modal">
+    <div class="glass-modal">
+      <div class="modal-header">
+        <div class="modal-title">📊 상품별 크기 및 획득 확률</div>
+        <button class="icon-btn" id="close-prob-btn">✕</button>
+      </div>
+      <p style="font-size:12px; color:#cbd5e1; line-height:1.5; margin-bottom:10px;">
+        상품마다 <strong>크기와 무게</strong>가 다르게 설정되어 있습니다. 무겁고 큰 상품일수록 집게가 들어 올리는 도중 미끄러질 확률이 높습니다!
+      </p>
+      <div class="prob-list" id="prob-list-container"></div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       4. 보상 확정 (O / X) 모달
+       ===================================================== -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="glass-modal">
+      <div class="modal-header" style="justify-content:center; margin-bottom:4px;">
+        <div class="modal-title">🎉 선물 획득 성공!</div>
+      </div>
+
+      <div class="reward-preview-box">
+        <div class="reward-big-emoji" id="picked-emoji">🎁</div>
+        <div class="reward-title" id="picked-name">상품명</div>
+        <div class="reward-tier" id="picked-tier">난이도 정보</div>
+      </div>
+
+      <div class="confirm-question">보상을 확정하시겠습니까?</div>
+
+      <div class="ox-buttons">
+        <button class="ox-btn btn-o" id="btn-confirm-o">
+          O
+          <span>확정하기</span>
+        </button>
+        <button class="ox-btn btn-x" id="btn-confirm-x">
+          X
+          <span>다시 뽑기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       5. 최종 캡처 인증 화면 모달 (O 선택 시)
+       ===================================================== -->
+  <div class="modal-overlay" id="final-modal">
+    <div class="glass-modal">
+      <div class="capture-ticket">
+        <div style="font-size:11px; letter-spacing:2px; color:#a5b4fc; font-weight:700;">
+          HAPPY BIRTHDAY JISUNG
+        </div>
+        <div style="font-size:19px; font-weight:800; margin-top:4px;">
+          🎂 생일 선물 당첨 인증서 🎂
+        </div>
+
+        <div class="reward-preview-box" style="margin:16px 0;">
+          <div class="reward-big-emoji" id="final-emoji">🎁</div>
+          <div class="reward-title" id="final-name">상품명</div>
+          <div class="reward-tier" id="final-prob">확률 정보</div>
+        </div>
+
+        <div class="capture-notice">
+          📸 <strong>이 화면을 캡쳐해서 한성우(님)에게 보내면 선물이 배송됩니다.</strong>
+        </div>
+
+        <div class="ticket-meta">
+          <span>수령인: 유지성 님</span>
+          <span>기념일: 2026. 10. 14</span>
+        </div>
+      </div>
+
+      <button class="cam-btn" id="replay-anyway-btn" style="width:100%; margin-top:12px; padding:12px;">
+        🔄 재미로 한 번 더 해보기
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================
+       사운드 신디사이저 (외부 오디오 파일 없이 효과음 생성)
+       ===================================================== */
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      playTone(freq, type = 'sine', duration = 0.12, vol = 0.12) {
+        if (!this.enabled) return;
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+      }
+      playIntroFanfare() {
+        const notes = [523, 659, 784, 1046, 784, 1046];
+        notes.forEach((n, i) => {
+          setTimeout(() => this.playTone(n, 'square', 0.18, 0.1), i * 110);
+        });
+      }
+      playMove() {
+        this.playTone(320, 'triangle', 0.05, 0.04);
+      }
+      playDrop() {
+        this.playTone(440, 'sine', 0.25, 0.1);
+        setTimeout(() => this.playTone(300, 'sine', 0.3, 0.1), 150);
+      }
+      playSlip() {
+        this.playTone(250, 'sawtooth', 0.2, 0.12);
+        setTimeout(() => this.playTone(160, 'sawtooth', 0.35, 0.12), 160);
+      }
+      playWin() {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((n, i) => {
+          setTimeout(() => this.playTone(n, 'triangle', 0.28, 0.15), i * 120);
+        });
+      }
+    }
+    const sfx = new SoundFX();
+
+    /* =====================================================
+       상품 데이터 정의
+       순서: 복싱 글러브 < 10000원 미만 음식 선택권 < 영양제 < 빅맥 < 하모니카, 초코에몽, 바나나우유, 마이쭈
+       ===================================================== */
+    const PRIZE_TYPES = [
+      {
+        id: 'glove',
+        name: '복싱 글러브',
+        emoji: '🥊',
+        color: '#ef4444',
+        subColor: '#991b1b',
+        radius: 0.56,         // 가장 크고 무거움 (집게에서 잘 빠짐)
+        grabChance: 0.025,    // 집었을 때 안 떨어지고 나올 확률 2.5%
+        displayProb: '1.5%',
+        tierDesc: '극악 난이도 · 특대형/초중량',
+        count: 2
+      },
+      {
+        id: 'food_voucher',
+        name: '10000원 미만 음식 선택권',
+        emoji: '🎫',
+        color: '#f59e0b',
+        subColor: '#b45309',
+        radius: 0.49,
+        grabChance: 0.06,
+        displayProb: '4.5%',
+        tierDesc: '최상 난이도 · 대형 티켓',
+        count: 2
+      },
+      {
+        id: 'vitamin',
+        name: '영양제',
+        emoji: '💊',
+        color: '#10b981',
+        subColor: '#047857',
+        radius: 0.44,
+        grabChance: 0.11,
+        displayProb: '8.0%',
+        tierDesc: '상급 난이도 · 묵직한 보틀',
+        count: 3
+      },
+      {
+        id: 'bigmac',
+        name: '빅맥',
+        emoji: '🍔',
+        color: '#d97706',
+        subColor: '#65a30d',
+        radius: 0.40,
+        grabChance: 0.18,
+        displayProb: '12.0%',
+        tierDesc: '중상 난이도 · 중형 사이즈',
+        count: 3
+      },
+      {
+        id: 'harmonica',
+        name: '하모니카',
+        emoji: '🎶',
+        color: '#94a3b8',
+        subColor: '#475569',
+        radius: 0.34,
+        grabChance: 0.35,
+        displayProb: '18.0%',
+        tierDesc: '보통 난이도 · 소형 사이즈',
+        count: 4
+      },
+      {
+        id: 'choco',
+        name: '초코에몽',
+        emoji: '🧃',
+        color: '#78350f',
+        subColor: '#38bdf8',
+        radius: 0.33,
+        grabChance: 0.38,
+        displayProb: '18.5%',
+        tierDesc: '보통 난이도 · 소형 팩',
+        count: 4
+      },
+      {
+        id: 'banana',
+        name: '바나나우유',
+        emoji: '🍌',
+        color: '#fde047',
+        subColor: '#16a34a',
+        radius: 0.33,
+        grabChance: 0.38,
+        displayProb: '18.5%',
+        tierDesc: '보통 난이도 · 소형 단지',
+        count: 4
+      },
+      {
+        id: 'mychew',
+        name: '마이쭈',
+        emoji: '🍬',
+        color: '#ec4899',
+        subColor: '#db2777',
+        radius: 0.31,
+        grabChance: 0.42,
+        displayProb: '19.0%',
+        tierDesc: '쉬움 난이도 · 초소형 스낵',
+        count: 4
+      }
+    ];
+
+    // 확률표 모달 리스트 렌더링
+    const probListEl = document.getElementById('prob-list-container');
+    PRIZE_TYPES.forEach((item) => {
+      const row = document.createElement('div');
+      row.className = 'prob-item';
+      row.innerHTML = `
+        <div class="prob-left">
+          <div class="prob-emoji">${item.emoji}</div>
+          <div>
+            <div class="prob-name">${item.name}</div>
+            <div class="prob-desc">${item.tierDesc}</div>
+          </div>
+        </div>
+        <div class="prob-badge">${item.displayProb}</div>
+      `;
+      probListEl.appendChild(row);
+    });
+
+    /* =====================================================
+       3D 인형뽑기 (Three.js) 구현
+       ===================================================== */
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
+    let isTopView = false;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // 조명 세팅
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(4, 9, 5);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
+    scene.add(dirLight);
+
+    const neonLight1 = new THREE.PointLight(0x6366f1, 1.4, 10);
+    neonLight1.position.set(-2.2, 3.5, 1.5);
+    scene.add(neonLight1);
+
+    const neonLight2 = new THREE.PointLight(0xec4899, 1.2, 10);
+    neonLight2.position.set(2.2, 3.5, -1.5);
+    scene.add(neonLight2);
+
+    // 뽑기 기계 케이스 생성
+    const machineGroup = new THREE.Group();
+    scene.add(machineGroup);
+
+    // 바닥 판
+    const floorGeo = new THREE.BoxGeometry(4.4, 0.3, 3.6);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.3,
+      metalness: 0.4
+    });
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+    floorMesh.position.y = -0.15;
+    floorMesh.receiveShadow = true;
+    machineGroup.add(floorMesh);
+
+    // 좌측 하단 배출구 (Drop Chute) 구역: x in [-2.0, -0.95], z in [0.65, 1.65]
+    const chuteHoleGeo = new THREE.BoxGeometry(1.05, 0.32, 1.0);
+    const chuteHoleMat = new THREE.MeshBasicMaterial({ color: 0x05070b });
+    const chuteHole = new THREE.Mesh(chuteHoleGeo, chuteHoleMat);
+    chuteHole.position.set(-1.42, -0.14, 1.12);
+    machineGroup.add(chuteHole);
+
+    // 배출구 투명 가드 벽
+    const chuteWallMat = new THREE.MeshPhysicalMaterial({
+      color: 0x818cf8,
+      transparent: true,
+      opacity: 0.35,
+      roughness: 0.1
+    });
+    const wall1 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.85, 1.05), chuteWallMat);
+    wall1.position.set(-0.88, 0.42, 1.12);
+    machineGroup.add(wall1);
+
+    const wall2 = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.85, 0.08), chuteWallMat);
+    wall2.position.set(-1.42, 0.42, 0.6);
+    machineGroup.add(wall2);
+
+    // 네온 모서리 기둥 4개 및 상단 프레임
+    const pillarGeo = new THREE.CylinderGeometry(0.06, 0.06, 4.6, 16);
+    const pillarMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      emissive: 0x4f46e5,
+      emissiveIntensity: 0.4,
+      metalness: 0.8,
+      roughness: 0.2
+    });
+    const corners = [
+      [-2.15, 2.3, -1.75],
+      [2.15, 2.3, -1.75],
+      [-2.15, 2.3, 1.75],
+      [2.15, 2.3, 1.75]
+    ];
+    corners.forEach(([x, y, z]) => {
+      const p = new THREE.Mesh(pillarGeo, pillarMat);
+      p.position.set(x, y, z);
+      machineGroup.add(p);
+    });
+
+    // 상단 천장 루프
+    const roofGeo = new THREE.BoxGeometry(4.45, 0.22, 3.65);
+    const roofMat = new THREE.MeshStandardMaterial({
+      color: 0x0f172a,
+      metalness: 0.7,
+      roughness: 0.2
+    });
+    const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+    roofMesh.position.y = 4.6;
+    machineGroup.add(roofMesh);
+
+    /* =====================================================
+       크레인(집게) & 레이저 조준선 생성
+       ===================================================== */
+    const clawGroup = new THREE.Group();
+    const HOME_X = -1.42;
+    const HOME_Z = 1.12;
+    const TOP_Y = 3.95;
+
+    let clawState = 'IDLE'; // IDLE, DESCENDING, GRABBING, ASCENDING, RETURN_X, RETURN_Z, RELEASING, RESETTING
+    let clawX = 0;
+    let clawZ = 0;
+    let clawY = TOP_Y;
+    let grabbedPrize = null;
+    let willSlipMidAir = false;
+    let slipHeight = 2.4;
+
+    clawGroup.position.set(clawX, TOP_Y, clawZ);
+    scene.add(clawGroup);
+
+    // 상단 이동 카트
+    const carriageMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.55, 0.2, 0.55),
+      new THREE.MeshStandardMaterial({ color: 0x6366f1, metalness: 0.6, roughness: 0.3 })
+    );
+    carriageMesh.position.y = 0.45;
+    clawGroup.add(carriageMesh);
+
+    // 줄(와이어)
+    const ropeGeo = new THREE.CylinderGeometry(0.025, 0.025, 1, 8);
+    const ropeMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.8 });
+    const ropeMesh = new THREE.Mesh(ropeGeo, ropeMat);
+    clawGroup.add(ropeMesh);
+
+    // 집게 헤드(움직이는 부분)
+    const clawHead = new THREE.Group();
+    clawGroup.add(clawHead);
+
+    const hubMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.22, 0.26, 0.22, 20),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.7, roughness: 0.2 })
+    );
+    clawHead.add(hubMesh);
+
+    // 3개의 집게 발톱(Prongs)
+    const prongs = [];
+    for (let i = 0; i < 3; i++) {
+      const pivot = new THREE.Group();
+      const angle = (i * Math.PI * 2) / 3;
+      pivot.position.set(Math.cos(angle) * 0.18, -0.06, Math.sin(angle) * 0.18);
+      pivot.rotation.y = -angle;
+
+      const upperArm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.03, 0.03, 0.42, 8),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.85, roughness: 0.15 })
+      );
+      upperArm.position.set(0.1, -0.18, 0);
+      upperArm.rotation.z = 0.42;
+
+      const lowerTip = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.025, 0.015, 0.36, 8),
+        new THREE.MeshStandardMaterial({ color: 0xf43f5e, metalness: 0.5, roughness: 0.3 })
+      );
+      lowerTip.position.set(0.11, -0.46, 0);
+      lowerTip.rotation.z = -0.55;
+
+      pivot.add(upperArm);
+      pivot.add(lowerTip);
+      clawHead.add(pivot);
+      prongs.push(pivot);
+    }
+
+    function setClawOpenAngle(angleRad) {
+      prongs.forEach((p) => {
+        p.rotation.z = angleRad;
+      });
+    }
+    setClawOpenAngle(0.35);
+
+    // 바닥 조준 레이저 링
+    const laserRingGeo = new THREE.RingGeometry(0.18, 0.25, 32);
+    laserRingGeo.rotateX(-Math.PI / 2);
+    const laserRingMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.85
+    });
+    const laserRing = new THREE.Mesh(laserRingGeo, laserRingMat);
+    laserRing.position.set(clawX, 0.02, clawZ);
+    scene.add(laserRing);
+
+    /* =====================================================
+       캔버스 텍스처 생성기 (각 상품의 이모지 & 이름을 고화질 캡슐에 매핑)
+       ===================================================== */
+    function createPrizeTexture(type) {
+      const cvs = document.createElement('canvas');
+      cvs.width = 512;
+      cvs.height = 256;
+      const ctx = cvs.getContext('2d');
+
+      // 배경 그라데이션
+      const grad = ctx.createLinearGradient(0, 0, 0, 256);
+      grad.addColorStop(0, type.color);
+      grad.addColorStop(1, type.subColor);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 512, 256);
+
+      // 화이트 라벨 띠
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.fillRect(0, 68, 512, 120);
+
+      // 앞뒤 양면에 이모지 + 텍스트 표기
+      [128, 384].forEach((centerX) => {
+        ctx.font = '56px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(type.emoji, centerX, 112);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 22px Pretendard, sans-serif';
+        const shortName = type.name.length > 9 ? '1만원 미만 식권' : type.name;
+        ctx.fillText(shortName, centerX, 162);
+      });
+
+      const tex = new THREE.CanvasTexture(cvs);
+      tex.needsUpdate = true;
+      return tex;
+    }
+
+    /* =====================================================
+       상품 오브젝트 스폰 및 배치
+       ===================================================== */
+    const prizeMeshes = [];
+
+    function spawnPrizes() {
+      // 기존 상품 초기화
+      prizeMeshes.forEach((m) => scene.remove(m));
+      prizeMeshes.length = 0;
+
+      const placedPositions = [];
+
+      PRIZE_TYPES.forEach((type) => {
+        const tex = createPrizeTexture(type);
+
+        for (let c = 0; c < type.count; c++) {
+          const group = new THREE.Group();
+
+          // 반투명 글래스 캡슐 안에 들어있는 고퀄리티 구형/특수 모델
+          const sphereGeo = new THREE.SphereGeometry(type.radius, 28, 24);
+          const sphereMat = new THREE.MeshStandardMaterial({
+            map: tex,
+            roughness: 0.22,
+            metalness: 0.15
+          });
+          const mesh = new THREE.Mesh(sphereGeo, sphereMat);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          group.add(mesh);
+
+          // 겹치지 않는 랜덤 좌표 탐색 (배출구 영역 제외)
+          let px = 0, pz = 0;
+          let tries = 0;
+          while (tries < 80) {
+            px = (Math.random() - 0.5) * 3.1;
+            pz = (Math.random() - 0.5) * 2.4;
+            // 좌측 하단 배출구 영역 회피
+            if (px < -0.65 && pz > 0.35) {
+              tries++;
+              continue;
+            }
+            const overlap = placedPositions.some((p) => {
+              const dist = Math.hypot(p.x - px, p.z - pz);
+              return dist < (p.r + type.radius) * 0.86;
+            });
+            if (!overlap) break;
+            tries++;
+          }
+
+          placedPositions.push({ x: px, z: pz, r: type.radius });
+          group.position.set(px, type.radius, pz);
+          group.rotation.y = (Math.random() - 0.5) * 0.8;
+
+          group.userData = {
+            type: type,
+            baseY: type.radius,
+            velocityY: 0
+          };
+
+          scene.add(group);
+          prizeMeshes.push(group);
+        }
+      });
+    }
+
+    spawnPrizes();
+
+    /* =====================================================
+       카메라 시점 업데이트
+       ===================================================== */
+    function updateCameraPosition() {
+      if (isTopView) {
+        camera.position.set(0, 7.6, 1.6);
+        camera.lookAt(0, 0.2, 0.1);
+      } else {
+        camera.position.set(0, 3.3, 6.2);
+        camera.lookAt(0, 1.35, 0);
+      }
+    }
+    updateCameraPosition();
+
+    document.getElementById('cam-toggle-btn').addEventListener('click', () => {
+      isTopView = !isTopView;
+      updateCameraPosition();
+      sfx.playMove();
+    });
+
+    /* =====================================================
+       조이스틱 / 방향키 조작
+       ===================================================== */
+    const moveKeys = { up: false, down: false, left: false, right: false };
+    const statusPill = document.getElementById('status-pill');
+    const dropBtn = document.getElementById('drop-btn');
+
+    document.querySelectorAll('.dpad-btn').forEach((btn) => {
+      const dir = btn.dataset.dir;
+      const startMove = (e) => {
+        e.preventDefault();
+        if (clawState !== 'IDLE') return;
+        moveKeys[dir] = true;
+        btn.classList.add('active');
+        sfx.playMove();
+      };
+      const endMove = (e) => {
+        e.preventDefault();
+        moveKeys[dir] = false;
+        btn.classList.remove('active');
+      };
+
+      btn.addEventListener('pointerdown', startMove);
+      btn.addEventListener('pointerup', endMove);
+      btn.addEventListener('pointerleave', endMove);
+      btn.addEventListener('pointercancel', endMove);
+    });
+
+    // 키보드 방향키 지원
+    window.addEventListener('keydown', (e) => {
+      if (clawState !== 'IDLE') return;
+      if (e.key === 'ArrowUp') moveKeys.up = true;
+      if (e.key === 'ArrowDown') moveKeys.down = true;
+      if (e.key === 'ArrowLeft') moveKeys.left = true;
+      if (e.key === 'ArrowRight') moveKeys.right = true;
+      if (e.key === ' ') triggerDrop();
+    });
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowUp') moveKeys.up = false;
+      if (e.key === 'ArrowDown') moveKeys.down = false;
+      if (e.key === 'ArrowLeft') moveKeys.left = false;
+      if (e.key === 'ArrowRight') moveKeys.right = false;
+    });
+
+    /* =====================================================
+       DROP 버튼 및 인형뽑기 상태 머신 로직
+       ===================================================== */
+    function triggerDrop() {
+      if (clawState !== 'IDLE') return;
+
+      // 배출구 바로 위에서는 뽑기 방지
+      if (clawX < -0.75 && clawZ > 0.45) {
+        statusPill.textContent = '⚠️ 배출구 위입니다! 상품이 있는 곳으로 이동해주세요.';
+        return;
+      }
+
+      sfx.playDrop();
+      clawState = 'DESCENDING';
+      dropBtn.disabled = true;
+      setClawOpenAngle(0.45); // 집게 활짝 열기
+      statusPill.textContent = '집게가 내려가는 중...';
+    }
+
+    dropBtn.addEventListener('click', triggerDrop);
+
+    function evaluateGrab() {
+      let closest = null;
+      let minDist = 999;
+
+      prizeMeshes.forEach((p) => {
+        const d = Math.hypot(p.position.x - clawX, p.position.z - clawZ);
+        if (d < minDist) {
+          minDist = d;
+          closest = p;
+        }
+      });
+
+      // 상품 반경 내로 조준했는지 판정
+      if (closest && minDist <= closest.userData.type.radius * 1.15) {
+        grabbedPrize = closest;
+        const type = grabbedPrize.userData.type;
+
+        // 중심을 얼마나 정확히 조준했는지에 따른 가중치 + 상품 고유 확률(복싱 글러브 < 식권 < 영양제 < 빅맥 < 기타)
+        const aimAccuracy = Math.max(0.4, 1 - minDist / (type.radius * 1.2));
+        const finalSuccessChance = type.grabChance * aimAccuracy;
+
+        if (Math.random() < finalSuccessChance) {
+          willSlipMidAir = false;
+        } else {
+          // 실제 인형뽑기처럼 일단 집어 올리지만 올라가는 도중 미끄러져 떨어짐!
+          willSlipMidAir = true;
+          slipHeight = 1.6 + Math.random() * 1.9;
+        }
+        statusPill.textContent = `[${type.name}] 포착! 들어 올리는 중...`;
+      } else {
+        grabbedPrize = null;
+        statusPill.textContent = '허공을 집었습니다! 다시 조준해보세요.';
+      }
+    }
+
+    /* =====================================================
+       보상 확인 (O / X) 및 최종 캡처 모달 제어
+       ===================================================== */
+    let currentWonPrize = null;
+    const confirmModal = document.getElementById('confirm-modal');
+    const finalModal = document.getElementById('final-modal');
+
+    function showConfirmModal(prizeMesh) {
+      currentWonPrize = prizeMesh.userData.type;
+      sfx.playWin();
+
+      document.getElementById('picked-emoji').textContent = currentWonPrize.emoji;
+      document.getElementById('picked-name').textContent = currentWonPrize.name;
+      document.getElementById('picked-tier').textContent =
+        `${currentWonPrize.tierDesc} (확률 ${currentWonPrize.displayProb})`;
+
+      confirmModal.classList.add('show');
+    }
+
+    // O 버튼: 최종 캡처 화면으로 이동
+    document.getElementById('btn-confirm-o').addEventListener('click', () => {
+      confirmModal.classList.remove('show');
+      sfx.playWin();
+
+      document.getElementById('final-emoji').textContent = currentWonPrize.emoji;
+      document.getElementById('final-name').textContent = currentWonPrize.name;
+      document.getElementById('final-prob').textContent =
+        `획득 확률 ${currentWonPrize.displayProb} 돌파!`;
+
+      finalModal.classList.add('show');
+    });
+
+    // X 버튼: 보상 취소하고 다시 뽑기
+    document.getElementById('btn-confirm-x').addEventListener('click', () => {
+      confirmModal.classList.remove('show');
+      sfx.playMove();
+      spawnPrizes();
+      resetClawToIdle('보상을 취소했습니다! 원하는 선물을 다시 뽑아보세요.');
+    });
+
+    // 최종 화면에서 다시 해보기 버튼
+    document.getElementById('replay-anyway-btn').addEventListener('click', () => {
+      finalModal.classList.remove('show');
+      spawnPrizes();
+      resetClawToIdle('조이스틱으로 조준 후 DROP 버튼을 누르세요');
+    });
+
+    function resetClawToIdle(msg) {
+      clawState = 'IDLE';
+      dropBtn.disabled = false;
+      setClawOpenAngle(0.35);
+      statusPill.textContent = msg;
+    }
+
+    /* =====================================================
+       메인 애니메이션 루프
+       ===================================================== */
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const moveSpeed = 0.036;
+
+      if (clawState === 'IDLE') {
+        if (moveKeys.left) clawX = Math.max(-1.75, clawX - moveSpeed);
+        if (moveKeys.right) clawX = Math.min(1.75, clawX + moveSpeed);
+        if (moveKeys.up) clawZ = Math.max(-1.35, clawZ - moveSpeed);
+        if (moveKeys.down) clawZ = Math.min(1.35, clawZ + moveSpeed);
+      } else if (clawState === 'DESCENDING') {
+        clawY -= 0.055;
+        if (clawY <= 0.72) {
+          clawY = 0.72;
+          clawState = 'GRABBING';
+          setClawOpenAngle(0.05); // 집게 오므리기
+          evaluateGrab();
+          setTimeout(() => {
+            clawState = 'ASCENDING';
+          }, 380);
+        }
+      } else if (clawState === 'ASCENDING') {
+        clawY += 0.045;
+
+        if (grabbedPrize) {
+          // 무거운 상품일수록 덜덜 떨리는 연출
+          const shake = (Math.random() - 0.5) * 0.035;
+          grabbedPrize.position.set(clawX + shake, clawY - 0.52, clawZ + shake);
+
+          // 확률 실패 시 공중에서 미끄러져 떨어짐
+          if (willSlipMidAir && clawY >= slipHeight) {
+            sfx.playSlip();
+            const dropped = grabbedPrize;
+            grabbedPrize = null;
+            willSlipMidAir = false;
+            statusPill.textContent = `😱 앗! [${dropped.userData.type.name}] 무게 때문에 미끄러졌습니다!`;
+            setClawOpenAngle(0.28);
+          }
+        }
+
+        if (clawY >= TOP_Y) {
+          clawY = TOP_Y;
+          clawState = grabbedPrize ? 'RETURN_TO_CHUTE' : 'RESETTING';
+        }
+      } else if (clawState === 'RETURN_TO_CHUTE') {
+        const dx = HOME_X - clawX;
+        const dz = HOME_Z - clawZ;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist > 0.06) {
+          clawX += (dx / dist) * 0.045;
+          clawZ += (dz / dist) * 0.045;
+          if (grabbedPrize) {
+            grabbedPrize.position.set(clawX, clawY - 0.52, clawZ);
+          }
+        } else {
+          clawX = HOME_X;
+          clawZ = HOME_Z;
+          clawState = 'RELEASING';
+          setClawOpenAngle(0.45);
+
+          const wonMesh = grabbedPrize;
+          grabbedPrize = null;
+
+          setTimeout(() => {
+            if (wonMesh) {
+              showConfirmModal(wonMesh);
+            }
+            clawState = 'RESETTING';
+          }, 500);
+        }
+      } else if (clawState === 'RESETTING') {
+        const dx = 0 - clawX;
+        const dz = 0 - clawZ;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 0.06) {
+          clawX += (dx / dist) * 0.06;
+          clawZ += (dz / dist) * 0.06;
+        } else {
+          clawX = 0;
+          clawZ = 0;
+          resetClawToIdle('조이스틱으로 조준 후 DROP 버튼을 누르세요');
+        }
+      }
+
+      // 떨어진 상품 중력 처리
+      prizeMeshes.forEach((p) => {
+        if (p !== grabbedPrize && p.position.y > p.userData.baseY) {
+          p.position.y = Math.max(p.userData.baseY, p.position.y - 0.12);
+        }
+      });
+
+      // 크레인 위치 및 줄 길이 동기화
+      clawGroup.position.set(clawX, TOP_Y, clawZ);
+      const dropDist = TOP_Y - clawY;
+      clawHead.position.y = -dropDist;
+      ropeMesh.scale.y = Math.max(0.1, dropDist + 0.45);
+      ropeMesh.position.y = -(dropDist / 2) + 0.2;
+
+      // 바닥 레이저 가이드 업데이트
+      laserRing.position.set(clawX, 0.02, clawZ);
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    /* =====================================================
+       UI 이벤트 바인딩 (인트로 입장, 모달 열기/닫기, 리사이즈)
+       ===================================================== */
+    document.getElementById('start-game-btn').addEventListener('click', () => {
+      sfx.playIntroFanfare();
+      document.getElementById('intro-screen').style.display = 'none';
+    });
+
+    document.getElementById('prob-btn').addEventListener('click', () => {
+      sfx.playMove();
+      document.getElementById('prob-modal').classList.add('show');
+    });
+
+    document.getElementById('close-prob-btn').addEventListener('click', () => {
+      document.getElementById('prob-modal').classList.remove('show');
+    });
+
+    const soundBtn = document.getElementById('sound-btn');
+    soundBtn.addEventListener('click', () => {
+      sfx.enabled = !sfx.enabled;
+      soundBtn.textContent = sfx.enabled ? '🔊' : '🔇';
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>
